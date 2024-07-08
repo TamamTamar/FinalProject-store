@@ -140,3 +140,14 @@ export interface SalesByDateQuery {
     startDate: string;
     endDate: string;
 }
+export interface AuthContextProviderProps {
+    children: ReactNode;
+}
+export interface AuthContextType {
+    token: string | null;
+    user: IUser | undefined;
+    isLoggedIn: boolean;
+    login: (email: string, password: string) => Promise<void>
+    register: (form: IUser) => Promise<void>
+    logout: () => void;
+}
