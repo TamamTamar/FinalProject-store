@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "../layout/root";
 import Products from "../Products";
 import Register from "./register/Register";
-import Login from "./login";
+import Login from "./Login";
+
 
 
 
