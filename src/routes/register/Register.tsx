@@ -6,11 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "../CreateCard.scss";
 
 import { IUser } from "../../@Types/types";
-import { useAuth } from "../../contexts/AuthContext";
 import auth from "../../services/auth";
 import dialogs from "../../ui/dialogs";
 import patterns from "../../validations/patterns";
 import { registerMock } from "../../mocks/register";
+import { useAuth } from "../../hooks/useAuth";
 
 
 const Register = () => {
@@ -39,7 +39,7 @@ const Register = () => {
       });
     })
       .catch((e) => {
-        dialogs.error("Register Error", e.response.data.message);
+        dialogs.error("Register Error", e.response.data);
       })
   };
 

@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+
 import dialogs from "../ui/dialogs";
 
 import './CreateCard.scss';
 import { ILogin } from "../@Types/types";
 import patterns from "../validations/patterns";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Login = () => {
         });
       })
       .catch((e) => {
-        dialogs.error("Login Error", e.response.data.message);
+        dialogs.error("Login Error", e.response.data);
       });
   };
 

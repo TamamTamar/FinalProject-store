@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, FC, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, FC,  useEffect, useMemo, useState } from "react";
 import * as auth from "../services/auth";
 import { AuthContextProviderProps, AuthContextType, IUser } from "../@Types/types";
 
@@ -58,10 +58,3 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
     )
 };
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error("useAuth must be used within an AuthContextProvider");
-    }
-    return context;
-}

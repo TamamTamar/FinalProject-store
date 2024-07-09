@@ -2,8 +2,11 @@
 "use client";
 
 import { Avatar, DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
+import { useAuth } from "../../hooks/useAuth";
+
 
 export function Nav() {
+    const { isLoggedIn, user, logout } = useAuth();
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
@@ -19,7 +22,7 @@ export function Nav() {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
+            <span className="block text-sm">{user?.email}</span>
             <span className="block truncate text-sm font-medium">name@flowbite.com</span>
           </Dropdown.Header>
           <Dropdown.Item>Dashboard</Dropdown.Item>
