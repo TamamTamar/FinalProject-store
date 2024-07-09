@@ -149,8 +149,8 @@ export interface AuthContextType {
     register: (form: IUser) => Promise<void>
     logout: () => void;
 }
-export interface BizProductsError {
+export type ErrorType = {
     status: number;
     message: string;
-    date: Date;
-}
+    details: string;
+  };

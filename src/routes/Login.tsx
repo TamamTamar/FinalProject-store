@@ -2,10 +2,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import dialogs from "../ui/dialogs";
 import './CreateCard.scss';
-import { BizProductsError, ILogin } from "../@Types/types";
 import patterns from "../validations/patterns";
 import { useAuth } from "../hooks/useAuth";
 import { FC } from "react";
+import { ILogin } from "../@Types/types";
 
 const Login: FC = () => {
     const navigate = useNavigate();
