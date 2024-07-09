@@ -39,7 +39,7 @@ const Register = () => {
       });
     })
       .catch((e) => {
-        dialogs.error("Register Error", e.response.data);
+        dialogs.error("Register Error", e.response.data.message);
       })
   };
 

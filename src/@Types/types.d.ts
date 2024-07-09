@@ -19,7 +19,7 @@ export type IImage = {
     url: string;
 };
 
-export type RegisterUser = {
+/* export type RegisterUser = {
     name: {
         first: string;
         middle?: string;
@@ -41,11 +41,8 @@ export type RegisterUser = {
         zip: number;
     };
 };
+ */
 
-export type ILogin = {
-    email: string;
-    password: string;
-};
 
 export type IUserInput = {
     email: string;
@@ -93,6 +90,7 @@ export type ILogin = {
     email: string;
     password: string;
 };
+
 
 export type IJWTPayload = {
     _id: string;
@@ -150,4 +148,9 @@ export interface AuthContextType {
     login: (email: string, password: string) => Promise<void>
     register: (form: IUser) => Promise<void>
     logout: () => void;
+}
+export interface BizProductsError {
+    status: number;
+    message: string;
+    date: Date;
 }
