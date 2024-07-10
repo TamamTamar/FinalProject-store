@@ -33,7 +33,6 @@ const Register = () => {
   const onRegister = (data: IUser) => {
     auth.register(data)
     .then((res) => {
- localStorage.setItem("user_id", res.data._id);
       dialogs.success("Success", "Register").then(() => {
         navigate("/login");
       });
