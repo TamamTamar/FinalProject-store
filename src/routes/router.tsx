@@ -3,6 +3,7 @@ import Root from "../layout/root";
 import Products from "../Products";
 import Register from "./register/Register";
 import Login from "./Login";
+import Profile from "./profile";
 
 
 
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
             { index: true, element: <Products /> },
             { path: "/register", element: <Register /> },
             { path: "/login", element: <Login /> },
+            { path: "/profile", element: <Profile /> },
 
 
         ],

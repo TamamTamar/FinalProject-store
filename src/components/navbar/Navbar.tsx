@@ -33,7 +33,7 @@ const Navbar = () => {
               About
             </NavLink >
             {isLoggedIn && <NavLink to="/favorites" className="font-bold" onClick={() => setMenuOpen(false)} >Favorites</NavLink>}
-            {isLoggedIn && user?.isBusiness && (
+            {isLoggedIn  && (
               <>
                 <NavLink to="/my-cards" className="font-bold" onClick={() => setMenuOpen(false)} >My Cards</NavLink >
                 <NavLink to="/create-card" className="font-bold" onClick={() => setMenuOpen(false)} >Create Card</NavLink>

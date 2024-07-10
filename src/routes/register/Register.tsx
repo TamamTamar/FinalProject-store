@@ -28,7 +28,7 @@ const Register = () => {
   const { register: registerUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [isBusiness, setIsBusiness] = useState(false);
+  //const [isBusiness, setIsBusiness] = useState(false);
 
   const onRegister = (data: IUser) => {
     auth.register(data)
@@ -44,7 +44,7 @@ const Register = () => {
   };
 
   const handleBusinessCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsBusiness(e.target.checked);
+    //setIsBusiness(e.target.checked);
   };
 
   return (
@@ -294,13 +294,13 @@ const Register = () => {
           <input className="check"
             id="isBusiness"
             type="checkbox"
-            defaultChecked={isBusiness}
-            {...register("isBusiness")}
+          //  defaultChecked={isBusiness}
+         //   {...register("isBusiness")}
             onChange={handleBusinessCheckboxChange as any}
           />
-          {errors.isBusiness && (
+      {/*     {errors.isBusiness && (
             <p className="text-red-500">{errors.isBusiness?.message}</p>
-          )}
+          )} */}
         </section>
 
 
