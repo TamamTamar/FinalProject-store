@@ -18,7 +18,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
         setLoading(true)
         if (token) {
             const { _id } = jwtDecode(token) as any
-            auth.userDetails(_id).then((res) => {
+            auth.userDetails(_id as string, token).then((res) => {
                 setUser(res.data)
             }).finally(() => setLoading(false))
         }
