@@ -3,7 +3,7 @@ import { ILogin, IUser } from "../@Types/types";
 
 export const baseUrl = "http://localhost:8080/api/v1";
 export const usersUrl = `${baseUrl}/users`;
- export const loginUrl = `${baseUrl}/users/login`; 
+export const loginUrl = `${baseUrl}/users/login`; 
 
 export const register = (data: IUser) => axios.post(usersUrl, data);
 export const login = (data: ILogin) => axios.post(loginUrl, data); 
