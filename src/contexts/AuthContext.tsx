@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, FC,  useEffect, useMemo, useState } from "react";
+import { createContext, FC, useEffect, useMemo, useState } from "react";
 import * as auth from "../services/auth";
 import { AuthContextProviderProps, AuthContextType, IUser } from "../@Types/types";
 
