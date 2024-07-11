@@ -106,7 +106,6 @@ export type IProductInput = {
     image: IImage;
     size: string;
     quantity: number;
-    barcode: number;
 };
 
 export type IProduct = IProductInput & {

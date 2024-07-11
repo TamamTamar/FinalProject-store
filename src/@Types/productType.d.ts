@@ -9,20 +9,22 @@ export type IProductInput = {
     image: IImage;
     size: string;
     quantity: number;
-    barcode: number;
 };
 
 export type IProduct = IProductInput & {
     _id: string;
-    barcode: number;
     createdAt: Date;
     shoppingCart: string[];
     quantity: number;
     sold: number;
     userId: string;
+    barcode: number;
 };
 
-
+export type IImage = {
+    alt: string;
+    url: string;
+};
 export type ICartProduct = {
     productId: string;
     title: string;

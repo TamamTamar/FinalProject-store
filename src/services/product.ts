@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IProductInput } from "../@Types/types";
 
 export const baseUrl = "http://localhost:8080/api/v1/products";
 
@@ -7,3 +8,21 @@ export const getAllProducts = () => axios.get(baseUrl);
 
 //get product by id
 export const getProductById = (id: string) => axios.get(`${baseUrl}/${id}`);
+
+//create product
+export const createNewProduct = (data) => {
+    const url = `${baseUrl}/`;
+    return axios.post(url, data, {
+        headers: {
+            "x-auth-token": localStorage.getItem("token"),
+        },
+    });
+};
+
+export const product = {
+    getAllProducts,
+    getProductById, 
+    createNewProduct,
+};
+
+export default product;

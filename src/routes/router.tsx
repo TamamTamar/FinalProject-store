@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import Error from "./Error";
 import Products from "./Products";
 import Product from "./Product";
+import CreateProduct from "./CreateProduct";
 
 
 
@@ -21,6 +22,8 @@ export const router = createBrowserRouter([
             { path: "/login", element: <Login /> },
             { path: "/profile", element: <Profile /> },
             { path: "/products/:id", element: <Product /> },
+            {path:"/create-product", element: <CreateProduct />},
+            {path: "/products", element: <Products />},
 
         ],
     },
