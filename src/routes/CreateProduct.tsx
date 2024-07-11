@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
 import "./CreateCard.scss";
 import dialogs from "../ui/dialogs";
 import { createNewProduct } from "../services/product";

@@ -8,9 +8,6 @@ import Products from "./Products";
 import Product from "./Product";
 import CreateProduct from "./CreateProduct";
 
-
-
-
 export const router = createBrowserRouter([
     {
         path: "/",
