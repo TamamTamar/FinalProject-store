@@ -155,9 +155,11 @@ export type ErrorType = {
   };
   export interface DecodedToken {
     _id: string;
+    isAdmin: boolean;
   }
 
   interface SearchContextType {
     searchTerm: string;
     setSearchTerm: (term: string) => void;
 }
+export type FCC = ({ children: ReactNode }) => ReactNode;
