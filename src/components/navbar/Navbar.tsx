@@ -1,6 +1,7 @@
 import { Avatar, DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
 import { useAuth } from "../../hooks/useAuth";
 import { NavLink, useNavigate } from "react-router-dom";
+import Search from "../Search/Search";
 
 const Nav = () => {
   const { isLoggedIn, user, logout } = useAuth();
@@ -44,6 +45,7 @@ const Nav = () => {
         <Navbar.Link href="#">Contact</Navbar.Link>
 
       </Navbar.Collapse>
+      <Search />
     </Navbar>
   );
 };
