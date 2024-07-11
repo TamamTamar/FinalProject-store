@@ -154,3 +154,11 @@ export type ErrorType = {
     message: string;
     details: string;
   };
+  export interface DecodedToken {
+    _id: string;
+  }
+
+  interface SearchContextType {
+    searchTerm: string;
+    setSearchTerm: (term: string) => void;
+}

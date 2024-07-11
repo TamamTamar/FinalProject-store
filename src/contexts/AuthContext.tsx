@@ -1,7 +1,10 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, FC, useEffect, useMemo, useState } from "react";
 import * as auth from "../services/auth";
-import { AuthContextProviderProps, AuthContextType, IUser } from "../@Types/types";
+import { AuthContextProviderProps, AuthContextType, DecodedToken, IUser,  } from "../@Types/types";
+import dialogs from "../ui/dialogs";
+import { useNavigate } from "react-router-dom";
+
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -12,13 +15,13 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
     const [loading, setLoading] = useState<boolean>(true)
 
 
-    const isLoggedIn = useMemo(() => user !== undefined, [user])
+ const isLoggedIn = useMemo(() => user !== undefined, [user])
 
     useEffect(() => {
         setLoading(true)
         if (token) {
             const { _id } = jwtDecode(token) as any
-            auth.userDetails(_id as string, token).then((res) => {
+            auth.userDetails(_id, token).then((res) => {
                 setUser(res.data)
             }).finally(() => setLoading(false))
         }
@@ -28,7 +31,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
     }, [token])
 
 
-    const login = async (email: string, password: string) => {
+    /* const login = async (email: string, password: string) => {
         await auth
             .login({ email, password })
             .then((res) => {
@@ -36,7 +39,32 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
                 localStorage.setItem("token", res.data);
             })
 
-    }
+    } */
+
+    const login = async (email: string, password: string) => {
+        await auth
+            .login({ email, password })
+            .then((res) => {
+                const token = res.data; // וודא שהטוקן נשלף בצורה נכונה
+                setToken(token);
+                
+                localStorage.setItem("token", token);
+                const decodedToken = jwtDecode<DecodedToken>(token);
+                const userId = decodedToken._id;
+
+                auth.userDetails(userId, token)
+                    .then((res) => {
+                        setUser(res.data);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            })
+            .catch((error) => {
+                console.error("Login error:", error);
+            });
+    };
+
 
     const register = async (form: IUser) => {
         await auth
@@ -47,6 +75,8 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
         setToken(null);
         setUser(undefined)
         localStorage.removeItem("token");
+        dialogs.success("Logout", "You have been logged out successfully");
+    
     };
 
     return (
@@ -57,4 +87,3 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
         </AuthContext.Provider>
     )
 };
-
