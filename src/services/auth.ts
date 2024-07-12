@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ILogin, IUser } from "../@Types/types"; 
+import { ILogin, IUser, updateUserType } from "../@Types/types"; 
 
 export const baseUrl = "http://localhost:8080/api/v1";
 export const usersUrl = `${baseUrl}/users`;
@@ -40,6 +40,23 @@ export const getAllUsers = () =>{
         },
     });
 }
+//get user by id
+export const getUserById = (id: string) => axios.get(`${usersUrl}/${id}`, {
+    headers: {
+        "x-auth-token": localStorage.getItem("token"),
+    },
+});
+
+//update user
+export const updateUser = (id: string, user: updateUserType) => {
+    return axios.put(`${usersUrl}/${id}`, user,
+        {
+            headers: {
+                "x-auth-token": localStorage.getItem("token"),
+            },
+        }
+    );
+};
 
 
 
@@ -48,6 +65,8 @@ export const auth = {
     login, 
     userDetails,
     getAllUsers,
+    getUserById,
+    businessUser
 };
 
 export default auth;
