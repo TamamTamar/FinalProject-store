@@ -4,7 +4,7 @@ import { Card } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import './Products.scss';
 import { IProduct } from '../@Types/productType';
-import { getAllProducts } from '../services/product';
+import { deleteProductById, getAllProducts } from '../services/product';
 import { useSearch } from '../hooks/useSearch';
 
 const Products: FC = () => {
@@ -24,6 +24,7 @@ const Products: FC = () => {
                 setLoading(false);
             });
     }, []);
+ 
 
     const filteredProducts = products.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -18,6 +18,15 @@ export const createNewProduct = (data) => {
         },
     });
 };
+//delete product
+export const deleteProductById = (id: string) => {
+    const url = `${baseUrl}/${id}`;
+    return axios.delete(url, {
+        headers: {
+            "x-auth-token": localStorage.getItem("token"),
+        },
+    });
+};
 
 export const product = {
     getAllProducts,

@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { getProductById } from '../services/product';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {  deleteProductById, getProductById } from '../services/product';
 import './Product.scss';
 import { IProduct } from '../@Types/types';
 
     const Product = () => {
         const { id } = useParams();
         const [product, setProduct] = useState<IProduct>();
+        const navigate = useNavigate();
+
+        
 
         useEffect(() => {
             getProductById(id || "")
                 .then(res => {
-                    setProduct(res.data);
+                    setProduct(res.data)
+                    
+                    
                 })
                 .catch(err => console.log(err));
         }, [id]);
@@ -19,6 +24,7 @@ import { IProduct } from '../@Types/types';
         if (!product) {
             return <div>Loading...</div>;
         }
+        
 
 
     return (
@@ -33,6 +39,7 @@ import { IProduct } from '../@Types/types';
                 {product.quantity > 0 ? 'In Stock' : 'Out of Stock'}
             </p>
             <p className="product-barcode">Barcode: {product.barcode}</p>
+
         </div>
     );
 };
