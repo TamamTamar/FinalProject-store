@@ -31,13 +31,23 @@ export const businessUser = (id: string) => {
         },
     });
 }
-//login user
+//get all users
+export const getAllUsers = () =>{
+    const url = `${usersUrl}/`;
+    return axios.get(url, {
+        headers: {
+            "x-auth-token": localStorage.getItem("token"),
+        },
+    });
+}
+
 
 
 export const auth = {
     register,
     login, 
     userDetails,
+    getAllUsers,
 };
 
 export default auth;

@@ -10,6 +10,9 @@ import CreateProduct from "./CreateProduct";
 import ProtectedRoute from "../components/ProtectedRouteUser";
 import ProtectedRouteUser from "../components/ProtectedRouteUser";
 import ProtectedRouteAdmin from "../components/ProtectedRouteAdmin";
+import Users from "./Users";
+
+
 
 export const router = createBrowserRouter([
     {
@@ -32,6 +35,9 @@ export const router = createBrowserRouter([
                 </ProtectedRouteAdmin>
                 },
             {path: "/products", element: <Products />},
+            {path:"/users", element:  <Users />
+               
+                },
 
         ],
     },
