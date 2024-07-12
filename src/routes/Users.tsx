@@ -17,11 +17,9 @@ const Users = () => {
     return (
         <div className="product-list-container">
             {users.map(user => (
-                <div key={user.id}> {/* Ensure the key is applied to a wrapping element */}
-                    <Card className="product-card">
+                    <Card key={user._id} className="product-card">
                         <h5 className="text-xl font-bold">{user.name.first}</h5>
                     </Card>
-                </div>
             ))}
         </div>
     );

@@ -55,7 +55,7 @@ export type IUserInput = {
 };
 
 export type IUser = IUserInput & {
-    id: string;
+    _id: string;
     createdAt: Date;
     isAdmin: boolean;
     cart: ICartProduct[];
