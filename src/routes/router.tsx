@@ -11,6 +11,7 @@ import ProtectedRoute from "../components/ProtectedRouteUser";
 import ProtectedRouteUser from "../components/ProtectedRouteUser";
 import ProtectedRouteAdmin from "../components/ProtectedRouteAdmin";
 import Users from "./Users";
+import UpdateUser from "./UpdateUser";
 
 
 
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
             {path:"/users", element:  <Users />
                
                 },
+                {path: "/users/:id", element: <UpdateUser />},
 
         ],
     },
