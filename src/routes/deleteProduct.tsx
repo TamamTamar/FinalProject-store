@@ -48,7 +48,7 @@ const AdminProducts = () => {
                             <Table.Cell>{product.size}</Table.Cell>
                             <Table.Cell>{product.quantity}</Table.Cell>
                             <Table.Cell>
-                                <Link to={`/products/${product._id}`} className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                                <Link to={`/admin/products/${product._id}`} className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
                                     Edit
                                 </Link>
                             </Table.Cell>

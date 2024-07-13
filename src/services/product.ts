@@ -27,6 +27,15 @@ export const deleteProductById = (id: string) => {
         },
     });
 };
+//update product
+export const updateProduct = (id: string, product: IProductInput) => {
+    const url = `${baseUrl}/${id}`;
+    return axios.put(url, product, {
+        headers: {
+            "x-auth-token": localStorage.getItem("token"),
+        },
+    });
+};
 
 export const product = {
     getAllProducts,
