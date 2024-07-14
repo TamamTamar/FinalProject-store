@@ -79,9 +79,13 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
     
     };
 
+    const onUpdateUser = (updatedUser: IUser) => {
+        setUser(updatedUser);
+    };
+    
     return (
         <AuthContext.Provider value={{
-            isLoggedIn, user, token, login, register, logout
+            isLoggedIn, user, token, login, register, logout, onUpdateUser
         }}>
             {children}
         </AuthContext.Provider>

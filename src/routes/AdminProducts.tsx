@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { deleteProductById, getAllProducts } from '../services/product'; // ודא שהפונקציה הזו קיימת בשירות המוצרים
-import { IProduct } from '../@Types/types';
+
 import { Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import dialogs from '../ui/dialogs';
+import { IProduct } from '../@Types/productType';
 
 const AdminProducts = () => {
     const [products, setProducts] = useState<IProduct[]>([]);

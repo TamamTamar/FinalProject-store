@@ -1,5 +1,7 @@
+// Nav.tsx
+"use client";
 
-import { Avatar, DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
+import { Avatar, DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { LuPackagePlus } from "react-icons/lu";
@@ -15,27 +17,46 @@ const Nav = () => {
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="https://flowbite-react.com">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tsofiya Osadchi</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
             </Navbar.Brand>
-           
 
             <div className="flex md:order-2 items-center">
                 {isLoggedIn && user?.isAdmin && (
-                    <Link to="/admin/Products" className="mr-4">
-                        <FiBox size={24} className="text-gray hover:text-gray-300" />
+                    <Link to="/admin/products" className="mr-4">
+                        <Tooltip
+                            content="Manage Products"
+                            placement="top"
+                            className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                        >
+                            <FiBox size={24} className="text-gray hover:text-gray-300" />
+                        </Tooltip>
                     </Link>
                 )}
-                
+
                 {isLoggedIn && user?.isAdmin && (
                     <Link to="/admin/users" className="mr-4">
-                        <FiUsers size={24} className="text-gray hover:text-gray-300" />
+                        <Tooltip
+                            content="Manage Users"
+                            placement="top"
+                            className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                        >
+                            <FiUsers size={24} className="text-gray hover:text-gray-300" />
+                        </Tooltip>
                     </Link>
                 )}
+
                 {isLoggedIn && user?.isAdmin && (
-                    <Link to="/users" className="mr-4">
-                        <FiTrendingUp size={24} className="text-gray hover:text-gray-300" />
+                    <Link to="/admin/products" className="mr-4">
+                        <Tooltip
+                            content="Analitycs"
+                            placement="top"
+                            className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                        >
+                            <FiTrendingUp size={24} className="text-gray hover:text-gray-300" />
+                        </Tooltip>
                     </Link>
                 )}
+
 
                 {isLoggedIn && user && (
                     <Dropdown
@@ -49,15 +70,12 @@ const Nav = () => {
                             <span className="block text-sm">{user.name.first} {user.name.last}</span>
                             <span className="block truncate text-sm font-medium">{user.email}</span>
                         </Dropdown.Header>
-                        
-                        <Dropdown.Item>Dashboard</Dropdown.Item>
+                       <Dropdown.Item onClick={() => navigate(`/users/${user._id}`)}>Edit Profile</Dropdown.Item>
                         <Dropdown.Item>Settings</Dropdown.Item>
-           
-                        <Dropdown.Item onClick={() => navigate(`users/${user._id}`)}>edit profile</Dropdown.Item>
+                        <Dropdown.Item>Earnings</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick={() => { logout(); navigate("/"); }}> Sign out </Dropdown.Item>
                     </Dropdown>
-                    
                     
                 )}
                

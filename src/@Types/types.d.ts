@@ -19,7 +19,7 @@ export type IImage = {
     url: string;
 };
 
-/* export type RegisterUser = {
+export type RegisterUser = {
     name: {
         first: string;
         middle?: string;
@@ -41,14 +41,16 @@ export type IImage = {
         zip: number;
     };
 };
- */
 
+export type ILogin = {
+    email: string;
+    password: string;
+};
 
 export type IUserInput = {
     email: string;
     phone: string;
     password: string;
-   // isBusiness: boolean;
     address: IAddress;
     name: IName;
     image?: IImage;
@@ -61,85 +63,21 @@ export type IUser = IUserInput & {
     cart: ICartProduct[];
 };
 
-/* export type User = {
-    _id: string
-    isBusiness: boolean
-    email: string
-    name: {
-        first: string
-        middle: string
-        last: string
-    },
-    phone: string
-    address: {
-        street: string
-        city: string
-        state: string
-        zip: string
-    }
-} */
-
-export type ICartProduct = {
-    productId: string;
-    title: string;
-    price: number;
-    size: string;
-};
+export interface AuthContextProviderProps {
+    children: ReactNode;
+}
 
 export type ILogin = {
     email: string;
     password: string;
 };
 
-
 export type IJWTPayload = {
     _id: string;
     isAdmin: boolean;
-   // isBusiness: boolean;
+  /*   isBusiness: boolean; */
 };
 
-export type IProductInput = {
-    title: string;
-    subtitle: string;
-    description: string;
-    price: number;
-    image: IImage;
-    size: string;
-    quantity: number;
-};
-
-export type IProduct = IProductInput & {
-    _id: string;
-    barcode: number;
-    createdAt: Date;
-    shoppingCart: string[];
-    quantity: number;
-    sold: number;
-    userId: string;
-};
-
-export type IOrderProduct = {
-    productId: string;
-    quantity: number;
-    size: string;
-};
-
-export type IOrder = {
-    userId: string;
-    products: IOrderProduct[];
-    totalAmount: number;
-    status: string;
-    createdAt: Date;
-    orderNumber: string;
-};
-
-export interface SalesByDateQuery {
-    startDate: string;
-    endDate: string;
-}
-export interface AuthContextProviderProps {
-    children: ReactNode;
-}
 export interface AuthContextType {
     token: string | null;
     user: IUser | undefined;
@@ -147,40 +85,46 @@ export interface AuthContextType {
     login: (email: string, password: string) => Promise<void>
     register: (form: IUser) => Promise<void>
     logout: () => void;
+    onUpdateUser: (user: IUser) => void;
 }
+
 export type ErrorType = {
     status: number;
     message: string;
     details: string;
-  };
-  export interface DecodedToken {
+};
+
+export interface DecodedToken {
     _id: string;
     isAdmin: boolean;
-  }
+}
 
-  interface SearchContextType {
+
+interface SearchContextType {
     searchTerm: string;
     setSearchTerm: (term: string) => void;
 }
-export type FCC = ({ children: ReactNode }) => ReactNode;
+
+export type FCC = ({ children }: { children: ReactNode }) => ReactNode;
 
 export type updateUserType = {
+    _id: string;
     name: {
-      first: string;
-      middle: string;
-      last: string;
+        first: string;
+        middle: string;
+        last: string;
     };
     phone: string;
     image: {
-      url: string;
-      alt: string;
+        url: string;
+        alt: string;
     };
     address: {
-      state: string;
-      country: string;
-      city: string;
-      street: string;
-      houseNumber: number;
-      zip: number;
+        state: string;
+        country: string;
+        city: string;
+        street: string;
+        houseNumber: number;
+        zip: number;
     };
-  };
+};

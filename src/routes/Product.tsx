@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {  deleteProductById, getProductById } from '../services/product';
 import './Product.scss';
-import { IProduct } from '../@Types/types';
+import { IProduct } from '../@Types/productType';
+
 
     const Product = () => {
         const { id } = useParams();
