@@ -11,7 +11,7 @@ const Profile: FC = () => {
    const { _id } = jwtDecode(localStorage.getItem("token") || "") as any
 
    useEffect(() => {
-       const userId = getUserById(_id)
+       getUserById(_id)
        .then ((res) => {
            setUser(res.data)
        })
