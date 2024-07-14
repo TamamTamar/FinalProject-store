@@ -2,15 +2,15 @@ import { useForm } from "react-hook-form";
 import { ChangeEvent, useState } from "react";
 import { BsEye, BsEyeSlashFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-
-import "../CreateCard.scss";
+import "../CreateProduct.scss";
 
 import { IUser } from "../../@Types/types";
-import auth from "../../services/auth";
+
 import dialogs from "../../ui/dialogs";
 import patterns from "../../validations/patterns";
 import { registerMock } from "../../mocks/register";
 import { useAuth } from "../../hooks/useAuth";
+import { auth } from "../../services/auth";
 
 
 const Register = () => {

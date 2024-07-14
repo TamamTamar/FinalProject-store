@@ -8,6 +8,7 @@ const Profile: FC = () => {
         return <div>No user data found</div>;
     }
 
+
     return (
         <div>
             <h2 className="text-xl text-orange-400 bg-slate-800">

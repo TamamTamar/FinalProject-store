@@ -27,7 +27,7 @@ const Nav = () => {
                 )}
                 
                 {isLoggedIn && user?.isAdmin && (
-                    <Link to="/users" className="mr-4">
+                    <Link to="/admin/users" className="mr-4">
                         <FiUsers size={24} className="text-gray hover:text-gray-300" />
                     </Link>
                 )}

@@ -16,7 +16,7 @@ const AdminProducts = () => {
     }, []);
 
     const onDelete = (id: string) => {
-        dialogs.confirm()
+        dialogs.confirm("Are you sure?", "you want to delete this product?")
             .then((result) => {
                 if (result.isConfirmed) {
                     deleteProductById(id)
