@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById, updateProduct } from '../services/product'; // Make sure these functions exist in your product service
 import { IProduct } from '../@Types/types';
 
-const EditProduct = () => {
+const UpdateProduct = () => {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<IProduct | null>(null);
     const [error, setError] = useState<Error | null>(null);
@@ -17,12 +17,12 @@ const EditProduct = () => {
         }
     }, [id]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setProduct(prevProduct => prevProduct ? { ...prevProduct, [name]: value } : null);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (product) {
             updateProduct(product._id, product)
@@ -71,4 +71,4 @@ const EditProduct = () => {
     );
 };
 
-export default EditProduct;
+export default UpdateProduct;
