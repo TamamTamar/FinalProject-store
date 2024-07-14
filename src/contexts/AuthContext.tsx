@@ -21,14 +21,14 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
         setLoading(true)
         if (token) {
             const { _id } = jwtDecode(token) as any
-            auth.userDetails(_id, token).then((res) => {
+            auth.userDetails(_id).then((res) => {
                 setUser(res.data)
             }).finally(() => setLoading(false))
         }
         else {
             setLoading(false)
         }
-    }, [token])
+    }, [])
 
 
     /* const login = async (email: string, password: string) => {
@@ -52,7 +52,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
                 const decodedToken = jwtDecode<DecodedToken>(token);
                 const userId = decodedToken._id;
 
-                auth.userDetails(userId, token)
+                auth.userDetails(userId)
                     .then((res) => {
                         setUser(res.data);
                     })

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { getUserById, updateUser } from '../services/auth';
 import { useParams } from 'react-router-dom';
 import { updateUserType } from '../@Types/types';
-import "./Product.scss";
+import './CreateCard.scss'
 import dialogs from "../ui/dialogs";
 import { useNavigate } from "react-router-dom";
 import patterns from "../validations/patterns";

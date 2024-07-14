@@ -55,7 +55,6 @@ const Users = () => {
                             <Table.Cell>{user.phone}</Table.Cell>
                             <Table.Cell>{user.address.city}, {user.address.street}</Table.Cell>
                             <Table.Cell>
-                                
                                 <button onClick={() => onDelete(user._id)} className="text-red-600 hover:text-red-800">
                                     <FiTrash2 size={20} />
                                 </button>

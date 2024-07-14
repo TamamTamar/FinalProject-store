@@ -49,12 +49,15 @@ const Nav = () => {
                             <span className="block text-sm">{user.name.first} {user.name.last}</span>
                             <span className="block truncate text-sm font-medium">{user.email}</span>
                         </Dropdown.Header>
+                        
                         <Dropdown.Item>Dashboard</Dropdown.Item>
                         <Dropdown.Item>Settings</Dropdown.Item>
-                        <Dropdown.Item>Earnings</Dropdown.Item>
+           
+                        <Dropdown.Item onClick={() => navigate(`users/${user._id}`)}>edit profile</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick={() => { logout(); navigate("/"); }}> Sign out </Dropdown.Item>
                     </Dropdown>
+                    
                     
                 )}
                

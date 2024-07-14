@@ -11,10 +11,11 @@ import ProtectedRoute from "../components/ProtectedRouteUser";
 import ProtectedRouteUser from "../components/ProtectedRouteUser";
 import ProtectedRouteAdmin from "../components/ProtectedRouteAdmin";
 import Users from "./Users";
-import UpdateUser from "./UpdateUser";
+
 import AdminProducts from "./AdminProducts";
 import EditProduct from "./updateProduct";
 import UpdateProduct from "./updateProduct";
+import UpdateUser from "./UpdateUser";
 
 
 
@@ -27,11 +28,7 @@ export const router = createBrowserRouter([
             { index: true, element: <Products /> },
             { path: "/register", element: <Register /> },
             { path: "/login", element: <Login /> },
-            { path: "/profile", element:
-                <ProtectedRouteUser>
-                 <Profile /> 
-                </ProtectedRouteUser>
-                },
+            { path: "/profile", element: <Profile /> },
             { path: "/products/:id", element: <Product /> },
 
             {path:"/admin/create-product", element:
