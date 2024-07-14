@@ -3,6 +3,7 @@ import { deleteProductById, getAllProducts } from '../services/product'; // וד
 import { IProduct } from '../@Types/types';
 import { Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import dialogs from '../ui/dialogs';
 
 const AdminProducts = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -15,10 +16,15 @@ const AdminProducts = () => {
     }, []);
 
     const onDelete = (id: string) => {
-        deleteProductById(id)
-            .then(() => {
-                setProducts(products.filter(product => product._id !== id));
-            }) 
+        dialogs.confirm()
+            .then((result) => {
+                if (result.isConfirmed) {
+                    deleteProductById(id)
+                        .then(() => {
+                            setProducts(products.filter(product => product._id !== id));
+                        })
+                }
+            })
             .catch(err => setError(err));
     }
 
@@ -54,7 +60,7 @@ const AdminProducts = () => {
                             </Table.Cell>
                             <Table.Cell>
                                 <button onClick={() => onDelete(product._id)} className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                                   delete
+                                    delete
                                 </button>
                             </Table.Cell>
                         </Table.Row>
