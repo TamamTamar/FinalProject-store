@@ -21,7 +21,9 @@ const AdminProducts = () => {
                 if (result.isConfirmed) {
                     deleteProductById(id)
                         .then(() => {
+                            dialogs.success('Deleted', 'Product deleted successfully')
                             setProducts(products.filter(product => product._id !== id));
+                         
                         })
                 }
             })
