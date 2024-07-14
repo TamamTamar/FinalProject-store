@@ -5,10 +5,12 @@ import { Card, TabItem, Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import dialogs from '../ui/dialogs';
 import { FiTrash2 } from 'react-icons/fi';
+import { useAuth } from '../hooks/useAuth';
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [error, setError] = useState<Error | null>(null);
+
 
     useEffect(() => {
         getAllUsers()
