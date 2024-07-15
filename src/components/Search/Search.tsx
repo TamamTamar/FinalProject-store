@@ -1,23 +1,30 @@
-import "./Search.scss";
-import { useSearch } from "../../hooks/useSearch";
-import { FaSearch } from "react-icons/fa";
-
-
+import { useState } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import { useSearch } from '../../hooks/useSearch';
 
 const Search = () => {
     const { setSearchTerm } = useSearch();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleButtonClick = () => {
+        setIsOpen(prevState => !prevState);
+    };
 
     return (
-        <div className='flex items-center justify-center  bg-gradient-to-br'>
-            <form action="" className="relative mx-auto flex">
-                <input onChange={(e) => {
-                    setSearchTerm(e.currentTarget.value);
-                }}
-                    type="search" className="text-xs peer cursor-pointer relative z-10 h-8 w-10 rounded-lg border bg-transparent  pr-6 outline-none focus:rounded-r-none focus:w-full focus:cursor-text focus:border-taupeGray focus:px-3" placeholder="search" />
-                <button className="absolute top-0 right-0 bottom-0 my-auto h-8 w-10 px-3 bg-slate-300 rounded-lg peer-focus:relative peer-focus:rounded-l-none">
-                    <FaSearch className="text-slate-600" />
-                </button>
-            </form>
+        <div className="relative flex items-center">
+            <button
+                onClick={handleButtonClick}
+                className="absolute right-0 h-6 w-6 rounded-lg flex items-center justify-center"
+            >
+                <FiSearch className="dark:text-white" />
+            </button>
+            <input
+                onChange={(e) => setSearchTerm(e.currentTarget.value)}
+                type="search"
+                className={`text-xs h-8 ${isOpen ? 'w-32 pr-6' : 'w-0 pr-0'} rounded-lg border bg-transparent outline-none focus:w-48 transition-all duration-300 ease-in-out`}
+                placeholder="Search"
+                style={{ marginRight: isOpen ? '2rem' : '0', visibility: isOpen ? 'visible' : 'hidden', opacity: isOpen ? 1 : 0 }}
+            />
         </div>
     );
 };

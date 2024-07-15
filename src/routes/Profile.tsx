@@ -1,21 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { getUserById } from '../services/auth';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { IJWTPayload, IUser } from '../@Types/types';
 import { Avatar } from 'flowbite-react';
+import { useAuth } from '../hooks/useAuth';
 
 const Profile: FC = () => {
-    const [user, setUser] = useState<IUser>();
-    // const { user } = useAuth();
-    const { _id } = jwtDecode(localStorage.getItem("token") || "") as IJWTPayload
-
-    useEffect(() => {
-        getUserById(_id)
-            .then((res) => {
-                setUser(res.data)
-            })
-    }, [])
-
+    const { user } = useAuth();
 
     if (!user) {
         return <div>No user data found</div>;

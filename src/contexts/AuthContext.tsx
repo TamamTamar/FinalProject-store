@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, FC, useEffect, useMemo, useState } from "react";
 import * as auth from "../services/auth";
-import { AuthContextProviderProps, AuthContextType, DecodedToken, IUser,  } from "../@Types/types";
+import { AuthContextProviderProps, AuthContextType, DecodedToken, IUser, updateUserType,  } from "../@Types/types";
 import dialogs from "../ui/dialogs";
 import { useNavigate } from "react-router-dom";
 
@@ -83,7 +83,6 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
         setUser(updatedUser);
     };
 
-    
     return (
         <AuthContext.Provider value={{
             isLoggedIn, user, token, login, register, logout, onUpdateUser,
