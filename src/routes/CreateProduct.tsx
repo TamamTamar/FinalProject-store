@@ -4,119 +4,91 @@ import "./CreateProduct.scss";
 import dialogs from "../ui/dialogs";
 import { createNewProduct } from "../services/product";
 import { useAuth } from "../hooks/useAuth";
-import { IProduct } from "../@Types/productType";
-import patterns from "../validations/patterns";
+import { IProductInput } from "../@Types/productType";
+import { useState } from "react";
+
+const CreateProduct = () => {
+    const { token } = useAuth();
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm<IProductInput>();
+    const [image, setImage] = useState<File | null>(null);
+
+    const onSubmit = async (data: IProductInput) => {
+        if (!token) {
+            dialogs.error("Error", "No authentication token found.");
+            return;
+        }
+
+        if (!image) {
+            dialogs.error("Error", "Please select an image.");
+            return;
+        }
 
 
-const CreateCard = () => {
-  const { token } = useAuth(); // Get the token from the context
-  const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm<IProduct>();
+        const formData = new FormData();
+        formData.append("title", data.title);
+        formData.append("subtitle", data.subtitle);
+        formData.append("description", data.description);
+        formData.append("price", data.price.toString());
+        formData.append("size", data.size);
+        formData.append("quantity", data.quantity.toString());
+        formData.append("alt", data.image.alt);
+        if (image) {
+            formData.append("image", image);
+            console.log(image);
+        }
 
-  const onSubmit = async (data: IProduct) => {
-    if (!token) {
-      dialogs.error("Error", "No authentication token found.");
-      return;
-    }
+        try {
+            await createNewProduct(formData);
+            dialogs.success("Success", "Product Created Successfully")
+            .then(() => {
+                navigate("/");
+                
+            });
+        } catch (error: any) {
+            console.log(data);
+            dialogs.error("Error", error.response);
+            console.log(error);
+        }
+    };
 
-    try {
-      await createNewProduct(data);
-      dialogs.success("Success", "Card Created Successfully").then(() => {
-        navigate("/");
-      });
-    } catch (error) {
-      console.log(data);
-      dialogs.error("Error", error.response);
-      console.log(error);
-    }
-  };
-
-
-  return (
-    <div className="create-card-container bg-blue-950  text-white dark:bg-slate-600">
-      <h2>Create New Card</h2>
-      <form noValidate onSubmit={handleSubmit(onSubmit)}>
-        {/* All form fields updated for card creation */}
-
-
-        {/* title */}
-        <section>
-          <input placeholder="Title" {...register("title", { required: "Title is required" })} />
-          {errors.title && <p className="text-red-500">{errors.title.message}</p>}
-        </section>
-
-
-        {/* subtitle */}
-        <section>
-          <input placeholder="Subtitle" {...register("subtitle", { required: "Subtitle is required" })} />
-          {errors.subtitle && <p className="text-red-500">{errors.subtitle.message}</p>}
-        </section>
-
-
-        {/* description */}
-        <section>
-          <input placeholder="Description" {...register("description", { required: "Description is required" })} />
-          {errors.description && <p className="text-red-500">{errors.description.message}</p>}
-        </section>
-
-
-        {/* price */}
-        <section>
-          <input placeholder="Price" type="number" step="0.01" {...register('price', { required: 'Price is required' })} />
-          <span className="error-message">{errors.price && errors.price.message}</span>
-        </section>
-
-
-        {/* image.url */}
-        <section>
-          <input
-            placeholder="Image URL"
-            type="url"
-            {...register("image.url", {
-              required: "This field is mandatory",
-              pattern: {
-                value: patterns.url,
-                message: "Invalid image URL",
-              },
-            })}
-          />
-          {errors.image?.url && (
-            <p className="text-red-500">{errors.image?.url?.message}</p>
-          )}
-        </section>
-
-        {/* image.alt */}
-        <section>
-          <input
-            placeholder="Image Description"
-            type="text"
-            {...register("image.alt", {
-              minLength: { value: 2, message: "Too short" },
-              maxLength: { value: 255, message: "Too long" },
-            })}
-          />
-          {errors.image?.alt && (
-            <p className="text-red-500">{errors.image?.alt?.message}</p>
-          )}
-        </section>
-
-        <section>
-          <input placeholder="Size" {...register('size',
-            {
-              required: 'Size is required',
-            }
-          )
-
-          } />
-        </section>
-        <section>
-          <input placeholder="Quantity" type="number" {...register('quantity', { required: 'Quantity is required' })} />
-        </section>
-
-        <button type="submit">Create Card</button>
-      </form>
-    </div>
-  );
+    return (
+        <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
+            <h2>Create New Product</h2>
+            <form noValidate onSubmit={handleSubmit(onSubmit)}>
+                <section>
+                    <input placeholder="Title" {...register("title", { required: "Title is required" })} />
+                    {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+                </section>
+                <section>
+                    <input placeholder="Subtitle" {...register("subtitle", { required: "Subtitle is required" })} />
+                    {errors.subtitle && <p className="text-red-500">{errors.subtitle.message}</p>}
+                </section>
+                <section>
+                    <input placeholder="Description" {...register("description", { required: "Description is required" })} />
+                    {errors.description && <p className="text-red-500">{errors.description.message}</p>}
+                </section>
+                <section>
+                    <input placeholder="Price" type="number" step="0.01" {...register('price', { required: 'Price is required' })} />
+                    <span className="error-message">{errors.price && errors.price.message}</span>
+                </section>
+                <section>
+                    <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} />
+                </section>
+                <section>
+                    <input placeholder="Image Description" {...register("image.alt", { required: "Image description is required" })} />
+                    {errors.image?.alt && <p className="text-red-500">{errors.image.alt.message}</p>}
+                </section>
+                <section>
+                    <input placeholder="Size" {...register('size', { required: 'Size is required' })} />
+                </section>
+                <section>
+                    <input placeholder="Quantity" type="number" {...register('quantity', { required: 'Quantity is required' })} />
+                </section>
+                <button type="submit">Create Product</button>
+            </form>
+        </div>
+    );
 };
 
-export default CreateCard;
+export default CreateProduct;

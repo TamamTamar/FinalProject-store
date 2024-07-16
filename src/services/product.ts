@@ -11,7 +11,7 @@ export const getAllProducts = () => axios.get(baseUrl);
 export const getProductById = (id: string) => axios.get(`${baseUrl}/${id}`);
 
 //create product
-export const createNewProduct = (data) => {
+export const createNewProduct = (data:FormData) => {
     const url = `${baseUrl}/`;
     return axios.post(url, data, {
         headers: {
