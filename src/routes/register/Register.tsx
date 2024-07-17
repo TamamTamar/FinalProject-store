@@ -12,7 +12,6 @@ import { registerMock } from "../../mocks/register";
 import { useAuth } from "../../hooks/useAuth";
 import { auth } from "../../services/auth";
 
-
 const Register = () => {
   const navigate = useNavigate();
   const {
@@ -28,31 +27,30 @@ const Register = () => {
   const { register: registerUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
-  //const [isBusiness, setIsBusiness] = useState(false);
-
   const onRegister = (data: IUser) => {
+    console.log('Register data:', data);
     auth.register(data)
-    .then((res) => {
-      dialogs.success("Success", "Register").then(() => {
-        navigate("/login");
-      });
-    })
-      .catch((e) => {
-        dialogs.error("Register Error", e.response.data.message);
+      .then((res) => {
+        dialogs.success("Success", "Register").then(() => {
+          navigate("/login");
+        });
       })
+      .catch((e) => {
+       console.error('Register error:', e.response.data);
+        dialogs.error("Register Error", e.response.data.message);
+      });
   };
-
+/* 
   const handleBusinessCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     //setIsBusiness(e.target.checked);
-  };
+  }; */
 
   return (
-    <div className="create-card-container bg-blue-950  text-white dark:bg-slate-600">
+    <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
       <form noValidate onSubmit={handleSubmit(onRegister)}>
         {/* firstName */}
         <section>
           <input
-          
             placeholder="First Name"
             type="text"
             {...register("name.first", {
@@ -61,7 +59,7 @@ const Register = () => {
               maxLength: { value: 255, message: "Too long" },
             })}
           />
-          {errors.name?.last && (
+          {errors.name?.first && (
             <p className="text-red-500">{errors.name?.first?.message}</p>
           )}
         </section>
@@ -161,7 +159,7 @@ const Register = () => {
         </section>
 
         {/* image.url */}
-        <section>
+      {/*   <section>
           <input
             placeholder="Image URL"
             type="url"
@@ -175,10 +173,10 @@ const Register = () => {
           {errors.image?.url && (
             <p className="text-red-500">{errors.image?.url?.message}</p>
           )}
-        </section>
+        </section> */}
 
         {/* image.alt */}
-        <section>
+      {/*   <section>
           <input
             placeholder="Image Description"
             type="text"
@@ -190,7 +188,7 @@ const Register = () => {
           {errors.image?.alt && (
             <p className="text-red-500">{errors.image?.alt?.message}</p>
           )}
-        </section>
+        </section> */}
 
         {/* address.state */}
         <section>
@@ -262,8 +260,8 @@ const Register = () => {
             type="number"
             {...register("address.houseNumber", {
               required: "This field is mandatory",
-              min: { value: 2, message: "Too small" },
-              max: { value: 256, message: "Too big" },
+              min: { value: 1, message: "Too small" },
+              max: { value: 9999, message: "Too big" },
             })}
           />
           {errors.address?.houseNumber && (
@@ -280,30 +278,25 @@ const Register = () => {
             type="number"
             {...register("address.zip", {
               required: "This field is mandatory",
-              min: { value: 2, message: "Too small" },
-              max: { value: 256, message: "Too big" },
+              min: { value: 1, message: "Too small" },
+              max: { value: 99999, message: "Too big" },
             })}
           />
           {errors.address?.zip && (
             <p className="text-red-500">{errors.address?.zip?.message}</p>
           )}
         </section>
-        <section className="checkbox-container" >
+
+{/*         <section className="checkbox-container">
           <label htmlFor="isBusiness">Business</label>
-          <input className="check"
+          <input
             id="isBusiness"
             type="checkbox"
-          //  defaultChecked={isBusiness}
-         //   {...register("isBusiness")}
             onChange={handleBusinessCheckboxChange as any}
           />
-      {/*     {errors.isBusiness && (
-            <p className="text-red-500">{errors.isBusiness?.message}</p>
-          )} */}
-        </section>
+        </section> */}
 
-
-        <button disabled = {!isValid} type="submit">Register</button>
+        <button disabled={!isValid} type="submit">Register</button>
         <div className="mt-4 text-center">
           <span className="text-sm text-gray-300">Already have an account? </span>
           <Link className="text-sm font-medium text-blue-400 hover:underline" to="/login">Login</Link>

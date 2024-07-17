@@ -6,9 +6,10 @@ export type IProductInput = {
     description: string;
     price: number;
     image: IImage;
+    alt: string;
     size: string;
     quantity: number;
-    barcode: number;
+    
 };
 
 export type IProduct = IProductInput & {

@@ -23,7 +23,7 @@ const EditProduct = () => {
                     setValue('description', product.description);
                     setValue('price', product.price);
                     setValue('image.url', product.image.url);
-                    setValue('image.alt', product.image.alt);
+                    setValue('alt', product.alt);
                     setValue('size', product.size);
                     setValue('quantity', product.quantity);
                 })
@@ -99,13 +99,13 @@ const EditProduct = () => {
                     <input
                         placeholder="Image Description"
                         type="text"
-                        {...register("image.alt", {
+                        {...register("alt", {
                             minLength: { value: 2, message: "Too short" },
                             maxLength: { value: 255, message: "Too long" },
                         })}
                     />
-                    {errors.image?.alt && (
-                        <p className="text-red-500">{errors.image?.alt?.message}</p>
+                    {errors.alt && (
+                        <p className="text-red-500">{errors.alt?.message}</p>
                     )}
                 </section>
 

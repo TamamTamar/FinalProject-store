@@ -30,8 +30,8 @@ const UpdateUser = () => {
                     setValue('address.houseNumber', user.address.houseNumber);
                     setValue('address.country', user.address.country);
                     setValue('address.zip', user.address.zip);
-                    setValue('image.url', user.image?.url || '');
-                    setValue('image.alt', user.image?.alt || '');
+                    //setValue('image.url', user.image?.url || '');
+                    //setValue('alt', user.alt || '');
                     setValue('address.state', user.address.state || '');
                     setLoading(false);
                 })
@@ -210,37 +210,6 @@ const UpdateUser = () => {
                     )}
                 </section>
 
-                {/* image.url */}
-                <section>
-                    <input
-                        placeholder="Image URL"
-                        type="url"
-                        {...register("image.url", {
-                            pattern: {
-                                value: patterns.url,
-                                message: "Invalid image URL",
-                            },
-                        })}
-                    />
-                    {errors.image?.url && (
-                        <p className="text-red-500">{errors.image?.url?.message}</p>
-                    )}
-                </section>
-
-                {/* image.alt */}
-                <section>
-                    <input
-                        placeholder="Image Description"
-                        type="text"
-                        {...register("image.alt", {
-                            minLength: { value: 2, message: "Too short" },
-                            maxLength: { value: 255, message: "Too long" },
-                        })}
-                    />
-                    {errors.image?.alt && (
-                        <p className="text-red-500">{errors.image?.alt?.message}</p>
-                    )}
-                </section>
 
                 {/* address.state */}
                 <section>

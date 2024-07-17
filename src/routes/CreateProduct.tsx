@@ -32,21 +32,22 @@ const CreateProduct = () => {
         formData.append("price", data.price.toString());
         formData.append("size", data.size);
         formData.append("quantity", data.quantity.toString());
-        formData.append("alt", data.image.alt);
+        formData.append("alt", data.alt);
         if (image) {
             formData.append("image", image);
+           // formData.append("alt", image.name);
             console.log(image);
         }
 
         try {
             await createNewProduct(formData);
             dialogs.success("Success", "Product Created Successfully")
-            .then(() => {
-                navigate("/");
-                
-            });
+                .then(() => {
+                    navigate("/");
+
+                });
         } catch (error: any) {
-            console.log(data);
+            console.log(data.title);
             dialogs.error("Error", error.response);
             console.log(error);
         }
@@ -56,34 +57,47 @@ const CreateProduct = () => {
         <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
             <h2>Create New Product</h2>
             <form noValidate onSubmit={handleSubmit(onSubmit)}>
+                {/* title */}
                 <section>
                     <input placeholder="Title" {...register("title", { required: "Title is required" })} />
                     {errors.title && <p className="text-red-500">{errors.title.message}</p>}
                 </section>
+                {/* subtitle */}
                 <section>
                     <input placeholder="Subtitle" {...register("subtitle", { required: "Subtitle is required" })} />
                     {errors.subtitle && <p className="text-red-500">{errors.subtitle.message}</p>}
                 </section>
+                {/* description */}
                 <section>
                     <input placeholder="Description" {...register("description", { required: "Description is required" })} />
                     {errors.description && <p className="text-red-500">{errors.description.message}</p>}
                 </section>
+                {/* price */}
                 <section>
                     <input placeholder="Price" type="number" step="0.01" {...register('price', { required: 'Price is required' })} />
-                    <span className="error-message">{errors.price && errors.price.message}</span>
+                    {errors.price && <p className="text-red-500">{errors.price.message}</p>}
                 </section>
+                {/* image */}
                 <section>
                     <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} />
+                    {errors.image && <p className="text-red-500">{errors.image.message}</p>}
                 </section>
+                {/* image alt */}
+             
+                {/* image description */}
                 <section>
-                    <input placeholder="Image Description" {...register("image.alt", { required: "Image description is required" })} />
-                    {errors.image?.alt && <p className="text-red-500">{errors.image.alt.message}</p>}
+                    <input placeholder="Image Description" {...register("alt", { required: "Image alt is required" })} />
+                    {errors.image?.alt && <p className="text-red-500">{errors.alt.message}</p>}
                 </section>
+                {/* size */}
                 <section>
                     <input placeholder="Size" {...register('size', { required: 'Size is required' })} />
+                    {errors.size && <p className="text-red-500">{errors.size.message}</p>}
                 </section>
+                {/* quantity */}
                 <section>
                     <input placeholder="Quantity" type="number" {...register('quantity', { required: 'Quantity is required' })} />
+                    {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
                 </section>
                 <button type="submit">Create Product</button>
             </form>

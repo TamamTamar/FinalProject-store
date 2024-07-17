@@ -7,10 +7,11 @@ export const registerMock = {
     "phone": "0502345567",
     "email": "MosheVis@gmail.com",
     "password": "Abc!123Abc",
+    /* "alt": "Placeholder image",
     "image": {
         "url": "https://www.istockphoto.com/vector/blank-man-profile-head-icon-placeholder-gm1298261537-391152374",
-        "alt": "Placeholder image"
-    },
+
+    }, */
     "address": {
         "state": "IL",
         "country": "Israel",
@@ -19,5 +20,5 @@ export const registerMock = {
         "houseNumber": 5,
         "zip": "35"
     },
-   
+
 }
