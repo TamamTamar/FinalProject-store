@@ -14,10 +14,7 @@ export type IAddress = {
     houseNumber: number;
 };
 
-export type IImage = {
-    url: string;
-   alt: string;
-};
+
 
 export type RegisterUser = {
     name: {
@@ -28,12 +25,10 @@ export type RegisterUser = {
     phone: string;
     email: string;
     password: string;
-    url: string;
-    alt: string;
- /*    image?: {
+    /* image?: {
         url: string;
-        alt?: string;
-    }; */
+    };
+    alt: string; */
     address: {
         state?: string;
         country: string;
@@ -55,8 +50,8 @@ export type IUserInput = {
     password: string;
     address: IAddress;
     name: IName;
- //  image?: IImage;
-
+    /* image?: IImage;
+    alt: string; */
 };
 
 export type IUser = IUserInput & {
@@ -111,18 +106,16 @@ interface SearchContextType {
 export type FCC = ({ children }: { children: ReactNode }) => ReactNode;
 
 export type updateUserType = {
-    _id: string;
     name: {
         first: string;
         middle: string;
         last: string;
     };
     phone: string;
-  /*   image: {
+   /*  image: {
         url: string;
-        alt: string;
-    }; */
-    alt: string;
+    };
+    alt: string; */
     address: {
         state: string;
         country: string;

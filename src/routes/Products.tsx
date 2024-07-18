@@ -40,7 +40,7 @@ const Products: FC = () => {
             {filteredProducts.map(product => (
                 <Card key={product._id} className="product-card">
                     <Link to={`/products/${product._id}`}>
-                        <img src={product.image.url} alt={product.image.alt} className="w-full h-48 object-cover rounded-t-lg" />
+                        <img src={product.image.url} alt={product.alt} className="w-full h-48 object-cover rounded-t-lg" />
                         <h5 className="text-xl font-bold">{product.title}</h5>
                         <h6 className="text-md font-semibold">{product.subtitle}</h6>
                         <p>{product.description}</p>

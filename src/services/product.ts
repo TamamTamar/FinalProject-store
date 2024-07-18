@@ -16,6 +16,7 @@ export const createNewProduct = (data:FormData) => {
     return axios.post(url, data, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),
+            "Content-Type": "multipart/form-data",
         },
     });
 };
@@ -29,11 +30,12 @@ export const deleteProductById = (id: string) => {
     });
 };
 //update product
-export const updateProduct = (id: string, product: IProductInput) => {
+export const updateProduct = (id: string, product: FormData) => {
     const url = `${baseUrl}/${id}`;
     return axios.put(url, product, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),
+            "Content-Type": "multipart/form-data",
         },
     });
 };
