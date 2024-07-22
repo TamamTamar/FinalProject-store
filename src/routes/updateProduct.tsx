@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { getProductById, updateProduct } from '../services/product';
+import { getProductById, updateProduct } from '../services/product-service';
 import { IProduct } from '../@Types/productType';
 import './CreateProduct.scss';
 import dialogs from '../ui/dialogs';
@@ -28,7 +28,7 @@ const EditProduct = () => {
                     setValue('alt', product.alt);
                     setValue('size', product.size);
                     setValue('quantity', product.quantity);
-                    
+
                 })
                 .catch(err => setError(err));
         }
@@ -113,7 +113,7 @@ const EditProduct = () => {
                     <input placeholder="Image Description" {...register("alt", { required: "Image description is required" })} />
                     {errors.alt && <p className="text-red-500">{errors.alt.message}</p>}
                 </section>
-              
+
 
                 <section>
                     <input placeholder="Size" {...register('size', { required: 'Size is required' })} />
@@ -125,7 +125,7 @@ const EditProduct = () => {
                 </section>
 
                 <button type="submit">Save</button>
-            </form> 
+            </form>
         </div>
     );
 };

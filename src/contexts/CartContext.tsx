@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, FC } from 'react';
-import cartService from '../services/cart';
+import cartService from '../services/cart-service';
 import { CartContextProps, ICartWithTotals } from '../@Types/productType';
 import { ContextProviderProps } from '../@Types/types';
 

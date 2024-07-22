@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../services/product';
+import { getProductById } from '../services/product-service';
 import { IProduct } from '../@Types/productType';
 import './Product.scss';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 
-    const Product = () => {
-        const { id } = useParams();
-        const [product, setProduct] = useState<IProduct>();
+const Product = () => {
+    const { id } = useParams();
+    const [product, setProduct] = useState<IProduct>();
 
-        useEffect(() => {
-            getProductById(id || "")
-                .then(res => {
-                    setProduct(res.data);
-                })
-                .catch(err => console.log(err));
-        }, [id]);
+    useEffect(() => {
+        getProductById(id || "")
+            .then(res => {
+                setProduct(res.data);
+            })
+            .catch(err => console.log(err));
+    }, [id]);
 
-        if (!product) {
-            return <div>Loading...</div>;
-        }
+    if (!product) {
+        return <div>Loading...</div>;
+    }
 
 
     return (
@@ -35,7 +35,7 @@ import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
             </p>
             <p className="product-barcode">Barcode: {product.barcode}</p>
             <AddToCartButton productId={product._id} onAdd={() => console.log("Product added to cart")} />
-            
+
         </div>
     );
 };

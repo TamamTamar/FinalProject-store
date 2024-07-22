@@ -1,10 +1,10 @@
 // ProductList.tsx
-import  { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { Card } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import './Products.scss';
 import { IProduct } from '../@Types/productType';
-import { deleteProductById, getAllProducts } from '../services/product';
+import { deleteProductById, getAllProducts } from '../services/product-service';
 import { useSearch } from '../hooks/useSearch';
 
 const Products: FC = () => {
@@ -24,7 +24,7 @@ const Products: FC = () => {
                 setLoading(false);
             });
     }, []);
- 
+
 
     const filteredProducts = products.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

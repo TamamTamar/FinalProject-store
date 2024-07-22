@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./CreateProduct.scss";
 import dialogs from "../ui/dialogs";
-import { createNewProduct } from "../services/product";
+import { createNewProduct } from "../services/product-service";
 import { useAuth } from "../hooks/useAuth";
 import { IProductInput } from "../@Types/productType";
 import { useState } from "react";
@@ -66,7 +66,7 @@ const CreateProduct = () => {
                 <section>
                     <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} />
                     {errors.image && <p className="text-red-500">{errors.image.message}</p>}
-                    
+
                 </section>
                 <section>
                     <input placeholder="Image Description" {...register("alt", { required: "Image description is required" })} />

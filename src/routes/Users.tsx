@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { deleteUserById, getAllUsers } from '../services/auth';
+import { deleteUserById, getAllUsers } from '../services/auth-service';
 import { IUser } from '../@Types/types';
 import { Card, TabItem, Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';

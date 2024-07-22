@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import cartService from '../services/cart';
+import cartService from '../services/cart-service';
 import { ICartItem } from '../@Types/productType';
 import './Cart.scss';
 import { useCart } from '../hooks/useCart';
@@ -54,7 +54,7 @@ const Cart = () => {
                                 <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
                                 <div>
                                     <h2 className="item-title text-lg font-medium">{item.title}</h2>
-                                    <p className="item-quantity text-sm text-gray-500">Quantity: 
+                                    <p className="item-quantity text-sm text-gray-500">Quantity:
                                         <select
                                             value={quantities[item.productId] || item.quantity}
                                             onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
@@ -73,7 +73,7 @@ const Cart = () => {
                             <button onClick={() => handleRemoveItem(item.productId)} className="remove-button">Remove</button>
                         </div>
                     ))}
-                    <button onClick={handleClearCart} className="clear-cart-button">Clear Cart</button> 
+                    <button onClick={handleClearCart} className="clear-cart-button">Clear Cart</button>
                 </div>
             </div>
             <div className="cart-summary w-full md:w-1/4 p-4 rounded-lg shadow-lg">

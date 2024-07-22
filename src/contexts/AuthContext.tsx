@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, FC, useEffect, useMemo, useState } from "react";
-import * as auth from "../services/auth";
-import { ContextProviderProps, AuthContextType, DecodedToken, IUser, updateUserType,  } from "../@Types/types";
+import * as auth from "../services/auth-service";
+import { ContextProviderProps, AuthContextType, DecodedToken, IUser, updateUserType, } from "../@Types/types";
 import dialogs from "../ui/dialogs";
 
 
@@ -15,7 +15,7 @@ export const AuthContextProvider: FC<ContextProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true)
 
 
- const isLoggedIn = useMemo(() => user !== undefined, [user])
+    const isLoggedIn = useMemo(() => user !== undefined, [user])
 
     useEffect(() => {
         setLoading(true)
@@ -47,7 +47,7 @@ export const AuthContextProvider: FC<ContextProviderProps> = ({ children }) => {
             .then((res) => {
                 const token = res.data; // וודא שהטוקן נשלף בצורה נכונה
                 setToken(token);
-                
+
                 localStorage.setItem("token", token);
                 const decodedToken = jwtDecode<DecodedToken>(token);
                 const userId = decodedToken._id;
@@ -76,7 +76,7 @@ export const AuthContextProvider: FC<ContextProviderProps> = ({ children }) => {
         setUser(undefined)
         localStorage.removeItem("token");
         dialogs.success("Logout", "You have been logged out successfully");
-    
+
     };
 
     const onUpdateUser = (updatedUser: IUser) => {

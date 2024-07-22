@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { getUserById, updateUser } from '../services/auth';
+import { getUserById, updateUser } from '../services/auth-service';
 import { useParams } from 'react-router-dom';
 import { updateUserType } from '../@Types/types';
 import './CreateProduct.scss'

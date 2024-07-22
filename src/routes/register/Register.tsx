@@ -10,7 +10,7 @@ import dialogs from "../../ui/dialogs";
 import patterns from "../../validations/patterns";
 import { registerMock } from "../../mocks/register";
 import { useAuth } from "../../hooks/useAuth";
-import { auth } from "../../services/auth";
+import { auth } from "../../services/auth-service";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -36,14 +36,14 @@ const Register = () => {
         });
       })
       .catch((e) => {
-       console.error('Register error:', e.response.data);
+        console.error('Register error:', e.response.data);
         dialogs.error("Register Error", e.response.data.message);
       });
   };
-/* 
-  const handleBusinessCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    //setIsBusiness(e.target.checked);
-  }; */
+  /* 
+    const handleBusinessCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+      //setIsBusiness(e.target.checked);
+    }; */
 
   return (
     <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
@@ -159,7 +159,7 @@ const Register = () => {
         </section>
 
         {/* image.url */}
-      {/*   <section>
+        {/*   <section>
           <input
             placeholder="Image URL"
             type="url"
@@ -176,7 +176,7 @@ const Register = () => {
         </section> */}
 
         {/* image.alt */}
-      {/*   <section>
+        {/*   <section>
           <input
             placeholder="Image Description"
             type="text"
@@ -287,7 +287,7 @@ const Register = () => {
           )}
         </section>
 
-{/*         <section className="checkbox-container">
+        {/*         <section className="checkbox-container">
           <label htmlFor="isBusiness">Business</label>
           <input
             id="isBusiness"

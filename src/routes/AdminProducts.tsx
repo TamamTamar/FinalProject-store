@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { deleteProductById, getAllProducts } from '../services/product'; // ודא שהפונקציה הזו קיימת בשירות המוצרים
+import { deleteProductById, getAllProducts } from '../services/product-service'; // ודא שהפונקציה הזו קיימת בשירות המוצרים
 import { IProduct } from '../@Types/productType';
 import { Table, Tooltip } from 'flowbite-react';
 import { Link } from 'react-router-dom';
