@@ -1,21 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
-import Root from "../layout/root";
-import Register from "./register/Register";
-import Login from "./Login";
-import Profile from "./Profile";
-import Error from "./Error";
-import Products from "./Products";
-import Product from "./Product";
-import CreateProduct from "./CreateProduct";
-import ProtectedRoute from "../components/ProtectedRouteUser";
-import ProtectedRouteUser from "../components/ProtectedRouteUser";
 import ProtectedRouteAdmin from "../components/ProtectedRouteAdmin";
-import Users from "./Users";
-
+import Root from "../layout/root";
 import AdminProducts from "./AdminProducts";
-import EditProduct from "./updateProduct";
+import CreateProduct from "./CreateProduct";
+import Error from "./Error";
+import Login from "./Login";
+import Product from "./Product";
+import Products from "./Products";
+import Profile from "./Profile";
+import Register from "./register/Register";
 import UpdateProduct from "./updateProduct";
 import UpdateUser from "./UpdateUser";
+import Users from "./Users";
+import Cart from "./Cart";
+
+
+
 
 
 
@@ -43,6 +43,7 @@ export const router = createBrowserRouter([
                 {path:"/admin/Products", element: <AdminProducts />},
                 {path: "/users/:id", element: <UpdateUser />},
                 {path:"/admin/products/:id", element: <UpdateProduct />},
+                {path: "/cart", element: <Cart />},
 
         ],
     },

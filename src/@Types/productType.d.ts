@@ -25,12 +25,39 @@ export type IProduct = IProductInput & {
 };
 
 
-export type ICartProduct = {
+/* export type ICartProduct = {
     productId: string;
     title: string;
     price: number;
     size: string;
+}; */
+
+
+export interface ICartItem {
+    productId: string;
+    quantity: number;
+    title: string;
+    price: number;
+    size: string;
+    image: IImage;
+    alt: string;
 };
+
+export interface ICart extends Document {
+    userId: string;
+    items: ICartItem[];
+};
+
+export interface ICartWithTotals extends ICart {
+    totalQuantity: number;
+    totalPrice: number;
+};
+
+export interface CartContextProps {
+    cart: ICartWithTotals | null;
+    setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
+    fetchCart: () => void;
+}
 
 
 export type IOrderProduct = {

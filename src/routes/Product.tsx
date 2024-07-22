@@ -1,23 +1,18 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import {  deleteProductById, getProductById } from '../services/product';
-import './Product.scss';
+import { useParams } from 'react-router-dom';
+import { getProductById } from '../services/product';
 import { IProduct } from '../@Types/productType';
-
+import './Product.scss';
+import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 
     const Product = () => {
         const { id } = useParams();
         const [product, setProduct] = useState<IProduct>();
-        const navigate = useNavigate();
-
-        
 
         useEffect(() => {
             getProductById(id || "")
                 .then(res => {
-                    setProduct(res.data)
-                    
-                    
+                    setProduct(res.data);
                 })
                 .catch(err => console.log(err));
         }, [id]);
@@ -25,7 +20,6 @@ import { IProduct } from '../@Types/productType';
         if (!product) {
             return <div>Loading...</div>;
         }
-        
 
 
     return (
@@ -40,7 +34,8 @@ import { IProduct } from '../@Types/productType';
                 {product.quantity > 0 ? 'In Stock' : 'Out of Stock'}
             </p>
             <p className="product-barcode">Barcode: {product.barcode}</p>
-
+            <AddToCartButton productId={product._id} onAdd={() => console.log("Product added to cart")} />
+            
         </div>
     );
 };
