@@ -1,11 +1,11 @@
 // ProductList.tsx
-import { useState, useEffect, FC } from 'react';
 import { Card } from 'flowbite-react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Products.scss';
 import { IProduct } from '../@Types/productType';
-import { deleteProductById, getAllProducts } from '../services/product-service';
 import { useSearch } from '../hooks/useSearch';
+import { getAllProducts } from '../services/product-service';
+import './Products.scss';
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);

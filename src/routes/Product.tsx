@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../services/product-service';
 import { IProduct } from '../@Types/productType';
 import './Product.scss';
+import { getProductById } from '../services/product-service';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 
-const Product = () => {
-    const { id } = useParams();
-    const [product, setProduct] = useState<IProduct>();
 
-    useEffect(() => {
-        getProductById(id || "")
-            .then(res => {
-                setProduct(res.data);
-            })
-            .catch(err => console.log(err));
-    }, [id]);
+    const Product = () => {
+        const { id } = useParams();
+        const [product, setProduct] = useState<IProduct>();
 
-    if (!product) {
-        return <div>Loading...</div>;
-    }
+        useEffect(() => {
+            getProductById(id || "")
+                .then(res => {
+                    setProduct(res.data);
+                })
+                .catch(err => console.log(err));
+        }, [id]);
+
+        if (!product) {
+            return <div>Loading...</div>;
+        }
 
 
     return (
@@ -34,8 +35,14 @@ const Product = () => {
                 {product.quantity > 0 ? 'In Stock' : 'Out of Stock'}
             </p>
             <p className="product-barcode">Barcode: {product.barcode}</p>
-            <AddToCartButton productId={product._id} onAdd={() => console.log("Product added to cart")} />
-
+            <AddToCartButton
+                productId={product._id}
+                title={product.title}
+                price={product.price}
+                image={product.image.url}
+                onAdd={() => console.log("Product added to cart")}
+            />
+            
         </div>
     );
 };

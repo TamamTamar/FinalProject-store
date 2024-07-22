@@ -40,7 +40,21 @@ export const showConfirmDialog = async (title: string, text: string) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!"
     });
-}
+};
+export const showPopup = (title: string, html: string) => {
+    return Swal.fire({
+        title,
+        html,
+        icon: "success",
+        position: "top-end",
+        showConfirmButton: false,
+        width: 300,
+        timer: 4000,
+        customClass: {
+            popup: 'custom-font-size'
+        }
+    });
+};
 
-const dialogs = { success: showSuccessDialog, error: showErrorDialog, confirm: showConfirmDialog };
+const dialogs = { success: showSuccessDialog, error: showErrorDialog, confirm: showConfirmDialog, showPopup: showPopup };
 export default dialogs;
