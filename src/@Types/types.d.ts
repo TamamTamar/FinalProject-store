@@ -80,7 +80,7 @@ export interface AuthContextType {
     token: string | null;
     user: IUser | undefined;
     isLoggedIn: boolean;
-    login: (email: string, password: string) => Promise<void>
+    login: (email: string, password: string) => Promise<void>;
     register: (form: IUser) => Promise<void>
     logout: () => void;
     onUpdateUser: (user: IUser) => void;

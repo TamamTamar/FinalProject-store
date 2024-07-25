@@ -14,7 +14,8 @@ const Login: FC = () => {
     const onLogin: SubmitHandler<ILogin> = (data) => {
         login(data.email, data.password)
             .then(() => {
-                dialogs.success("Login", "Logged in").then(() => {
+                dialogs.success("Login", "Logged in")
+                .then(() => {
                     // send the user to home page
                     navigate("/");
                 });

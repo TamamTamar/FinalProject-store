@@ -6,11 +6,11 @@ import cart from '../../services/cart-service';
 import { showPopup } from '../../ui/dialogs';
 
 
-const AddToCartButton: FC<{ productId: string, title: string, price: number, image: string, onAdd: () => void }> = ({ productId, title, price, image, onAdd }) => {
+const AddToCartButton: FC<{ productId: string, title: string, price: number, image: string,size:string, onAdd: () => void }> = ({ productId, title, price, image, size, onAdd }) => {
     const { fetchCart } = useCart();
     const handleAddToCart = async () => {
         try {
-            await cart.addProductToCart(productId, 1, 'S'); // לדוגמה, ניתן לשנות בהתאם לצורך
+            await cart.addProductToCart(productId, 1, size); // לדוגמה, ניתן לשנות בהתאם לצורך
             showPopup(
                 'Product Added',
                 `<div style="display: flex; align-items: center;">

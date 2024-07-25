@@ -13,6 +13,7 @@ import UpdateProduct from "./updateProduct";
 import UpdateUser from "./UpdateUser";
 import Users from "./Users";
 import Cart from "./Cart";
+import OrderConfirmation from "./OrderConfirmation";
 
 
 
@@ -44,6 +45,12 @@ export const router = createBrowserRouter([
                 {path: "/users/:id", element: <UpdateUser />},
                 {path:"/admin/products/:id", element: <UpdateProduct />},
                 {path: "/cart", element: <Cart />},
+                {
+                    path: "/order-confirmation/:orderId", element: < OrderConfirmation />
+                },
+                {
+                    path: "/orders", element: <OrderConfirmation />
+                },
 
         ],
     },

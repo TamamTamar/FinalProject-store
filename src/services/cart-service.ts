@@ -3,7 +3,6 @@ import axios from 'axios';
 const baseUrl = "http://localhost:8080/api/v1";
 const cartUrl = `${baseUrl}/cart`;
 
-//get cart
 export const getCart = () => {
     return axios.get(cartUrl, {
         headers: {
@@ -12,7 +11,6 @@ export const getCart = () => {
     });
 };
 
-//add product to cart
 export const addProductToCart = (productId: string, quantity: number, size: string) => {
     return axios.post(`${cartUrl}/add`, {
         productId,
@@ -25,9 +23,8 @@ export const addProductToCart = (productId: string, quantity: number, size: stri
     });
 };
 
-//remove product from cart
-export const removeProductFromCart = (productId: string, quantity: number) => {
-    return axios.post(`${cartUrl}/remove`, {
+export const updateProductQuantity = (productId: string, quantity: number) => {
+    return axios.patch(`${ cartUrl }/update`, {
         productId,
         quantity
     }, {
@@ -37,7 +34,16 @@ export const removeProductFromCart = (productId: string, quantity: number) => {
     });
 };
 
-//clear cart
+export const removeProductFromCart = (productId: string) => {
+    return axios.post(`${cartUrl}/remove`, {
+        productId
+    }, {
+        headers: {
+            "x-auth-token": localStorage.getItem("token"),
+        }
+    });
+};
+
 export const clearCart = (/* token: string */) => {
     return axios.delete(`${cartUrl}/clear`, {
         headers: {
@@ -46,24 +52,12 @@ export const clearCart = (/* token: string */) => {
     });
 };
 
-//update product quantity
-export const updateProductQuantity = (productId: string, quantity: number) => {
-    return axios.patch(`${cartUrl}/update`, {
-        productId,
-        quantity
-    }, {
-        headers: {
-            "x-auth-token": localStorage.getItem("token"),
-        }
-    });
-}
-
-export const cart = {
+export const cartService = {
     getCart,
     addProductToCart,
+    updateProductQuantity,
     removeProductFromCart,
-    clearCart,
-    updateProductQuantity
+    clearCart
 };
 
-export default cart;
+export default cartService;

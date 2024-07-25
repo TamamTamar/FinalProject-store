@@ -9,9 +9,9 @@ export type IProductInput = {
     price: number;
     image: IImage;
     alt: string;
-    size: string;
+    sizes: string[];
     quantity: number;
-    barcode: number;
+
 };
 
 export type IProduct = IProductInput & {
@@ -25,22 +25,22 @@ export type IProduct = IProductInput & {
 };
 
 
-/* export type ICartProduct = {
+export type ICartProduct = {
     productId: string;
     title: string;
     price: number;
     size: string;
-}; */
+};
 
 
 export interface ICartItem {
+    _id: string;
     productId: string;
     quantity: number;
     title: string;
     price: number;
     size: string;
     image: IImage;
-    alt: string;
 };
 
 export interface ICart extends Document {
@@ -61,12 +61,18 @@ export interface CartContextProps {
 
 
 export type IOrderProduct = {
+    title: string;
+    price: number;
     productId: string;
     quantity: number;
     size: string;
+    
 };
 
 export type IOrder = {
+   // [x: string]: ReactNode;
+    _id: string;
+    orderNumber: string;
     userId: string;
     products: IOrderProduct[];
     totalAmount: number;

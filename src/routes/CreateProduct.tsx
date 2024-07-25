@@ -2,10 +2,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./CreateProduct.scss";
 import dialogs from "../ui/dialogs";
-import { createNewProduct } from "../services/product-service";
+
 import { useAuth } from "../hooks/useAuth";
 import { IProductInput } from "../@Types/productType";
 import { useState } from "react";
+import { createNewProduct } from "../services/product-service";
 
 const CreateProduct = () => {
     const { token } = useAuth();
@@ -19,12 +20,24 @@ const CreateProduct = () => {
             return;
         }
 
-        const formData: FormData = new FormData();
+        if (!image) {
+            dialogs.error("Error", "Please select an image.");
+            return;
+        }
+
+        const sizesArray = data.sizes.split(',').map(size => size.trim());
+
+        const formData = new FormData();
         formData.append("title", data.title);
         formData.append("subtitle", data.subtitle);
         formData.append("description", data.description);
         formData.append("price", data.price.toString());
-        formData.append("size", data.size);
+
+        // הוספת sizes כמספר פריטים ב-FormData
+        sizesArray.forEach((size, index) => {
+            formData.append(`sizes[${index}]`, size);
+        });
+
         formData.append("quantity", data.quantity.toString());
         formData.append("alt", data.alt);
         if (image) {
@@ -32,12 +45,14 @@ const CreateProduct = () => {
         }
 
         try {
+            console.log("Form Data:", Object.fromEntries(formData.entries())); // לוג לפני שליחה
             await createNewProduct(formData);
-            dialogs.success("Success", "Product Created Successfully").then(() => {
-                navigate("/");
-            });
+            dialogs.success("Success", "Product Created Successfully")
+                .then(() => {
+                    navigate("/");
+                });
         } catch (error: any) {
-            console.log(data);
+            console.log("Form Data Error:", Object.fromEntries(formData.entries())); // לוג בשגיאה
             dialogs.error("Error", error.response);
             console.log(error);
         }
@@ -65,16 +80,14 @@ const CreateProduct = () => {
                 </section>
                 <section>
                     <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} />
-                    {errors.image && <p className="text-red-500">{errors.image.message}</p>}
-
                 </section>
                 <section>
                     <input placeholder="Image Description" {...register("alt", { required: "Image description is required" })} />
                     {errors.alt && <p className="text-red-500">{errors.alt.message}</p>}
                 </section>
                 <section>
-                    <input placeholder="Size" {...register('size', { required: 'Size is required' })} />
-                    {errors.size && <p className="text-red-500">{errors.size.message}</p>}
+                    <input placeholder="Sizes (comma separated, e.g., S,M,L)" {...register('sizes', { required: 'Sizes are required' })} />
+                    {errors.sizes && <p className="text-red-500">{errors.sizes.message}</p>}
                 </section>
                 <section>
                     <input placeholder="Quantity" type="number" {...register('quantity', { required: 'Quantity is required' })} />

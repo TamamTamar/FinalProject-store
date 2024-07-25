@@ -1,11 +1,12 @@
 import Swal from "sweetalert2";
 import "./dialogs.scss";
+
 export const showSuccessDialog = (title: string, text: string) => {
     return Swal.fire({
         title,
         text,
         icon: "success",
-        position: "top-end",
+        position: "center",
         showConfirmButton: false,
         width: 400,
         timer: 1500,
@@ -13,14 +14,14 @@ export const showSuccessDialog = (title: string, text: string) => {
             popup: 'custom-font-size'
         }
     });
-
 };
+
 export const showErrorDialog = (title: string, text: string) => {
     return Swal.fire({
         title,
         text,
         icon: "error",
-        position: "top-end",
+        position: "center",
         showConfirmButton: false,
         width: 400,
         timer: 2000,
@@ -29,6 +30,7 @@ export const showErrorDialog = (title: string, text: string) => {
         }
     });
 };
+
 export const showConfirmDialog = async (title: string, text: string) => {
     return await Swal.fire({
         title,
@@ -40,7 +42,8 @@ export const showConfirmDialog = async (title: string, text: string) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!"
     });
-};
+}
+
 export const showPopup = (title: string, html: string) => {
     return Swal.fire({
         title,
@@ -49,12 +52,12 @@ export const showPopup = (title: string, html: string) => {
         position: "top-end",
         showConfirmButton: false,
         width: 300,
-        timer: 4000,
+        timer: 2000,
         customClass: {
             popup: 'custom-font-size'
         }
     });
 };
 
-const dialogs = { success: showSuccessDialog, error: showErrorDialog, confirm: showConfirmDialog, showPopup: showPopup };
+const dialogs = { success: showSuccessDialog, error: showErrorDialog, confirm: showConfirmDialog, showPopup };
 export default dialogs;

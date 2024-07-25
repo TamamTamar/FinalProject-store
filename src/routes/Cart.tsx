@@ -1,16 +1,32 @@
-import { useState } from 'react';
-import cartService from '../services/cart-service';
-import { ICartItem } from '../@Types/productType';
 import './Cart.scss';
 import { useCart } from '../hooks/useCart';
+import dialogs from '../ui/dialogs';
+import { FiArrowLeft, FiTrash } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Tooltip } from 'flowbite-react';
+import { useAuth } from '../hooks/useAuth';
+import cartService from '../services/cart-service';
+import { createOrder } from '../services/order-service';
+import { ICartItem } from '../@Types/productType';
 
 const Cart = () => {
-    const { cart, fetchCart } = useCart();
+    const { cart, fetchCart, setCart } = useCart();
+    const { token } = useAuth();
+    const navigate = useNavigate();
     const [quantities, setQuantities] = useState<{ [productId: string]: number }>({});
+
+    useEffect(() => {
+        if (token) {
+            fetchCart();
+        } else {
+            setCart(null);
+        }
+    }, [token]);
 
     const handleRemoveItem = async (productId: string) => {
         try {
-            await cartService.removeProductFromCart(productId, 1);
+            await cartService.removeProductFromCart(productId);
             fetchCart();
         } catch (error) {
             console.error('Failed to remove product from cart.', error);
@@ -18,11 +34,16 @@ const Cart = () => {
     };
 
     const handleClearCart = async () => {
-        try {
-            await cartService.clearCart();
-            fetchCart();
-        } catch (error) {
-            console.error('Failed to clear cart.', error);
+        const result = await dialogs.confirm("Clear Cart", "Are you sure you want to clear the cart?");
+        if (result.isConfirmed) {
+            try {
+                await cartService.clearCart();
+                fetchCart();
+                dialogs.success("Cart Cleared", "Your cart has been cleared successfully.");
+            } catch (error) {
+                console.error('Failed to clear the cart.', error);
+                dialogs.error("Error", "Failed to clear the cart.");
+            }
         }
     };
 
@@ -39,56 +60,127 @@ const Cart = () => {
         }
     };
 
+    const handleCheckout = async () => {
+        try {
+            if (!token) {
+                dialogs.error("Error", "You must be logged in to checkout.");
+                return;
+            }
+
+            const orderProducts = cart.items.map((item: ICartItem) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+                size: item.size,
+                title: item.title,
+                price: item.price,
+            }));
+
+            const response = await createOrder(orderProducts);
+            const orderId = response.data._id;
+
+            dialogs.success("Order Successful", "Your order has been placed successfully.").then(async () => {
+                await cartService.clearCart();
+                fetchCart();
+                navigate(`/order-confirmation/${orderId}`);
+            });
+        } catch (error) {
+            console.error('Failed to place order.', error);
+            dialogs.error("Error", "Failed to place the order.");
+        }
+    };
+
+    if (!token) {
+        return (
+            <div className="empty-cart flex flex-col items-center justify-center">
+                <h2 className="text-2xl font-semibold mb-4">You are not logged in</h2>
+                <p className="text-lg mb-4">Please log in to view your cart.</p>
+                <Link to="/login" className="back-to-shopping text-blue-800 hover:underline flex items-center">
+                    <FiArrowLeft className="mr-2" />
+                    Go to Login
+                </Link>
+            </div>
+        );
+    }
+
     if (!cart || cart.items.length === 0) {
-        return <div>Your cart is empty</div>;
+        return (
+            <div className="empty-cart flex flex-col items-center justify-center">
+                <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
+                <p className="text-lg mb-4">Should we start shopping?</p>
+                <Link to="/" className="back-to-shopping text-blue-800 hover:underline flex items-center">
+                    <FiArrowLeft className="mr-2" />
+                    Back to Shopping
+                </Link>
+            </div>
+        );
     }
 
     return (
         <div className="cart-page flex flex-col md:flex-row">
             <div className="cart-items-container w-full md:w-3/4 p-4">
-                <h1 className="cart-title text-2xl font-semibold mb-4">Your Shopping Cart</h1>
+                <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center">
+                    <FiArrowLeft className="mr-2" />
+                    Back to Shopping
+                </Link>
+                <div className="flex justify-between items-center mb-4 border-b pb-4">
+                    <h1 className="cart-title text-2xl font-semibold">Your Shopping Cart</h1>
+                    <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link>
+                </div>
                 <div className="cart-items space-y-4">
                     {cart.items.map((item: ICartItem) => (
-                        <div className="cart-item flex justify-between items-center p-4 border rounded-lg shadow-sm" key={item.productId}>
+                        <div className="cart-item flex justify-between items-center p-4 border rounded-lg shadow-sm" key={item._id}>
                             <div className="flex items-center">
-                                <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
+                                <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" alt={item.title} />
                                 <div>
-                                    <h2 className="item-title text-lg font-medium">{item.title}</h2>
-                                    <p className="item-quantity text-sm text-gray-500">Quantity:
-                                        <select
-                                            value={quantities[item.productId] || item.quantity}
-                                            onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
-                                            className="ml-2"
-                                        >
-                                            {[...Array(10).keys()].map((n) => (
-                                                <option key={n + 1} value={n + 1}>
-                                                    {n + 1}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </p>
+                                    <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-blue-500 hover:underline">{item.title}</Link>
+                                    <p className="item-size text-sm text-gray-500">Size: {item.size}</p>
                                     <p className="item-price text-sm text-gray-500">Price: ${item.price.toFixed(2)}</p>
                                 </div>
                             </div>
-                            <button onClick={() => handleRemoveItem(item.productId)} className="remove-button">Remove</button>
+                            <div className="flex items-center">
+                                <label htmlFor={`quantity-${item.productId}`} className="item-quantity text-sm text-gray-500 mr-2">Quantity:</label>
+                                <select
+                                    id={`quantity-${item.productId}`}
+                                    value={quantities[item.productId] || item.quantity}
+                                    onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
+                                    className="ml-2 border border-gray-300 rounded-md p-1"
+                                >
+                                    {[...Array(10).keys()].map((n) => (
+                                        <option key={n + 1} value={n + 1}>
+                                            {n + 1}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <button
+                                onClick={() => handleRemoveItem(item.productId)}
+                                className="remove-button"
+                            >
+                                <Tooltip
+                                    content="Remove product"
+                                    placement="top"
+                                    className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                                >
+                                    <FiTrash />
+                                </Tooltip>
+                            </button>
                         </div>
                     ))}
-                    <button onClick={handleClearCart} className="clear-cart-button">Clear Cart</button>
                 </div>
             </div>
             <div className="cart-summary w-full md:w-1/4 p-4 rounded-lg shadow-lg">
                 <h2 className="text-xl font-semibold mb-4">Summary</h2>
                 <div className="space-y-2 flex flex-col">
-                    <div className='flex flex-row'>
+                    <div className='flex justify-between'>
                         <span>Total Items</span>
                         <span>{cart.totalQuantity}</span>
                     </div>
-                    <div className='flex flex-row'>
+                    <div className='flex justify-between'>
                         <span>Total Price</span>
                         <span>${cart.totalPrice.toFixed(2)}</span>
                     </div>
                 </div>
-                <button className="checkout-button">Checkout</button>
+                <button className="checkout-button" onClick={handleCheckout}>Checkout</button>
             </div>
         </div>
     );
