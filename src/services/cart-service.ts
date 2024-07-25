@@ -11,6 +11,7 @@ export const getCart = () => {
     });
 };
 
+//add product to cart
 export const addProductToCart = (productId: string, quantity: number, size: string) => {
     return axios.post(`${cartUrl}/add`, {
         productId,
@@ -23,6 +24,7 @@ export const addProductToCart = (productId: string, quantity: number, size: stri
     });
 };
 
+//update product quantity
 export const updateProductQuantity = (productId: string, quantity: number) => {
     return axios.patch(`${ cartUrl }/update`, {
         productId,
@@ -34,6 +36,7 @@ export const updateProductQuantity = (productId: string, quantity: number) => {
     });
 };
 
+//remove product from cart
 export const removeProductFromCart = (productId: string) => {
     return axios.post(`${cartUrl}/remove`, {
         productId
@@ -44,6 +47,7 @@ export const removeProductFromCart = (productId: string) => {
     });
 };
 
+//clear cart
 export const clearCart = (/* token: string */) => {
     return axios.delete(`${cartUrl}/clear`, {
         headers: {

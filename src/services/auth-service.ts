@@ -59,6 +59,7 @@ export const updateUser = (id: string, user: updateUserType) => {
     );
 };
 
+//delete user
 export const deleteUserById = (id: string) => {
     const url = `${usersUrl}/${id}`;
     return axios.delete(url, {
