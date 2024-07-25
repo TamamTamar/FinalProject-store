@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { IOrder } from '../@Types/productType';
 import './OrderConfirmation.scss'
 import { useAuth } from '../hooks/useAuth';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import dialogs from '../ui/dialogs';
 import { Tooltip } from 'flowbite-react';
 import orderService from '../services/order-service';
-import { IOrder } from '../@Types/productType';
 
 const OrderConfirmation = () => {
     const [order, setOrder] = useState<IOrder | null>(null);
@@ -17,12 +17,12 @@ const OrderConfirmation = () => {
 
     useEffect(() => {
         if (orderId) {
-            // Fetch specific order if orderId exists
+            // אם קיים orderId, שלוף רק את ההזמנה הספציפית
             orderService.getOrderByOrderId(orderId)
                 .then(res => setOrder(res.data))
                 .catch(err => console.log(err));
         } else if (user) {
-            // Fetch all orders for the user if no specific orderId
+            // אם אין orderId, שלוף את כל ההזמנות
             orderService.getOrdersByUser(user._id)
                 .then(res => setOrders(res.data))
                 .catch(err => console.log(err));
@@ -57,6 +57,7 @@ const OrderConfirmation = () => {
         );
     }
 
+
     if (!user && !order) {
         return (
             <div className="order-confirmation-page">
@@ -78,13 +79,12 @@ const OrderConfirmation = () => {
                                 <span className="item-size">Size: {product.size}</span>
                                 <span className="item-price">Price: ${product.price.toFixed(2)}</span>
                                 <span className="item-quantity">Quantity: {product.quantity}</span>
-                 
                             </div>
                         ))}
                         <div className="summary-total">
                             <span>Total Amount</span>
                             <span>${order.totalAmount.toFixed(2)}</span>
-                            {user?.isAdmin && order.status !== 'cancelled' ? (
+                            {user?.isAdmin ? (
                                 <Link to="#" onClick={(event) => handleCancelOrder(event, order._id)} className="cancel-order-link text-red-500 hover:underline">
                                     <Tooltip
                                         content="Cancel Order"
@@ -94,11 +94,7 @@ const OrderConfirmation = () => {
                                         <FiX className="inline-block mr-2 text-4xl" />
                                     </Tooltip>
                                 </Link>
-                            ) : (order.status === 'cancelled' ? (
-                                <div className="order-cancelled-note text-red-500 mt-4">
-                                    <span>Cancelled Order</span>
-                                </div>
-                            ) : null)}
+                            ) : null}
                         </div>
                     </div>
                 </div>
@@ -132,7 +128,6 @@ const OrderConfirmation = () => {
                                 <span className="item-size">Size: {product.size}</span>
                                 <span className="item-price">Price: ${product.price.toFixed(2)}</span>
                                 <span className="item-quantity">Quantity: {product.quantity}</span>
-                       
                             </div>
                         ))}
                         <div className="summary-total">

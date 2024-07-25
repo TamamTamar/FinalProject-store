@@ -11,7 +11,7 @@ export type IProductInput = {
     alt: string;
     sizes: string[];
     quantity: number;
-
+    barcode: number;
 };
 
 export type IProduct = IProductInput & {
@@ -61,18 +61,16 @@ export interface CartContextProps {
 
 
 export type IOrderProduct = {
-    title: string;
-    price: number;
     productId: string;
     quantity: number;
     size: string;
-    
+    title: string; // הוספת title
+    price: number; // הוספת price
+
 };
 
 export type IOrder = {
-   // [x: string]: ReactNode;
     _id: string;
-    orderNumber: string;
     userId: string;
     products: IOrderProduct[];
     totalAmount: number;

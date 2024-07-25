@@ -3,15 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IProduct } from '../@Types/productType';
 import './Product.scss';
 import { Accordion } from 'flowbite-react';
-import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 import { getProductById } from '../services/product-service';
 import cartService from '../services/cart-service';
+import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 
 
 const Product = () => {
     const { id } = useParams();
     const [product, setProduct] = useState<IProduct>();
-    const [selectedSize, setSelectedSize] = useState<string>(''); // מידה ברירת מחדל
+    const [selectedSize, setSelectedSize] = useState<string>(''); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,8 +26,6 @@ const Product = () => {
     if (!product) {
         return <div>Loading...</div>;
     }
-
-    const originalPrice = Math.ceil(product.price * 1.2 / 10) * 10;
 
     const handleAddToCartAndRedirect = async () => {
         try {
@@ -52,16 +50,16 @@ const Product = () => {
                 <h1 className="product-title">{product.title}</h1>
                 <h2 className="product-subtitle">{product.subtitle}</h2>
                 <h3 className="product-description">{product.description}</h3>
-
-                <div className="product-price-container">
-                    <span className="price-label">Original Price:</span>
-                    <span className="original-price">${originalPrice.toFixed(2)}</span>
+                <p>{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
+                <div className="price-container mt-4">
+                    <span className="original-price" style={{ marginRight: '15px' }}>
+                        ${(product.price * 1.2).toFixed(2)}
+                    </span>
+                    <span className="discounted-price">
+                        ${product.price.toFixed(2)}
+                    </span>
                 </div>
-                <div className="product-price-container">
-                    <span className="price-label">Discounted Price:</span>
-                    <span className="discounted-price">${product.price.toFixed(2)}</span>
-                </div>
-
+                
                 <div className="size-buttons-container">
                     {product.sizes.map((size) => (
                         <button

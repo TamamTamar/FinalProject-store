@@ -11,7 +11,7 @@ export const createOrder = (products: IOrderProduct[]) => {
         }
     });
 };
-// Get all orders
+// Get orders by user
 export const getOrdersByUser = (userId: string) => {
     return axios.get(`${orderUrl}/user/${userId}`, {
         headers: {
@@ -19,7 +19,7 @@ export const getOrdersByUser = (userId: string) => {
         }
     });
 };
-// Get an order
+// Get an order by order id
 export const getOrderByOrderId = (orderId: string) => {
     return axios.get(`${orderUrl}/${orderId}`, {
         headers: {

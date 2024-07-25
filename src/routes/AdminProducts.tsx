@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteProductById, getAllProducts } from '../services/product-service'; // ודא שהפונקציה הזו קיימת בשירות המוצרים
 import { IProduct } from '../@Types/productType';
 import { Table, Tooltip } from 'flowbite-react';
@@ -49,7 +49,7 @@ const AdminProducts = () => {
                     <Table.HeadCell>Subtitle</Table.HeadCell>
                     <Table.HeadCell>Description</Table.HeadCell>
                     <Table.HeadCell>Price</Table.HeadCell>
-                    <Table.HeadCell>Size</Table.HeadCell>
+                    <Table.HeadCell>Sizes</Table.HeadCell>
                     <Table.HeadCell>Quantity</Table.HeadCell>
                     <Table.HeadCell>
                         <span className="sr-only">Edit</span>
