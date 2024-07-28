@@ -81,7 +81,7 @@ const CreateProduct = () => {
                     <input placeholder="Image Description" {...register("alt", { required: "Image description is required" })} />
                     {errors.alt && <p className="text-red-500">{errors.alt.message}</p>}
                 </section>
-                
+
                 <section>
                     <h3>Variants</h3>
                     {fields.map((variant, index) => (
@@ -92,9 +92,9 @@ const CreateProduct = () => {
                             <button type="button" onClick={() => remove(index)}>Remove</button>
                         </div>
                     ))}
-                    <button type="button" onClick={() => append({_id: "", size: "", price: 0, quantity: 0 })}>Add Variant</button>
+                    <button type="button" onClick={() => append({ _id: "", size: "", price: 0, quantity: 0 })}>Add Variant</button>
                 </section>
-                
+
                 <button type="submit">Create Product</button>
             </form>
         </div>

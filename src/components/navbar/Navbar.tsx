@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiBox, FiUsers, FiTrendingUp, FiUser, FiShoppingCart } from "react-icons/fi";
 import './Navbar.scss';
 import { useAuth } from "../../hooks/useAuth";
-import { useCart } from "../../hooks/useCart";
 import Search from "../Search/Search";
+import useCart from "../../hooks/useCart";
 
 
 const Nav = () => {

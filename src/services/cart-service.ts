@@ -3,6 +3,7 @@ import axios from 'axios';
 const baseUrl = "http://localhost:8080/api/v1";
 const cartUrl = `${baseUrl}/cart`;
 
+// Get cart items
 export const getCart = () => {
     return axios.get(cartUrl, {
         headers: {
@@ -11,14 +12,15 @@ export const getCart = () => {
     });
 };
 
-//add product to cart
-export const addProductToCart = (productId: string, variantId: string, quantity: number, size: string) => {
-    console.log('Sending to API:', { productId, variantId, quantity, size });
+// Add product to cart
+export const addProductToCart = ( productId: string, variantId: string, quantity: number, size: string, price: number) => {
+    console.log('Sending to API:', {productId, variantId, quantity, size, price });
     return axios.post(`${cartUrl}/add`, {
         productId,
         variantId,
         quantity,
         size,
+        price
     }, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),
@@ -26,11 +28,10 @@ export const addProductToCart = (productId: string, variantId: string, quantity:
     });
 };
 
-
-//update product quantity
-export const updateProductQuantity = (productId: string, quantity: number) => {
-    return axios.patch(`${ cartUrl }/update`, {
-        productId,
+// Update product quantity
+export const updateProductQuantity = ( variantId: string, quantity: number) => {
+    return axios.patch(`${cartUrl}/update`, {
+        variantId,
         quantity
     }, {
         headers: {
@@ -39,10 +40,10 @@ export const updateProductQuantity = (productId: string, quantity: number) => {
     });
 };
 
-//remove product from cart
-export const removeProductFromCart = (productId: string) => {
+// Remove product from cart
+export const removeProductFromCart = (variantId: string) => {
     return axios.post(`${cartUrl}/remove`, {
-        productId
+        variantId
     }, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),
@@ -50,8 +51,8 @@ export const removeProductFromCart = (productId: string) => {
     });
 };
 
-//clear cart
-export const clearCart = (/* token: string */) => {
+// Clear cart
+export const clearCart = () => {
     return axios.delete(`${cartUrl}/clear`, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),

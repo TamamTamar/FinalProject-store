@@ -1,7 +1,19 @@
+import { ReactNode, Dispatch, SetStateAction } from "react";
+
+// טיפוס עבור תמונה
 export type IImage = {
     url?: string;
 };
 
+// טיפוס עבור גרסאות של מוצר
+export type IVariant = {
+    _id?: string;
+    size: string;
+    quantity: number;
+    price: number;
+};
+
+// טיפוס עבור פרטי מוצר בעת יצירה
 export type IProductInput = {
     title: string;
     subtitle: string;
@@ -10,25 +22,19 @@ export type IProductInput = {
     alt: string;
     sizes: string[];
     barcode: number;
-    price: number;
     variants: IVariant[];
 };
 
-export type IVariant = {
-    _id : string;
-    size: string;
-    quantity: number;
-}
+// טיפוס עבור מוצר (כולל פרטים נוספים)
 export type IProduct = IProductInput & {
     _id: string;
-    barcode: number;
     createdAt: Date;
-   shoppingCart: string[]; 
+    shoppingCart: string[];
     sold: number;
     userId: string;
 };
 
-
+// טיפוס עבור פריט בעגלת קניות
 export type ICartProduct = {
     productId: string;
     title: string;
@@ -36,8 +42,10 @@ export type ICartProduct = {
     size: string;
 };
 
+// טיפוס עבור פריט בעגלת קניות עם תמונה
 export interface ICartItem {
     productId: string;
+    variantId: string;
     title: string;
     price: number;
     size: string;
@@ -45,32 +53,36 @@ export interface ICartItem {
     image: IImage;
 }
 
+// טיפוס עבור עגלת קניות
 export interface ICart {
     userId: string;
     items: ICartItem[];
 }
 
+// טיפוס עבור עגלת קניות עם סיכומים
 export interface ICartWithTotals extends ICart {
     totalQuantity: number;
     totalPrice: number;
-};
+}
 
+// טיפוס עבור הקונטקסט של עגלת הקניות
 export interface CartContextProps {
     cart: ICartWithTotals | null;
     setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
     fetchCart: () => void;
+    addToCart: (productId: string, variant: IVariant) => void;
 }
 
-
+// טיפוס עבור פרטי מוצר בהזמנה
 export type IOrderProduct = {
     productId: string;
     quantity: number;
     size: string;
-    title: string; // הוספת title
-    price: number; // הוספת price
-
+    title: string;
+    price: number;
 };
 
+// טיפוס עבור הזמנה
 export type IOrder = {
     _id: string;
     userId: string;
@@ -81,15 +93,122 @@ export type IOrder = {
     orderNumber: string;
 };
 
+// טיפוס עבור שאילתה של מכירות לפי תאריך
 export interface SalesByDateQuery {
     startDate: string;
     endDate: string;
-};
+}
 
-interface AddToCartButtonProps {
+// טיפוס עבור רכיב כפתור "הוסף לעגלה"
+export interface AddToCartButtonProps {
     productId: string;
     variants: IVariant[];
     title: string;
-    image: string;
-    onAdd: () => void;
+    image: IImage;
+}
+
+// טיפוס עבור שם
+export type IName = {
+    first: string;
+    middle?: string;
+    last: string;
+};
+
+// טיפוס עבור כתובת
+export type IAddress = {
+    street: string;
+    city: string;
+    state?: string;
+    zip?: string;
+    country: string;
+    houseNumber: number;
+};
+
+// טיפוס עבור פרטי משתמש בעת הרשמה
+export type RegisterUser = {
+    name: IName;
+    phone: string;
+    email: string;
+    password: string;
+    address: IAddress;
+};
+
+// טיפוס עבור פרטי התחברות
+export type ILogin = {
+    email: string;
+    password: string;
+};
+
+// טיפוס עבור פרטי משתמש
+export type IUserInput = {
+    email: string;
+    phone: string;
+    password: string;
+    address: IAddress;
+    name: IName;
+};
+
+// טיפוס עבור משתמש (כולל פרטים נוספים)
+export type IUser = IUserInput & {
+    _id: string;
+    createdAt: Date;
+    isAdmin: boolean;
+    cart: ICartProduct[];
+};
+
+// טיפוס עבור רכיב המספק קונטקסט לילדים
+export interface ContextProviderProps {
+    children: ReactNode;
+}
+
+// טיפוס עבור ה-Payload של JWT
+export type IJWTPayload = {
+    _id: string;
+    isAdmin: boolean;
+};
+
+// טיפוס עבור קונטקסט האימות
+export interface AuthContextType {
+    token: string | null;
+    user: IUser | undefined;
+    isLoggedIn: boolean;
+    login: (email: string, password: string) => Promise<void>;
+    register: (form: IUser) => Promise<void>;
+    logout: () => void;
+    onUpdateUser: (user: IUser) => void;
+}
+
+// טיפוס עבור שגיאה
+export type ErrorType = {
+    status: number;
+    message: string;
+    details: string;
+};
+
+// טיפוס עבור טוקן מפוענח
+export interface DecodedToken {
+    _id: string;
+    isAdmin: boolean;
+}
+
+// טיפוס עבור קונטקסט החיפוש
+export interface SearchContextType {
+    searchTerm: string;
+    setSearchTerm: (term: string) => void;
+}
+
+// טיפוס עבור רכיב עם ילדים
+export type FCC = ({ children }: { children: ReactNode }) => ReactNode;
+
+// טיפוס עבור עדכון פרטי משתמש
+export type updateUserType = {
+    name: IName;
+    phone: string;
+    address: IAddress;
+};
+export interface CartContextProps {
+    cart: ICartWithTotals | null;
+    setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
+    fetchCart: () => void;
+    addToCart: (productId: string, variant: IVariant) => void; // Removed price
 }

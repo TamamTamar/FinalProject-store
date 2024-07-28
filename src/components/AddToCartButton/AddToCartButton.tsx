@@ -1,43 +1,51 @@
-import React, { FC, useState } from 'react';
-import { FiShoppingCart } from 'react-icons/fi';
-import './AddToCartButton.scss';
-import { useCart } from '../../hooks/useCart';
-import cart, { cartService } from '../../services/cart-service';
-import { showPopup } from '../../ui/dialogs';
-import { AddToCartButtonProps, IVariant } from '../../@Types/productType';
+import { FC, useState } from 'react';
+import { AddToCartButtonProps, IImage, IVariant } from '../../@Types/productType';
+import cartService from '../../services/cart-service';
 
-const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image, onAdd }) => {
-    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(variants[0] || null);
+
+const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image }) => {
+    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
 
     const handleAddToCart = async () => {
-        if (!selectedVariant) {
+        if (selectedVariant) {
+            console.log('Selected Variant:', selectedVariant); // Add this line for debugging
 
-            return;
-        }
-
-        try {
-            await cartService.addProductToCart(productId, selectedVariant._id, 1, selectedVariant.size);
-            onAdd();
-        } catch (error) {
-            console.error('Failed to add product to cart.', error);
-        
+            try {
+                await cartService.addProductToCart(
+                    productId,
+                    selectedVariant._id,
+                    1, // Quantity can be updated as needed
+                    selectedVariant.size,
+                    selectedVariant.price // Ensure price is passed correctly
+                );
+                console.log(`Added product ${productId} with variant ${selectedVariant._id} to cart`);
+            } catch (error) {
+                console.error("Failed to add product to cart:", error);
+            }
+        } else {
+            console.error("No variant selected");
         }
     };
 
     return (
-        <div className="add-to-cart-button-container">
-            <div className="size-buttons-container">
+        <div>
+            <select
+                onChange={(e) => {
+                    const variantId = e.target.value;
+                    const variant = variants.find(v => v._id === variantId);
+                    console.log('Selected Variant ID:', variantId); // Add this line for debugging
+                    console.log('Found Variant:', variant); // Add this line for debugging
+                    setSelectedVariant(variant || null);
+                }}
+            >
+                <option value="">Select a size</option>
                 {variants.map(variant => (
-                    <button
-                        key={variant.size}
-                        className={`size-button ${selectedVariant?.size === variant.size ? 'selected' : ''}`}
-                        onClick={() => setSelectedVariant(variant)}
-                    >
+                    <option key={variant._id} value={variant._id}>
                         {variant.size}
-                    </button>
+                    </option>
                 ))}
-            </div>
-            <button className="add-to-cart-button" onClick={handleAddToCart}>
+            </select>
+            <button onClick={handleAddToCart} disabled={!selectedVariant}>
                 Add to Cart
             </button>
         </div>

@@ -39,10 +39,10 @@ export const updateProduct = (id: string, product: FormData) => {
     });
 };
 
-export const product = {
+export const productService = {
     getAllProducts,
     getProductById, 
     createNewProduct,
 };
 
-export default product;
+export default productService;

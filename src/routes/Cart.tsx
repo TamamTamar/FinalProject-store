@@ -1,14 +1,16 @@
-import { ICartItem, IVariant } from '../@Types/productType'; // עדכון לפי הטיפוסים המוגדרים
+import { ICartItem } from '../@Types/productType';
 import './Cart.scss';
-import { useCart } from '../hooks/useCart';
-import { FiArrowLeft, FiTrash } from 'react-icons/fi'; // Importing FiArrowLeft from react-icons/fi
+import { FiArrowLeft, FiTrash } from 'react-icons/fi';
 import dialogs from '../ui/dialogs';
-import { Link, useNavigate } from 'react-router-dom'; // Importing Link from react-router-dom
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Tooltip } from 'flowbite-react';
 import { useAuth } from '../hooks/useAuth';
 import cartService from '../services/cart-service';
 import { createOrder } from '../services/order-service';
+import useCart from '../hooks/useCart';
+import axios from 'axios';
+import Products from './Product';
 
 const Cart = () => {
     const { cart, fetchCart } = useCart();
@@ -18,14 +20,14 @@ const Cart = () => {
 
     useEffect(() => {
         if (token) {
-            fetchCart();
+            fetchCart(); // Fetch cart items when token changes (e.g., on login)
         }
     }, [token]);
 
-    const handleRemoveItem = async (productId: string) => {
+    const handleRemoveItem = async (variantId: string) => {
         try {
-            await cartService.removeProductFromCart(productId);
-            fetchCart(); // רענון העגלה לאחר הסרת מוצר
+            await cartService.removeProductFromCart(variantId);
+            fetchCart(); // Refresh cart after removal
         } catch (error) {
             console.error('Failed to remove product from cart.', error);
         }
@@ -36,7 +38,7 @@ const Cart = () => {
         if (result.isConfirmed) {
             try {
                 await cartService.clearCart();
-                fetchCart(); // רענון העגלה לאחר ניקוי
+                fetchCart(); // Refresh cart after clearing
                 dialogs.success("Cart Cleared", "Your cart has been cleared successfully.");
             } catch (error) {
                 console.error('Failed to clear cart.', error);
@@ -47,16 +49,13 @@ const Cart = () => {
 
     const handleQuantityChange = async (variantId: string, newQuantity: number) => {
         try {
-            setQuantities(prevQuantities => ({
-                ...prevQuantities,
-                [variantId]: newQuantity,
-            }));
             await cartService.updateProductQuantity(variantId, newQuantity);
-            fetchCart();
+            fetchCart(); // Refresh cart to reflect changes
         } catch (error) {
-            console.error('Failed to update product quantity.', error);
+            console.error('Error updating product quantity:', error.response?.data || error.message);
         }
     };
+
 
     const handleCheckout = async () => {
         try {
@@ -65,23 +64,22 @@ const Cart = () => {
                 return;
             }
 
-            const orderProducts = cart.items.flatMap((item: ICartItem) =>
-                item.variants.map((variant: IVariant) => ({
-                    productId: item.productId,
-                    quantity: variant.quantity,
-                    size: variant.size,
-                    title: item.title, // הוספת title
-                    price: variant.price, // הוספת price
-                }))
-            );
+            const orderProducts = cart.items.map((item: ICartItem) => ({
+                productId: item.productId,
+                variantId: item.variantId,
+                quantity: item.quantity,
+                size: item.size,
+                title: item.title,
+                price: item.price,
+            }));
 
             const response = await createOrder(orderProducts);
             const orderId = response.data._id;
 
             await createOrder(orderProducts);
             dialogs.success("Order Successful", "Your order has been placed successfully.").then(async () => {
-                await cartService.clearCart(); // ניקוי העגלה לאחר ביצוע ההזמנה
-                fetchCart(); // רענון העגלה לאחר ניקוי
+                await cartService.clearCart();
+                fetchCart(); // Refresh cart after order placement
                 navigate(`/order-confirmation/${orderId}`);
             });
         } catch (error) {
@@ -90,7 +88,7 @@ const Cart = () => {
         }
     };
 
-    if (!cart || cart.items.length === 0) {
+    if (!cart || !cart.items || cart.items.length === 0) {
         return (
             <div className="empty-cart flex flex-col items-center justify-center">
                 <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
@@ -109,55 +107,53 @@ const Cart = () => {
                 <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center">
                     <FiArrowLeft className="mr-2" />
                     Back to Shopping
-                </Link> {/* Back to Shopping Link */}
+                </Link>
                 <div className="flex justify-between items-center mb-4 border-b pb-4">
                     <h1 className="cart-title text-2xl font-semibold">Your Shopping Cart</h1>
-                    <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link> {/* Clear Cart Link */}
+                    <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link>
                 </div>
                 <div className="cart-items space-y-4">
                     {cart.items.map((item: ICartItem) => (
-                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={item._id}>
+                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={item.productId + item.variantId}>
                             <div className="flex items-center mb-4">
                                 <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
                                 <div>
-                                    <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-blue-500 hover:underline">{item.title}</Link> {/* Product Title Link */}
+                                    <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-blue-500 hover:underline">{item.title}</Link>
                                 </div>
                             </div>
-                            {item.variants.map((variant: IVariant) => (
-                                <div className="variant flex justify-between items-center mb-4" key={variant.size}>
-                                    <div>
-                                        <p className="item-size text-sm text-gray-500">Size: {variant.size}</p>
-                                        <p className="item-price text-sm text-gray-500">Price: ${variant.price.toFixed(2)}</p>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <label htmlFor={`quantity-${variant.size}`} className="item-quantity text-sm text-gray-500 mr-2">Quantity:</label>
-                                        <select
-                                            id={`quantity-${variant.size}`}
-                                            value={quantities[variant.size] || variant.quantity}
-                                            onChange={(e) => handleQuantityChange(variant.size, parseInt(e.target.value))}
-                                            className="ml-2 border border-gray-300 rounded-md p-1"
-                                        >
-                                            {[...Array(10).keys()].map((n) => (
-                                                <option key={n + 1} value={n + 1}>
-                                                    {n + 1}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <button
-                                        onClick={() => handleRemoveItem(item.productId)}
-                                        className="remove-button"
-                                    >
-                                        <Tooltip
-                                            content="Remove product"
-                                            placement="top"
-                                            className="text-sm bg-gray-800 text-white rounded px-2 py-1"
-                                        >
-                                            <FiTrash />
-                                        </Tooltip>
-                                    </button>
+                            <div className="variant flex justify-between items-center mb-4">
+                                <div>
+                                    <p className="item-size text-sm text-gray-500">Size: {item.size}</p>
+                                    <p className="item-price text-sm text-gray-500">Price: ${item.price.toFixed(2)}</p>
                                 </div>
-                            ))}
+                                <div className="flex items-center">
+                                    <label htmlFor={`quantity-${item.variantId}`} className="item-quantity text-sm text-gray-500 mr-2">Quantity:</label>
+                                    <select
+                                        id={`quantity-${item.variantId}`}
+                                        value={quantities[item.variantId] || item.quantity}
+                                        onChange={(e) => handleQuantityChange(item.variantId, parseInt(e.target.value))}
+                                        className="ml-2 border border-gray-300 rounded-md p-1"
+                                    >
+                                        {[...Array(10).keys()].map((n) => (
+                                            <option key={n + 1} value={n + 1}>
+                                                {n + 1}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <button
+                                    onClick={() => handleRemoveItem(item.variantId)}
+                                    className="remove-button"
+                                >
+                                    <Tooltip
+                                        content="Remove product"
+                                        placement="top"
+                                        className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                                    >
+                                        <FiTrash />
+                                    </Tooltip>
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -174,7 +170,7 @@ const Cart = () => {
                         <span>${cart.totalPrice.toFixed(2)}</span>
                     </div>
                 </div>
-                <button className="checkout-button" onClick={handleCheckout}>Checkout</button> {/* Button for Checkout */}
+                <button className="checkout-button" onClick={handleCheckout}>Checkout</button>
             </div>
         </div>
     );

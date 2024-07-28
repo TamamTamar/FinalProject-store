@@ -15,10 +15,10 @@ const Login: FC = () => {
         login(data.email, data.password)
             .then(() => {
                 dialogs.success("Login", "Logged in")
-                .then(() => {
-                    // send the user to home page
-                    navigate("/");
-                });
+                    .then(() => {
+                        // send the user to home page
+                        navigate("/");
+                    });
             })
             .catch((e) => {
                 dialogs.error("Login Error", e.response.data);

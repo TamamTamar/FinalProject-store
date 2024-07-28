@@ -56,8 +56,7 @@ const Products: FC = () => {
                             productId={product._id}
                             variants={product.variants}
                             title={product.title}
-                            image={product.image.url}
-                            onAdd={() => console.log('Product added to cart')}
+                            image={product.image}
                         />
                     </Card>
                 ))
