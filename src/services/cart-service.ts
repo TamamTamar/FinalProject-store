@@ -12,9 +12,10 @@ export const getCart = () => {
 };
 
 //add product to cart
-export const addProductToCart = (productId: string, quantity: number, size: string) => {
+export const addProductToCart = (productId: string, variantId: string, quantity: number, size: string) => {
     return axios.post(`${cartUrl}/add`, {
         productId,
+        variantId,
         quantity,
         size
     }, {
@@ -23,6 +24,7 @@ export const addProductToCart = (productId: string, quantity: number, size: stri
         }
     });
 };
+
 
 //update product quantity
 export const updateProductQuantity = (productId: string, quantity: number) => {

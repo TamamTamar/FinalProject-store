@@ -6,20 +6,24 @@ export type IProductInput = {
     title: string;
     subtitle: string;
     description: string;
-    price: number;
     image: IImage;
     alt: string;
     sizes: string[];
-    quantity: number;
     barcode: number;
+    variants: IVariant[];
 };
 
+export type IVariant = {
+    _id : string;
+    size: string;
+    price: number;
+    quantity: number;
+}
 export type IProduct = IProductInput & {
     _id: string;
     barcode: number;
     createdAt: Date;
-    shoppingCart: string[];
-    quantity: number;
+   shoppingCart: string[]; 
     sold: number;
     userId: string;
 };
@@ -32,15 +36,12 @@ export type ICartProduct = {
     size: string;
 };
 
-
-export interface ICartItem {
-    _id: string;
+export type ICartItem = {
     productId: string;
-    quantity: number;
     title: string;
-    price: number;
-    size: string;
     image: IImage;
+    variants: IVariant[];
+    _id: string;
 };
 
 export interface ICart extends Document {
@@ -83,3 +84,12 @@ export interface SalesByDateQuery {
     startDate: string;
     endDate: string;
 };
+export interface AddToCartButtonProps {
+    productId: string;
+    variantId: string;
+    title: string;
+    price: number;
+    image: string;
+    size: string;
+    onAdd: () => void;
+}

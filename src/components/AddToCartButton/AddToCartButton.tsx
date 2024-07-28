@@ -4,13 +4,14 @@ import './AddToCartButton.scss';
 import { useCart } from '../../hooks/useCart';
 import cart from '../../services/cart-service';
 import { showPopup } from '../../ui/dialogs';
+import { AddToCartButtonProps } from '../../@Types/productType';
 
 
-const AddToCartButton: FC<{ productId: string, title: string, price: number, image: string,size:string, onAdd: () => void }> = ({ productId, title, price, image, size, onAdd }) => {
+const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variantId, title, price, image, size, onAdd }) => {
     const { fetchCart } = useCart();
     const handleAddToCart = async () => {
         try {
-            await cart.addProductToCart(productId, 1, size); // לדוגמה, ניתן לשנות בהתאם לצורך
+            await cart.addProductToCart(productId, variantId, 1, size);
             showPopup(
                 'Product Added',
                 `<div style="display: flex; align-items: center;">
@@ -23,7 +24,6 @@ const AddToCartButton: FC<{ productId: string, title: string, price: number, ima
             );
             fetchCart();
             onAdd();
-
         } catch (error) {
             console.error('Failed to add product to cart.', error);
         }

@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IProduct } from '../@Types/productType';
+import { IProduct, IVariant } from '../@Types/productType';
 import './Product.scss';
 import { Accordion } from 'flowbite-react';
 import { getProductById } from '../services/product-service';
 import cartService from '../services/cart-service';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 
-
 const Product = () => {
     const { id } = useParams();
-    const [product, setProduct] = useState<IProduct>();
-    const [selectedSize, setSelectedSize] = useState<string>(''); 
+    const [product, setProduct] = useState<IProduct | null>(null);
+    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        getProductById(id || "")
-            .then(res => {
-                setProduct(res.data);
-                setSelectedSize(res.data.sizes[0]);
-            })
-            .catch(err => console.log(err));
+        if (id) {
+            getProductById(id)
+                .then(res => {
+                    setProduct(res.data);
+                    if (res.data.variants.length > 0) {
+                        setSelectedVariant(res.data.variants[0]);
+                    }
+                })
+                .catch(err => console.log(err));
+        }
     }, [id]);
 
     if (!product) {
@@ -28,8 +31,12 @@ const Product = () => {
     }
 
     const handleAddToCartAndRedirect = async () => {
+        if (!selectedVariant) {
+            alert('Please select a size.');
+            return;
+        }
         try {
-            await cartService.addProductToCart(product._id, 1, selectedSize);
+            await cartService.addProductToCart(product._id, selectedVariant._id, 1, selectedVariant.size);
             navigate('/cart');
         } catch (error) {
             console.error('Failed to add product to cart.', error);
@@ -50,24 +57,24 @@ const Product = () => {
                 <h1 className="product-title">{product.title}</h1>
                 <h2 className="product-subtitle">{product.subtitle}</h2>
                 <h3 className="product-description">{product.description}</h3>
-                <p>{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
+                <p>{selectedVariant?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
                 <div className="price-container mt-4">
                     <span className="original-price" style={{ marginRight: '15px' }}>
-                        ${(product.price * 1.2).toFixed(2)}
+                        ${(selectedVariant?.price * 1.2).toFixed(2)}
                     </span>
                     <span className="discounted-price">
-                        ${product.price.toFixed(2)}
+                        ${selectedVariant?.price.toFixed(2)}
                     </span>
                 </div>
                 
                 <div className="size-buttons-container">
-                    {product.sizes.map((size) => (
+                    {product.variants.map((variant) => (
                         <button
-                            key={size}
-                            className={`size-button ${selectedSize === size ? 'selected' : ''}`}
-                            onClick={() => setSelectedSize(size)}
+                            key={variant.size}
+                            className={`size-button ${selectedVariant?.size === variant.size ? 'selected' : ''}`}
+                            onClick={() => setSelectedVariant(variant)}
                         >
-                            {size}
+                            {variant.size}
                         </button>
                     ))}
                 </div>
@@ -75,10 +82,11 @@ const Product = () => {
                 <div className="buttons-container">
                     <AddToCartButton
                         productId={product._id}
+                        variantId={selectedVariant[product._id]?.id}
                         title={product.title}
-                        price={product.price}
+                        price={selectedVariant?.price || 0}
                         image={product.image.url}
-                        size={selectedSize}
+                        size={selectedVariant?.size || ''}
                         onAdd={() => console.log("Product added to cart")}
                     />
                     <button className="consult-expert-button" onClick={handleAddToCartAndRedirect}>Buy Now</button>
