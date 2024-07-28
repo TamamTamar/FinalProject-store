@@ -48,14 +48,19 @@ const Cart = () => {
     };
 
     const handleQuantityChange = async (variantId: string, newQuantity: number) => {
+        console.log('מעודכן כמות עבור variantId:', variantId, 'ל:', newQuantity); // בדוק מה מודפס כאן
+        if (!variantId) {
+            console.error('variantId is undefined');
+            return;
+        }
         try {
             await cartService.updateProductQuantity(variantId, newQuantity);
-            fetchCart(); // Refresh cart to reflect changes
+            fetchCart(); // עדכן את הסל כדי לשקף את השינויים
         } catch (error) {
-            console.error('Error updating product quantity:', error.response?.data || error.message);
+            console.error('שגיאה בעדכון כמות המוצר:', error.response?.data || error.message);
         }
     };
-
+    
 
     const handleCheckout = async () => {
         try {

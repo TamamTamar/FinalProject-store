@@ -28,8 +28,9 @@ export const addProductToCart = ( productId: string, variantId: string, quantity
     });
 };
 
-// Update product quantity
-export const updateProductQuantity = ( variantId: string, quantity: number) => {
+// Update product quantityconst 
+export const updateProductQuantity = async (variantId: string, quantity: number) => {
+    console.log('שולח ל-API:', { variantId, quantity });
     return axios.patch(`${cartUrl}/update`, {
         variantId,
         quantity
@@ -39,6 +40,7 @@ export const updateProductQuantity = ( variantId: string, quantity: number) => {
         }
     });
 };
+
 
 // Remove product from cart
 export const removeProductFromCart = (variantId: string) => {
