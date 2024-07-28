@@ -1,39 +1,46 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import './AddToCartButton.scss';
 import { useCart } from '../../hooks/useCart';
-import cart from '../../services/cart-service';
+import cart, { cartService } from '../../services/cart-service';
 import { showPopup } from '../../ui/dialogs';
-import { AddToCartButtonProps } from '../../@Types/productType';
+import { AddToCartButtonProps, IVariant } from '../../@Types/productType';
 
+const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image, onAdd }) => {
+    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(variants[0] || null);
 
-const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variantId, title, price, image, size, onAdd }) => {
-    const { fetchCart } = useCart();
     const handleAddToCart = async () => {
+        if (!selectedVariant) {
+
+            return;
+        }
+
         try {
-            await cart.addProductToCart(productId, variantId, 1, size);
-            showPopup(
-                'Product Added',
-                `<div style="display: flex; align-items: center;">
-                    <img src="${image}" alt="${title}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;" />
-                    <div>
-                        <p>${title} has been added to your cart.</p>
-                        <p>Price: $${price.toFixed(2)}</p>
-                    </div>
-                </div>`
-            );
-            fetchCart();
+            await cartService.addProductToCart(productId, selectedVariant._id, 1, selectedVariant.size);
             onAdd();
         } catch (error) {
             console.error('Failed to add product to cart.', error);
+        
         }
     };
 
     return (
-        <button onClick={handleAddToCart} className="add-to-cart-button">
-            <FiShoppingCart size={24} />
-            Add to cart
-        </button>
+        <div className="add-to-cart-button-container">
+            <div className="size-buttons-container">
+                {variants.map(variant => (
+                    <button
+                        key={variant.size}
+                        className={`size-button ${selectedVariant?.size === variant.size ? 'selected' : ''}`}
+                        onClick={() => setSelectedVariant(variant)}
+                    >
+                        {variant.size}
+                    </button>
+                ))}
+            </div>
+            <button className="add-to-cart-button" onClick={handleAddToCart}>
+                Add to Cart
+            </button>
+        </div>
     );
 };
 

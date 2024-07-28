@@ -13,11 +13,12 @@ export const getCart = () => {
 
 //add product to cart
 export const addProductToCart = (productId: string, variantId: string, quantity: number, size: string) => {
+    console.log('Sending to API:', { productId, variantId, quantity, size });
     return axios.post(`${cartUrl}/add`, {
         productId,
         variantId,
         quantity,
-        size
+        size,
     }, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),

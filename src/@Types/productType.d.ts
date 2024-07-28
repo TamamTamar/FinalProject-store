@@ -10,13 +10,13 @@ export type IProductInput = {
     alt: string;
     sizes: string[];
     barcode: number;
+    price: number;
     variants: IVariant[];
 };
 
 export type IVariant = {
     _id : string;
     size: string;
-    price: number;
     quantity: number;
 }
 export type IProduct = IProductInput & {
@@ -36,18 +36,19 @@ export type ICartProduct = {
     size: string;
 };
 
-export type ICartItem = {
+export interface ICartItem {
     productId: string;
     title: string;
+    price: number;
+    size: string;
+    quantity: number;
     image: IImage;
-    variants: IVariant[];
-    _id: string;
-};
+}
 
-export interface ICart extends Document {
+export interface ICart {
     userId: string;
     items: ICartItem[];
-};
+}
 
 export interface ICartWithTotals extends ICart {
     totalQuantity: number;
@@ -84,12 +85,11 @@ export interface SalesByDateQuery {
     startDate: string;
     endDate: string;
 };
-export interface AddToCartButtonProps {
+
+interface AddToCartButtonProps {
     productId: string;
-    variantId: string;
+    variants: IVariant[];
     title: string;
-    price: number;
     image: string;
-    size: string;
     onAdd: () => void;
 }

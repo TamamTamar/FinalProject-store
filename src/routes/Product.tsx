@@ -32,7 +32,7 @@ const Product = () => {
 
     const handleAddToCartAndRedirect = async () => {
         if (!selectedVariant) {
-            alert('Please select a size.');
+      
             return;
         }
         try {
@@ -58,14 +58,6 @@ const Product = () => {
                 <h2 className="product-subtitle">{product.subtitle}</h2>
                 <h3 className="product-description">{product.description}</h3>
                 <p>{selectedVariant?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
-                <div className="price-container mt-4">
-                    <span className="original-price" style={{ marginRight: '15px' }}>
-                        ${(selectedVariant?.price * 1.2).toFixed(2)}
-                    </span>
-                    <span className="discounted-price">
-                        ${selectedVariant?.price.toFixed(2)}
-                    </span>
-                </div>
                 
                 <div className="size-buttons-container">
                     {product.variants.map((variant) => (
@@ -82,11 +74,9 @@ const Product = () => {
                 <div className="buttons-container">
                     <AddToCartButton
                         productId={product._id}
-                        variantId={selectedVariant[product._id]?.id}
+                        variants={product.variants}
                         title={product.title}
-                        price={selectedVariant?.price || 0}
                         image={product.image.url}
-                        size={selectedVariant?.size || ''}
                         onAdd={() => console.log("Product added to cart")}
                     />
                     <button className="consult-expert-button" onClick={handleAddToCartAndRedirect}>Buy Now</button>
