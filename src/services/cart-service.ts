@@ -14,7 +14,6 @@ export const getCart = () => {
 
 // Add product to cart
 export const addProductToCart = ( productId: string, variantId: string, quantity: number, size: string, price: number) => {
-    console.log('Sending to API:', {productId, variantId, quantity, size, price });
     return axios.post(`${cartUrl}/add`, {
         productId,
         variantId,

@@ -83,7 +83,6 @@ const Products: FC = () => {
                             variants={product.variants}
                             title={product.title}
                             image={product.image}
-                            price={product.price} // הוסף את השדה price כאן
                         />
                     </Card>
                 ))

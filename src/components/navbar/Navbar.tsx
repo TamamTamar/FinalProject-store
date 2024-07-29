@@ -5,14 +5,17 @@ import './Navbar.scss';
 import { useAuth } from "../../hooks/useAuth";
 import Search from "../Search/Search";
 import useCart from "../../hooks/useCart";
-
+import { useEffect } from "react";
 
 const Nav = () => {
     const { isLoggedIn, user, logout } = useAuth();
     const navigate = useNavigate();
-    const { cart } = useCart();
+    const { cart, fetchCart } = useCart();
 
-   
+    useEffect(() => {
+        fetchCart();
+    }, []);
+
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="https://flowbite-react.com">
@@ -95,10 +98,10 @@ const Nav = () => {
                                 <Dropdown.Item onClick={() => navigate("/admin/products")} className="block md:hidden">
                                     <FiBox size={20} className="mr-2" /> Manage Products
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md:hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md.hidden">
                                     <FiUsers size={20} className="mr-2" /> Manage Users
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md:hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md.hidden">
                                     <FiTrendingUp size={20} className="mr-2" /> Analytics
                                 </Dropdown.Item>
                             </>
@@ -114,18 +117,9 @@ const Nav = () => {
                     </Tooltip>
                 )}
 
+                <DarkThemeToggle />
                 <Navbar.Toggle />
-                <DarkThemeToggle className="ml-2" />
             </div>
-            <Navbar.Collapse>
-                <Navbar.Link href="/" active>
-                    Home
-                </Navbar.Link>
-                <Navbar.Link href="#">About</Navbar.Link>
-
-                {isLoggedIn && <Navbar.Link href="/profile">Profile</Navbar.Link>}
-                <Navbar.Link href="#">Contact</Navbar.Link>
-            </Navbar.Collapse>
         </Navbar>
     );
 };

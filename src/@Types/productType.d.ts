@@ -70,7 +70,7 @@ export interface CartContextProps {
     cart: ICartWithTotals | null;
     setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
     fetchCart: () => void;
-    addToCart: (productId: string, variant: IVariant) => void;
+    addToCart: (productId: string, variantId: string, quantity: number, size: string, price: number) => Promise<void>;
 }
 
 // טיפוס עבור פרטי מוצר בהזמנה

@@ -1,21 +1,9 @@
-import React, { createContext, useContext, useState, useEffect, Dispatch, SetStateAction, FC } from 'react';
-import axios from 'axios';
+import React, { createContext, useContext, useState, useEffect, FC } from 'react';
 import { CartContextProps, ICartWithTotals, IVariant } from '../@Types/productType';
 import { ContextProviderProps } from '../@Types/types';
 import cartService from '../services/cart-service';
 
-
-
-
 export const CartContext = createContext<CartContextProps | undefined>(undefined);
-
-export const useCart = () => {
-    const context = useContext(CartContext);
-    if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
-    }
-    return context;
-};
 
 export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
     const [cart, setCart] = useState<ICartWithTotals | null>(null);
@@ -29,10 +17,10 @@ export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
         }
     };
 
-    const addToCart = async (productId: string, variant: IVariant) => {
+    const addToCart = async (productId: string, variantId: string, quantity: number, size: string, price: number) => {
         try {
-            const response = await cartService.addProductToCart(productId, variant._id, 1, variant.size, variant.price);
-            setCart(response.data);
+            await cartService.addProductToCart(productId, variantId, quantity, size, price);
+            fetchCart(); // עדכן את מצב העגלה לאחר הוספה
         } catch (error) {
             console.error('Error adding to cart', error);
         }
