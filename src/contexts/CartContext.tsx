@@ -19,6 +19,7 @@ export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
 
     const addToCart = async (productId: string, variantId: string, quantity: number, size: string, price: number) => {
         try {
+            console.log('Sending request to add to cart:', { productId, variantId, quantity, size, price });
             await cartService.addProductToCart(productId, variantId, quantity, size, price);
             fetchCart(); // עדכן את מצב העגלה לאחר הוספה
         } catch (error) {
