@@ -1,23 +1,30 @@
-import { useState, useEffect, FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Card } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import './Products.scss';
 import { IProduct } from '../@Types/productType';
+import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 import { useSearch } from '../hooks/useSearch';
 import { getAllProducts } from '../services/product-service';
-import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
+import './Products.scss';
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const { searchTerm } = useSearch();
+    const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await getAllProducts();
+                console.log(response);
                 setProducts(response.data);
+                const initialSizes = response.data.reduce((acc: { [key: string]: string }, product: IProduct) => {
+                    acc[product._id] = product.variants[0].size;
+                    return acc;
+                }, {});
+                setSelectedSizes(initialSizes);
             } catch (error) {
                 setError(error);
             } finally {
@@ -33,6 +40,14 @@ const Products: FC = () => {
             field.toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
+  
+
+    const handleSizeSelect = (productId: string, size: string) => {
+        setSelectedSizes(prevSizes => ({
+            ...prevSizes,
+            [productId]: size,
+        }));
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
@@ -45,13 +60,23 @@ const Products: FC = () => {
                 filteredProducts.map(product => (
                     <Card key={product._id} className="product-card">
                         <Link to={`/products/${product._id}`} className="product-link">
-                            <img src={product.image.url} alt={product.alt} className="product-image" />
+                            <img src={product.image.url} alt={product.alt} className="w-full h-48 object-cover rounded-t-lg" />
                             <div className="product-info">
-                                <h5 className="product-title">{product.title}</h5>
-                                <h6 className="product-subtitle">{product.subtitle}</h6>
-                                <p className="product-description">{product.description}</p>
+                                <h5 className="text-xl font-bold">{product.title}</h5>
+                                <h6 className="text-md font-semibold">{product.subtitle}</h6>
+                                <p>{product.description}</p>
                             </div>
                         </Link>
+                        <div className="price-container">
+                            <span className="original-price" style={{ marginRight: '10px' }}>
+                                ${(product.variants[0].price * 1.2).toFixed(2)}
+                            </span>
+                            <span className="discounted-price">
+                                ${product.variants[0].price.toFixed(2)}
+                            </span>
+                        </div>
+                       
+                        <p>{selectedSizes[product._id] && product.variants.find(v => v.size === selectedSizes[product._id])?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
                         <AddToCartButton
                             productId={product._id}
                             variants={product.variants}

@@ -1,11 +1,11 @@
 import { ReactNode, Dispatch, SetStateAction } from "react";
 
-// טיפוס עבור תמונה
+//types for product
 export type IImage = {
     url?: string;
 };
 
-// טיפוס עבור גרסאות של מוצר
+//types for variant
 export type IVariant = {
     _id?: string;
     size: string;
@@ -13,7 +13,7 @@ export type IVariant = {
     price: number;
 };
 
-// טיפוס עבור פרטי מוצר בעת יצירה
+//types for product
 export type IProductInput = {
     title: string;
     subtitle: string;
@@ -25,7 +25,7 @@ export type IProductInput = {
     variants: IVariant[];
 };
 
-// טיפוס עבור מוצר (כולל פרטים נוספים)
+//types for product with more properties
 export type IProduct = IProductInput & {
     _id: string;
     createdAt: Date;
@@ -34,15 +34,15 @@ export type IProduct = IProductInput & {
     userId: string;
 };
 
-// טיפוס עבור פריט בעגלת קניות
-export type ICartProduct = {
+
+/* export type ICartProduct = {
     productId: string;
     title: string;
     price: number;
     size: string;
-};
+}; */
 
-// טיפוס עבור פריט בעגלת קניות עם תמונה
+
 export interface ICartItem {
     productId: string;
     variantId: string;

@@ -1,94 +1,95 @@
-import { useState, useEffect, FC } from 'react';
-import { Card } from 'flowbite-react';
-import { Link } from 'react-router-dom';
-import './Products.scss';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getProductById } from '../services/product-service';
 import { IProduct } from '../@Types/productType';
-import { useSearch } from '../hooks/useSearch';
-import { getAllProducts } from '../services/product-service';
-import cartService from '../services/cart-service';
+import './Product.scss';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
-import dialogs from '../ui/dialogs';
+import { Accordion } from 'flowbite-react';
+import cart from '../services/cart-service';
 
-const Products: FC = () => {
-    const [products, setProducts] = useState<IProduct[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
-    const { searchTerm } = useSearch();
-    const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>({});
+const Product = () => {
+    const { id } = useParams();
+    const [product, setProduct] = useState<IProduct | null>(null);
+    const [selectedVariant, setSelectedVariant] = useState<string>('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await getAllProducts();
-                setProducts(response.data);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        getProductById(id || "")
+            .then(res => {
+                setProduct(res.data);
+                setSelectedVariant(res.data.variants[0]._id);
+            })
+            .catch(err => console.log(err));
+    }, [id]);
 
-        fetchProducts();
-    }, []);
+    if (!product) {
+        return <div>Loading...</div>;
+    }
 
-    const filteredProducts = products.filter(product =>
-        [product.title, product.subtitle, product.description].some(field =>
-            field.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-    );
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
-
-    const handleSizeSelect = (productId: string, size: string) => {
-        setSelectedSizes(prevSizes => ({
-            ...prevSizes,
-            [productId]: size,
-        }));
+    const handleAddToCartAndRedirect = async () => {
+        if (!selectedVariant) {
+            console.error('No variant selected');
+            return;
+        }
+        try {
+            await cart.addProductToCart(product._id, selectedVariant, 1, product.variants.find(v => v._id === selectedVariant)?.size || '', product.variants.find(v => v._id === selectedVariant)?.price || 0);
+            navigate('/cart');
+        } catch (error) {
+            console.error('Failed to add product to cart.', error);
+        }
     };
 
     return (
-        <div className="product-list-container">
-            {filteredProducts.length === 0 ? (
-                <p>No products found</p>
-            ) : (
-                filteredProducts.map(product => (
-                    <Card key={product._id} className="product-card">
-                        <Link to={`/products/${product._id}`} className="product-link">
-                            <img src={product.image.url} alt={product.alt} className="product-image" />
-                            <div className="product-info">
-                                <h5 className="product-title">{product.title}</h5>
-                                <h6 className="product-subtitle">{product.subtitle}</h6>
-                                <p className="product-description">{product.description}</p>
-                            </div>
-                        </Link>
-                        <div className="size-selection">
-                            <div className="size-buttons-container">
-                                {product.variants.map(variant => (
-                                    <button
-                                        key={variant.size}
-                                        className={`size-button ${selectedSizes[product._id] === variant.size ? 'selected' : ''}`}
-                                        onClick={() => handleSizeSelect(product._id, variant.size)}
-                                    >
-                                        {variant.size}
-                                    </button>
-                                ))}
-                            </div>
-                            <p className="stock-status">
-                                {selectedSizes[product._id] && product.variants.find(v => v.size === selectedSizes[product._id])?.quantity > 0 ? 'In Stock' : 'Out of Stock'}
-                            </p>
-                        </div>
-                        <AddToCartButton
-                            productId={product._id}
-                            variants={product.variants}
-                            title={product.title}
-                            image={product.image}
-                        />
-                    </Card>
-                ))
-            )}
+        <div className="product-page">
+            <div className="product-image-container">
+                <img className="product-image" src={product.image.url} alt={product.alt} />
+                <div className="additional-images">
+                    <img src={product.image.url} alt={product.alt} className="additional-image" />
+                    <img src={product.image.url} alt={product.alt} className="additional-image" />
+                    <img src={product.image.url} alt={product.alt} className="additional-image" />
+                </div>
+            </div>
+            <div className="product-details">
+                <h1 className="product-title">{product.title}</h1>
+                <h2 className="product-subtitle">{product.subtitle}</h2>
+                <h3 className="product-description">{product.description}</h3>
+                <p className="stock">{product.variants.find(v => v._id === selectedVariant)?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
+                <div className="price-container mt-4">
+                    <span className="original-price" style={{ marginRight: '15px' }}>
+                        ${(product.variants.find(v => v._id === selectedVariant)?.price * 1.2).toFixed(2)}
+                    </span>
+                    <span className="discounted-price">
+                        ${product.variants.find(v => v._id === selectedVariant)?.price.toFixed(2)}
+                    </span>
+                </div>
+                <div className="buttons-container">
+                    <AddToCartButton
+                        productId={product._id}
+                        variants={product.variants}
+                        title={product.title}
+                        image={product.image}
+                    />
+                    <button className="consult-expert-button" onClick={handleAddToCartAndRedirect}>Buy Now</button>
+                </div>
+                <Accordion>
+                    <Accordion.Panel>
+                        <Accordion.Title>Description</Accordion.Title>
+                        <Accordion.Content>
+                            <p>{product.description}</p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title>Shipping Info</Accordion.Title>
+                        <Accordion.Content>
+                            <p>Ships by: <strong>Wednesday, July 24</strong></p>
+                            <p>Free Fast Shipping</p>
+                            <p>Free Overnight Shipping, Hassle-Free Returns</p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                </Accordion>
+            </div>
         </div>
     );
 };
 
-export default Products;
+export default Product;
