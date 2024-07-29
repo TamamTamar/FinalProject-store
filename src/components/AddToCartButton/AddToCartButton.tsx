@@ -34,6 +34,14 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
                         {variant.size}
                     </button>
                 ))}
+                    <div className="price-container">
+                            <span className="original-price" style={{ marginRight: '10px' }}>
+                                ${(selectedVariant.price * 1.2).toFixed(2)}
+                            </span>
+                            <div className="discounted-price">
+                                ${selectedVariant.price.toFixed(2)}
+                            </div>
+                        </div>
             </div>
             <button className="add-to-cart-button" onClick={handleAddToCart} disabled={!selectedVariant}>
                 Add to Cart

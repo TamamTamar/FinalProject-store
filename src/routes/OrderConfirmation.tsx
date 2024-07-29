@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IOrder } from '../@Types/productType';
-import './OrderConfirmation.scss'
+import './OrderConfirmation.scss';
 import { useAuth } from '../hooks/useAuth';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import dialogs from '../ui/dialogs';
@@ -15,27 +15,33 @@ const OrderConfirmation = () => {
     const navigate = useNavigate();
     const { orderId } = useParams();
 
-    useEffect(() => {
-        if (orderId) {
-            // אם קיים orderId, שלוף רק את ההזמנה הספציפית
-            orderService.getOrderByOrderId(orderId)
-                .then(res => setOrder(res.data))
-                .catch(err => console.log(err));
-        } else if (user) {
-            // אם אין orderId, שלוף את כל ההזמנות
-            orderService.getOrdersByUser(user._id)
-                .then(res => setOrders(res.data))
-                .catch(err => console.log(err));
-        }
+     useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                if (orderId) {
+                    setOrder(null); // Clear previous order data
+                    const res = await orderService.getOrderByOrderId(orderId);
+                    setOrder(res.data); // Access the 'data' property
+                } else if (user) {
+                    setOrders([]); // Clear previous orders
+                    const res = await orderService.getOrdersByUser(user._id);
+                    setOrders(res.data); // Access the 'data' property
+                }
+            } catch (err) {
+                console.error('Error fetching orders:', err);
+            }
+        };
+
+        fetchOrders();
     }, [user, orderId]);
 
-    const handleCancelOrder = async (event: React.MouseEvent<HTMLAnchorElement>, orderId: string) => {
+    const handleCancelOrder = async (event: MouseEvent<HTMLAnchorElement>, orderId: string) => {
         event.preventDefault();
         const result = await dialogs.confirm("Cancel Order", "Are you sure you want to cancel the order?");
         if (result.isConfirmed) {
             try {
                 const response = await orderService.cancelOrder(orderId);
-                console.log('Order cancelled:', response.data);
+                console.log('Order cancelled:', response);
                 dialogs.success("Order Cancelled", "Your order has been cancelled successfully.");
 
                 setTimeout(() => {
@@ -57,8 +63,7 @@ const OrderConfirmation = () => {
         );
     }
 
-
-    if (!user && !order) {
+    if (!user && !order && orders.length === 0) {
         return (
             <div className="order-confirmation-page">
                 <h2 className="order-title">Please login to view your order</h2>
@@ -71,7 +76,7 @@ const OrderConfirmation = () => {
             <div className="order-confirmation-page">
                 <h1 className="order-title">Order Confirmation</h1>
                 <div className="order-details-container">
-                    <h2 className="order-title">Order #{order._id}</h2>
+                    <h2 className="order-title">Order #{order.orderNumber}</h2>
                     <div className="order-summary">
                         {order.products.map((product, index) => (
                             <div key={`${product.productId}-${index}`} className="order-item">

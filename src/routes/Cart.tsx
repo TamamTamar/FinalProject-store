@@ -80,8 +80,6 @@ const Cart = () => {
 
             const response = await createOrder(orderProducts);
             const orderId = response.data._id;
-
-            await createOrder(orderProducts);
             dialogs.success("Order Successful", "Your order has been placed successfully.").then(async () => {
                 await cartService.clearCart();
                 fetchCart(); // Refresh cart after order placement

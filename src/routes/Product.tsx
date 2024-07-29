@@ -54,20 +54,14 @@ const Product = () => {
                 <h2 className="product-subtitle">{product.subtitle}</h2>
                 <h3 className="product-description">{product.description}</h3>
                 <p className="stock">{product.variants.find(v => v._id === selectedVariant)?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
-                <div className="price-container mt-4">
-                    <span className="original-price" style={{ marginRight: '15px' }}>
-                        ${(product.variants.find(v => v._id === selectedVariant)?.price * 1.2).toFixed(2)}
-                    </span>
-                    <span className="discounted-price">
-                        ${product.variants.find(v => v._id === selectedVariant)?.price.toFixed(2)}
-                    </span>
-                </div>
+                
                 <div className="buttons-container">
                     <AddToCartButton
                         productId={product._id}
                         variants={product.variants}
                         title={product.title}
                         image={product.image}
+                        
                     />
                     <button className="consult-expert-button" onClick={handleAddToCartAndRedirect}>Buy Now</button>
                 </div>

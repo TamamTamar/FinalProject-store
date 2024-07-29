@@ -1,4 +1,3 @@
-import { ReactNode, Dispatch, SetStateAction } from "react";
 
 //types for product
 export type IImage = {

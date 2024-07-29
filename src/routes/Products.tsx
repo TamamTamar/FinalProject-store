@@ -42,12 +42,6 @@ const Products: FC = () => {
     );
   
 
-    const handleSizeSelect = (productId: string, size: string) => {
-        setSelectedSizes(prevSizes => ({
-            ...prevSizes,
-            [productId]: size,
-        }));
-    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
@@ -67,14 +61,7 @@ const Products: FC = () => {
                                 <p>{product.description}</p>
                             </div>
                         </Link>
-                        <div className="price-container">
-                            <span className="original-price" style={{ marginRight: '10px' }}>
-                                ${(product.variants[0].price * 1.2).toFixed(2)}
-                            </span>
-                            <span className="discounted-price">
-                                ${product.variants[0].price.toFixed(2)}
-                            </span>
-                        </div>
+                    
                        
                         <p>{selectedSizes[product._id] && product.variants.find(v => v.size === selectedSizes[product._id])?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
                         <AddToCartButton

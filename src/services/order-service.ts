@@ -11,6 +11,7 @@ export const createOrder = (products: IOrderProduct[]) => {
         }
     });
 };
+
 // Get orders by user
 export const getOrdersByUser = (userId: string) => {
     return axios.get(`${orderUrl}/user/${userId}`, {
@@ -19,6 +20,7 @@ export const getOrdersByUser = (userId: string) => {
         }
     });
 };
+
 // Get an order by order id
 export const getOrderByOrderId = (orderId: string) => {
     return axios.get(`${orderUrl}/${orderId}`, {
@@ -27,6 +29,7 @@ export const getOrderByOrderId = (orderId: string) => {
         }
     });
 };
+
 // Cancel an order
 export const cancelOrder = (orderId: string) => {
     return axios.patch(`${orderUrl}/cancel/${orderId}`, {}, {
