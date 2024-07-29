@@ -18,7 +18,6 @@ const Products: FC = () => {
         const fetchProducts = async () => {
             try {
                 const response = await getAllProducts();
-                console.log(response);
                 setProducts(response.data);
                 const initialSizes = response.data.reduce((acc: { [key: string]: string }, product: IProduct) => {
                     acc[product._id] = product.variants[0].size;
@@ -62,8 +61,6 @@ const Products: FC = () => {
                             </div>
                         </Link>
                     
-                       
-                        <p>{selectedSizes[product._id] && product.variants.find(v => v.size === selectedSizes[product._id])?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
                         <AddToCartButton
                             productId={product._id}
                             variants={product.variants}

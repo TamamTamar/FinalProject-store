@@ -11,7 +11,7 @@ export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
     const { token } = useAuth();
 
     const fetchCart = async () => {
-        if (!token) setCart(null);
+        if (!token) return setCart(null);
         try {
             const response = await cartService.getCart();
             setCart(response.data);

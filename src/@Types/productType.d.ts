@@ -79,6 +79,7 @@ export type IOrderProduct = {
     size: string;
     title: string;
     price: number;
+    
 };
 
 // טיפוס עבור הזמנה
@@ -90,6 +91,7 @@ export type IOrder = {
     status: string;
     createdAt: Date;
     orderNumber: string;
+
 };
 
 // טיפוס עבור שאילתה של מכירות לפי תאריך

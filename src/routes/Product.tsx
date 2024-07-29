@@ -53,8 +53,6 @@ const Product = () => {
                 <h1 className="product-title">{product.title}</h1>
                 <h2 className="product-subtitle">{product.subtitle}</h2>
                 <h3 className="product-description">{product.description}</h3>
-                <p className="stock">{product.variants.find(v => v._id === selectedVariant)?.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
-                
                 <div className="buttons-container">
                     <AddToCartButton
                         productId={product._id}
