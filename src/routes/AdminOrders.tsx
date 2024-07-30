@@ -6,6 +6,7 @@ import { IOrder } from '../@Types/productType';
 import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
 import dialogs from '../ui/dialogs';
 import { useSearch } from '../hooks/useSearch';
+import Search from '../components/Search/Search';
 
 
 const statusOptions = [
@@ -55,22 +56,8 @@ const AdminOrders = () => {
         <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800">
             <h2 className='text-5xl font-extralight text-center mb-6'>Orders</h2>
             <div className="flex flex-col mb-4">
-                <div className="flex justify-end mb-4">
-                    <Tooltip content="Add Order" placement="top" className="text-sm bg-gray-800 text-white rounded px-2 py-1">
-                        <Link to="/admin/create-order" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-3 text-center inline-flex items-center me-8 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <FiPlus size={20} />
-                            <span className="sr-only">Add Order</span>
-                        </Link>
-                    </Tooltip>
-                </div>
-                <input
-                    type="text"
-                    placeholder="Search by Order Number"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border rounded px-2 py-1 mb-4"
-                />
-            </div>
+                <Search/>
+             </div>
             {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
             <Table hoverable>
                 <Table.Head>
@@ -115,12 +102,6 @@ const AdminOrders = () => {
                                         {index < order.products.length - 1 && <hr className="my-2" />}
                                     </div>
                                 ))}
-                            </Table.Cell>
-                            <Table.Cell>
-                                {/* Actions for editing */}
-                            </Table.Cell>
-                            <Table.Cell>
-                                {/* Actions for deleting */}
                             </Table.Cell>
                         </Table.Row>
                     ))}

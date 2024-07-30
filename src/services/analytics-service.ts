@@ -3,7 +3,8 @@ import axios from 'axios';
 const analyticsUrl = 'http://localhost:8080/api/v1/analytics';
 
 const getSalesByDate = (startDate: string, endDate: string) => {
-    return axios.get(`${analyticsUrl}/sales-by-date`, {
+    const url = `${analyticsUrl}/sales-by-date`;
+    return axios.get(url, {
         params: { startDate, endDate },
         headers: {
             "x-auth-token": localStorage.getItem("token"),
@@ -19,14 +20,7 @@ export const getAllOrders = () => {
         },
     });
 };
-export const deleteOrderById = (id: string) => {
-    const url = `${analyticsUrl}/${id}`;
-    return axios.delete(url, {
-        headers: {
-            "x-auth-token": localStorage.getItem("token"),
-        },
-    });
-};
+
 export const updateOrderStatus = (orderId: string, status: string) => {
     const url = `${analyticsUrl}/status/${orderId}`;
     return axios.patch(url, { status }, {
@@ -36,6 +30,6 @@ export const updateOrderStatus = (orderId: string, status: string) => {
     });
 }
 
-const analyticsService = { getSalesByDate , getAllOrders };
+const analyticsService = { getSalesByDate , getAllOrders, updateOrderStatus };
 
 export default analyticsService;

@@ -9,10 +9,13 @@ import cartService from '../services/cart-service';
 import { createOrder } from '../services/order-service';
 import dialogs from '../ui/dialogs';
 import './Cart.scss';
+import { useSearch } from '../hooks/useSearch';
+import Search from '../components/Search/Search';
 
 const Cart = () => {
     const { cart, fetchCart } = useCart();
     const { token } = useAuth();
+    const { searchTerm } = useSearch(); // Access search term from context
     const navigate = useNavigate();
     const [quantities, setQuantities] = useState<{ [variantId: string]: number }>({});
 
@@ -52,12 +55,11 @@ const Cart = () => {
         }
         try {
             await cartService.updateProductQuantity(variantId, newQuantity);
-            fetchCart(); // עדכן את הסל כדי לשקף את השינויים
+            fetchCart(); // Update cart to reflect changes
         } catch (error) {
             console.error('Failed to update product quantity.', error);
         }
     };
-    
 
     const handleCheckout = async () => {
         try {
@@ -103,6 +105,9 @@ const Cart = () => {
 
     return (
         <div className="cart-page flex flex-col md:flex-row">
+            <div className="search-bar-container mb-4">
+                <Search /> {/* Include the search component */}
+            </div>
             <div className="cart-items-container w-full md:w-3/4 p-4">
                 <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center">
                     <FiArrowLeft className="mr-2" />
@@ -113,8 +118,10 @@ const Cart = () => {
                     <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link>
                 </div>
                 <div className="cart-items space-y-4">
-                    {cart.items.map((item: ICartItem) => (
-                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={item.productId + item.variantId}>
+                    {cart.items
+                        .filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase())) // Filter items based on search term
+                        .map((item: ICartItem) => (
+                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={`${item.productId}-${item.variantId}`}>
                             <div className="flex items-center mb-4">
                                 <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
                                 <div>
