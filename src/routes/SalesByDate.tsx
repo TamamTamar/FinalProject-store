@@ -59,7 +59,6 @@ const SalesChart = () => {
     useEffect(() => {
         fetchSalesData();
     }, [startDate, endDate]);
-
     const chartOptions = {
         responsive: true,
         plugins: {
@@ -69,7 +68,8 @@ const SalesChart = () => {
             tooltip: {
                 callbacks: {
                     label: function (tooltipItem: any) {
-                        return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}`;
+                        // להוסיף סימן $ לפני המחיר
+                        return `${tooltipItem.dataset.label}: $${tooltipItem.formattedValue}`;
                     }
                 }
             }
@@ -85,10 +85,17 @@ const SalesChart = () => {
                 title: {
                     display: true,
                     text: 'Amount'
+                },
+                ticks: {
+                    callback: function (value: number) {
+                        // להוסיף סימן $ לפני המחיר גם בגרף
+                        return `$${value}`;
+                    }
                 }
             }
         }
     };
+    
 
     return (
         <div className="sales-chart-container">
