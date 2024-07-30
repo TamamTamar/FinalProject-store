@@ -1,21 +1,29 @@
-import { useEffect, useState } from 'react';
 import { Table, Tooltip } from 'flowbite-react';
+import { useEffect, useState } from 'react';
+import { FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import dialogs from '../ui/dialogs';
-import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { IOrder } from '../@Types/productType';
-import { deleteOrderById, getAllOrders } from '../services/analytics-service';
+import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
+import dialogs from '../ui/dialogs';
+import { useSearch } from '../hooks/useSearch';
+
+
+const statusOptions = [
+    "pending", "approved", "processing", "shipped", "delivered", "cancelled", "returned", "completed"
+];
 
 const AdminOrders = () => {
+    const { searchTerm, setSearchTerm } = useSearch();
     const [orders, setOrders] = useState<IOrder[]>([]);
+    const [filteredOrders, setFilteredOrders] = useState<IOrder[]>([]);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         getAllOrders()
             .then(res => {
-                console.log('Response data:', res.data); // Debugging line
                 if (res.data && Array.isArray(res.data.orders)) {
                     setOrders(res.data.orders);
+                    setFilteredOrders(res.data.orders);
                 } else {
                     setError(new Error("Unexpected response format"));
                 }
@@ -23,17 +31,22 @@ const AdminOrders = () => {
             .catch(err => setError(err));
     }, []);
 
-    const onDelete = (id: string) => {
-        dialogs.confirm("Are you sure?", "Do you want to delete this order?")
-            .then((result) => {
-                if (result.isConfirmed) {
-                    deleteOrderById(id)
-                        .then(() => {
-                            setOrders(orders.filter(order => order.orderId !== id));
-                            dialogs.success("Deleted!", "The order has been deleted.");
-                        })
-                        .catch(err => setError(err));
-                }
+    useEffect(() => {
+        const lowercasedSearchTerm = searchTerm.toLowerCase();
+        setFilteredOrders(
+            orders.filter(order =>
+                order.orderNumber.toLowerCase().includes(lowercasedSearchTerm)
+            )
+        );
+    }, [searchTerm, orders]);
+
+    const handleStatusChange = (orderId: string, status: string) => {
+        updateOrderStatus(orderId, status)
+            .then(() => {
+                setOrders(orders.map(order =>
+                    order.orderId === orderId ? { ...order, status } : order
+                ));
+                dialogs.success("Success", "Order status updated successfully.");
             })
             .catch(err => setError(err));
     };
@@ -41,13 +54,22 @@ const AdminOrders = () => {
     return (
         <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800">
             <h2 className='text-5xl font-extralight text-center mb-6'>Orders</h2>
-            <div className="flex justify-end mb-4">
-                <Tooltip content="Add Order" placement="top" className="text-sm bg-gray-800 text-white rounded px-2 py-1">
-                    <Link to="/admin/create-order" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-3 text-center inline-flex items-center me-8 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <FiPlus size={20} />
-                        <span className="sr-only">Add Order</span>
-                    </Link>
-                </Tooltip>
+            <div className="flex flex-col mb-4">
+                <div className="flex justify-end mb-4">
+                    <Tooltip content="Add Order" placement="top" className="text-sm bg-gray-800 text-white rounded px-2 py-1">
+                        <Link to="/admin/create-order" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-3 text-center inline-flex items-center me-8 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <FiPlus size={20} />
+                            <span className="sr-only">Add Order</span>
+                        </Link>
+                    </Tooltip>
+                </div>
+                <input
+                    type="text"
+                    placeholder="Search by Order Number"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border rounded px-2 py-1 mb-4"
+                />
             </div>
             {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
             <Table hoverable>
@@ -66,12 +88,22 @@ const AdminOrders = () => {
                     </Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
-                    {orders.map((order) => (
+                    {filteredOrders.map((order) => (
                         <Table.Row key={order.orderId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                             <Table.Cell>{order.orderNumber}</Table.Cell>
                             <Table.Cell>{order.userId}</Table.Cell>
                             <Table.Cell>${order.totalAmount.toFixed(2)}</Table.Cell>
-                            <Table.Cell>{order.status}</Table.Cell>
+                            <Table.Cell>
+                                <select
+                                    value={order.status}
+                                    onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
+                                    className="border rounded px-2 py-1"
+                                >
+                                    {statusOptions.map(status => (
+                                        <option key={status} value={status}>{status.charAt(0).toUpperCase() + status.slice(1)}</option>
+                                    ))}
+                                </select>
+                            </Table.Cell>
                             <Table.Cell>{new Date(order.createdAt).toLocaleDateString()}</Table.Cell>
                             <Table.Cell>
                                 {order.products.map((product, index) => (
@@ -85,14 +117,10 @@ const AdminOrders = () => {
                                 ))}
                             </Table.Cell>
                             <Table.Cell>
-                                <Link to={`/admin/orders/${order.orderId}`} className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                                    Edit
-                                </Link>
+                                {/* Actions for editing */}
                             </Table.Cell>
                             <Table.Cell>
-                                <button onClick={() => onDelete(order.orderId)} className="text-red-600 hover:text-red-800">
-                                    <FiTrash2 size={20} />
-                                </button>
+                                {/* Actions for deleting */}
                             </Table.Cell>
                         </Table.Row>
                     ))}

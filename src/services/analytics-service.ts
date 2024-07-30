@@ -27,6 +27,14 @@ export const deleteOrderById = (id: string) => {
         },
     });
 };
+export const updateOrderStatus = (orderId: string, status: string) => {
+    const url = `${analyticsUrl}/status/${orderId}`;
+    return axios.patch(url, { status }, {
+        headers: {
+            "x-auth-token": localStorage.getItem("token"),
+        },
+    });
+}
 
 const analyticsService = { getSalesByDate , getAllOrders };
 
