@@ -91,7 +91,7 @@ export type IOrder = {
     status: string;
     createdAt: Date;
     orderNumber: string;
-
+    image: IImage;
 };
 
 // טיפוס עבור שאילתה של מכירות לפי תאריך
@@ -212,4 +212,10 @@ export interface CartContextProps {
     setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
     fetchCart: () => void;
     addToCart: (productId: string, variant: IVariant) => void; // Removed price
+}
+export interface DateRangePickerProps {
+    startDate: Date | null;
+    endDate: Date | null;
+    onStartDateChange: (date: Date | null) => void;
+    onEndDateChange: (date: Date | null) => void;
 }

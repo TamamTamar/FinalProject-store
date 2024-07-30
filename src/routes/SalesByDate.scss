@@ -1,0 +1,16 @@
+// src/components/SalesChart.scss
+.sales-chart-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.date-picker-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.react-datepicker-wrapper {
+    margin: 0 10px;
+}

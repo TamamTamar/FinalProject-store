@@ -3,23 +3,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiBox, FiUsers, FiTrendingUp, FiUser, FiShoppingCart } from "react-icons/fi";
 import './Navbar.scss';
 import { useAuth } from "../../hooks/useAuth";
-import Search from "../Search/Search";
 import useCart from "../../hooks/useCart";
-import { useEffect } from "react";
+import Search from "../Search/Search";
+
 
 const Nav = () => {
     const { isLoggedIn, user, logout } = useAuth();
     const navigate = useNavigate();
-    const { cart, fetchCart } = useCart();
+    const { cart } = useCart();
 
-    useEffect(() => {
-        fetchCart();
-    }, []);
-
+   
     return (
         <Navbar fluid rounded>
-            <Navbar.Brand href="/">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
+            <Navbar.Brand href="#">
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tsofiya Osadchi</span>
             </Navbar.Brand>
 
             <div className="flex md:order-2 items-center">
@@ -64,7 +61,7 @@ const Nav = () => {
                                 <FiUsers size={24} className="text-gray hover:text-gray-300" />
                             </Tooltip>
                         </Link>
-                        <Link to="/admin/analytics" className="mr-8 hidden md:block">
+                        <Link to="/admin/sales-by-date" className="mr-8 hidden md:block">
                             <Tooltip
                                 content="Analytics"
                                 placement="top"
@@ -98,10 +95,10 @@ const Nav = () => {
                                 <Dropdown.Item onClick={() => navigate("/admin/products")} className="block md:hidden">
                                     <FiBox size={20} className="mr-2" /> Manage Products
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md.hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md:hidden">
                                     <FiUsers size={20} className="mr-2" /> Manage Users
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md.hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md:hidden">
                                     <FiTrendingUp size={20} className="mr-2" /> Analytics
                                 </Dropdown.Item>
                             </>
@@ -117,9 +114,16 @@ const Nav = () => {
                     </Tooltip>
                 )}
 
-                <DarkThemeToggle />
                 <Navbar.Toggle />
+                <DarkThemeToggle className="ml-2" />
             </div>
+            <Navbar.Collapse>
+                <Navbar.Link href="/" active>
+                    Home
+                </Navbar.Link>
+                <Navbar.Link href="#">About</Navbar.Link>
+                <Navbar.Link href="#">Contact</Navbar.Link>
+            </Navbar.Collapse>
         </Navbar>
     );
 };
