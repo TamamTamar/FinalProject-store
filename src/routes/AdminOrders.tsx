@@ -56,7 +56,7 @@ const AdminOrders = () => {
         <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800">
             <h2 className='text-5xl font-extralight text-center mb-6'>Orders</h2>
             <div className="flex flex-col mb-4">
-                <Search/>
+            
              </div>
             {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
             <Table hoverable>

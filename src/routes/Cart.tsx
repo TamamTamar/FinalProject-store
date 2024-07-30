@@ -106,13 +106,9 @@ const Cart = () => {
     return (
         <div className="cart-page flex flex-col md:flex-row">
             <div className="search-bar-container mb-4">
-                <Search /> {/* Include the search component */}
             </div>
             <div className="cart-items-container w-full md:w-3/4 p-4">
-                <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center">
-                    <FiArrowLeft className="mr-2" />
-                    Back to Shopping
-                </Link>
+              
                 <div className="flex justify-between items-center mb-4 border-b pb-4">
                     <h1 className="cart-title text-2xl font-semibold">Your Shopping Cart</h1>
                     <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link>

@@ -5,6 +5,7 @@ import './Navbar.scss';
 import { useAuth } from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 import Search from "../Search/Search";
+import UserAvatar from "../UserAvatar";
 
 
 const Nav = () => {
@@ -16,7 +17,7 @@ const Nav = () => {
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="#">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tsofiya Osadchi</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
             </Navbar.Brand>
 
             <div className="flex md:order-2 items-center">
@@ -78,7 +79,7 @@ const Nav = () => {
                         arrowIcon={false}
                         inline
                         label={
-                            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+                           <UserAvatar firstName={user.name.first} lastName={user.name.last} />
                         }
                     >
                         <Dropdown.Header>
