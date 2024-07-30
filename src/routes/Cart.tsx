@@ -1,21 +1,21 @@
-import { Tooltip } from 'flowbite-react';
+import { ICartItem } from '../@Types/productType'; // עדכון לפי הטיפוסים המוגדרים
+import './Cart.scss';
+import { useCart } from '../hooks/useCart';
+import { FiArrowLeft, FiTrash } from 'react-icons/fi'; // Importing FiArrowLeft from react-icons/fi
+import dialogs from '../ui/dialogs';
+import { Link, useNavigate } from 'react-router-dom'; // Importing Link from react-router-dom
 import { useEffect, useState } from 'react';
-import { FiArrowLeft, FiTrash } from 'react-icons/fi';
-import { Link, useNavigate } from 'react-router-dom';
-import { ICartItem } from '../@Types/productType';
+import { Tooltip } from 'flowbite-react';
 import { useAuth } from '../hooks/useAuth';
-import useCart from '../hooks/useCart';
+import { useSearch } from '../hooks/useSearch';
 import cartService from '../services/cart-service';
 import { createOrder } from '../services/order-service';
-import dialogs from '../ui/dialogs';
-import './Cart.scss';
-import { useSearch } from '../hooks/useSearch';
-import Search from '../components/Search/Search';
+
 
 const Cart = () => {
     const { cart, fetchCart } = useCart();
+    const { searchTerm } = useSearch();
     const { token } = useAuth();
-    const { searchTerm } = useSearch(); // Access search term from context
     const navigate = useNavigate();
     const [quantities, setQuantities] = useState<{ [variantId: string]: number }>({});
 
@@ -49,17 +49,19 @@ const Cart = () => {
     };
 
     const handleQuantityChange = async (variantId: string, newQuantity: number) => {
+        console.log('מעודכן כמות עבור variantId:', variantId, 'ל:', newQuantity); // בדוק מה מודפס כאן
         if (!variantId) {
             console.error('variantId is undefined');
             return;
         }
         try {
             await cartService.updateProductQuantity(variantId, newQuantity);
-            fetchCart(); // Update cart to reflect changes
+            fetchCart(); // עדכן את הסל כדי לשקף את השינויים
         } catch (error) {
-            console.error('Failed to update product quantity.', error);
+            console.error('שגיאה בעדכון כמות המוצר:', error.response?.data || error.message);
         }
     };
+
 
     const handleCheckout = async () => {
         try {
@@ -105,10 +107,11 @@ const Cart = () => {
 
     return (
         <div className="cart-page flex flex-col md:flex-row">
-            <div className="search-bar-container mb-4">
-            </div>
             <div className="cart-items-container w-full md:w-3/4 p-4">
-              
+                <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center">
+                    <FiArrowLeft className="mr-2" />
+                    Back to Shopping
+                </Link>
                 <div className="flex justify-between items-center mb-4 border-b pb-4">
                     <h1 className="cart-title text-2xl font-semibold">Your Shopping Cart</h1>
                     <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link>
@@ -117,7 +120,7 @@ const Cart = () => {
                     {cart.items
                         .filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase())) // Filter items based on search term
                         .map((item: ICartItem) => (
-                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={`${item.productId}-${item.variantId}`}>
+                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={item.productId + item.variantId}>
                             <div className="flex items-center mb-4">
                                 <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
                                 <div>
@@ -129,13 +132,13 @@ const Cart = () => {
                                     <p className="item-size text-sm text-gray-500">Size: {item.size}</p>
                                     <p className="item-price text-sm text-gray-500">Price: ${item.price.toFixed(2)}</p>
                                 </div>
-                                <div className="flex items-center">
+                                <div className="flex items-center select-quantity">
                                     <label htmlFor={`quantity-${item.variantId}`} className="item-quantity text-sm text-gray-500 mr-2">Quantity:</label>
                                     <select
                                         id={`quantity-${item.variantId}`}
                                         value={quantities[item.variantId] || item.quantity}
                                         onChange={(e) => handleQuantityChange(item.variantId, parseInt(e.target.value))}
-                                        className="ml-2 border border-gray-300 rounded-md p-1"
+                                        className="ml-2 border border-gray-300 rounded-md p-1 selector"
                                     >
                                         {[...Array(10).keys()].map((n) => (
                                             <option key={n + 1} value={n + 1}>

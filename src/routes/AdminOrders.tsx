@@ -1,20 +1,15 @@
-import { Table, Tooltip } from 'flowbite-react';
+import { Table } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
 import { IOrder } from '../@Types/productType';
+import { useSearch } from '../hooks/useSearch';
 import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
 import dialogs from '../ui/dialogs';
-import { useSearch } from '../hooks/useSearch';
-import Search from '../components/Search/Search';
-
-
 const statusOptions = [
     "pending", "approved", "processing", "shipped", "delivered", "cancelled", "returned", "completed"
 ];
 
 const AdminOrders = () => {
-    const { searchTerm, setSearchTerm } = useSearch();
+    const { searchTerm } = useSearch();
     const [orders, setOrders] = useState<IOrder[]>([]);
     const [filteredOrders, setFilteredOrders] = useState<IOrder[]>([]);
     const [error, setError] = useState<Error | null>(null);

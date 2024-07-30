@@ -1,16 +1,35 @@
-// src/components/SalesChart.scss
-.sales-chart-container {
-    width: 80%;
+// SalesPage.scss
+.sales-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    align-content: center;
     margin: 0 auto;
-    text-align: center;
+}
+
+.sales-chart-container{
+
+    margin: 0 auto;
+    width: 80%;
 }
 
 .date-picker-container {
     display: flex;
-    justify-content: center;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-.react-datepicker-wrapper {
-    margin: 0 10px;
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        height: 500px;
+    }
 }

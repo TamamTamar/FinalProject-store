@@ -4,14 +4,14 @@ import { Line } from 'react-chartjs-2';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import './SalesByDate.scss'
+import './SalesByDate.scss';
 import analyticsService from '../services/analytics-service';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const SalesChart = () => {
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date | null>(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+    const [endDate, setEndDate] = useState<Date | null>(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0));
     const [salesData, setSalesData] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,7 @@ const SalesChart = () => {
         try {
             const response = await analyticsService.getSalesByDate(startDate.toISOString(), endDate.toISOString());
             const salesByDate = response.data.salesByDate;
-            
+
             const dates = salesByDate.map((sale: any) => sale._id.split('T')[0]); // פורמט YYYY-MM-DD
             const totalAmounts = salesByDate.map((sale: any) => sale.totalAmount);
             const totalSales = salesByDate.map((sale: any) => sale.totalSales);
@@ -37,6 +37,7 @@ const SalesChart = () => {
                         data: totalAmounts,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        yAxisID: 'y1',
                         tension: 0.1, // ליצירת קווים חלקים
                     },
                     {
@@ -44,7 +45,9 @@ const SalesChart = () => {
                         data: totalSales,
                         borderColor: 'rgba(153, 102, 255, 1)',
                         backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        yAxisID: 'y2',
                         tension: 0.1, // ליצירת קווים חלקים
+                        pointBackgroundColor: 'rgba(153, 102, 255, 1)',
                     },
                 ],
             });
@@ -69,7 +72,11 @@ const SalesChart = () => {
             tooltip: {
                 callbacks: {
                     label: function (tooltipItem: any) {
-                        return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}`;
+                        if (tooltipItem.dataset.label === 'Total Sales') {
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}`;
+                        } else {
+                            return `${tooltipItem.dataset.label}: $${tooltipItem.formattedValue}`;
+                        }
                     }
                 }
             }
@@ -81,10 +88,35 @@ const SalesChart = () => {
                     text: 'Date'
                 }
             },
-            y: {
+            y1: {
+                type: 'linear' as const,
+                position: 'left' as const,
                 title: {
                     display: true,
-                    text: 'Amount'
+                    text: 'Total Amount'
+                },
+                ticks: {
+                    callback: function (value: number) {
+                        return `$${value}`;
+                    },
+                    color: 'rgba(75, 192, 192, 1)' // שינוי צבע המספרים לכחול
+                }
+            },
+            y2: {
+                type: 'linear' as const,
+                position: 'right' as const,
+                title: {
+                    display: true,
+                    text: 'Total Sales'
+                },
+                ticks: {
+                    callback: function (value: number) {
+                        return `${value}`;
+                    },
+                    color: 'rgba(153, 102, 255, 1)' // שינוי צבע המספרים לסגול
+                },
+                grid: {
+                    drawOnChartArea: false
                 }
             }
         }
@@ -92,8 +124,8 @@ const SalesChart = () => {
 
     return (
         <div className="sales-chart-container">
-            <h2>Sales by Date</h2>
-            <div className="date-picker-container">
+            <h2 className='ml-8'>Sales by Date</h2>
+            <div className="date-picker-container ml-8 mt-4">
                 <DatePicker
                     selected={startDate}
                     onChange={(date: Date) => setStartDate(date)}
@@ -119,7 +151,9 @@ const SalesChart = () => {
             ) : error ? (
                 <p>{error}</p>
             ) : salesData.labels && salesData.labels.length > 0 ? (
-                <Line data={salesData} options={chartOptions} />
+                <div className="chart-wrapper">
+                    <Line data={salesData} options={chartOptions} />
+                </div>
             ) : (
                 <p>No data available for the selected dates.</p>
             )}

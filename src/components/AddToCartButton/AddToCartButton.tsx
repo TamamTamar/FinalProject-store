@@ -24,7 +24,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
 
     return (
         <div className="add-to-cart-container">
-        <p> {selectedVariant.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
+             <p className="stock-status"> {selectedVariant.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
             <div className="size-buttons-container">
                 
                 {variants.map(variant => (
@@ -47,7 +47,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
                            
                         </div>
             </div>
-            <button className="add-to-cart-button" onClick={handleAddToCart} disabled={!selectedVariant}>
+            <button className="add-to-cart-button" onClick={handleAddToCart} disabled={selectedVariant.quantity===0}>
                 Add to Cart
             </button>
         </div>
