@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import './SalesByDate.scss';
+import './SalesByDate.scss'
 import analyticsService from '../services/analytics-service';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -59,6 +59,7 @@ const SalesChart = () => {
     useEffect(() => {
         fetchSalesData();
     }, [startDate, endDate]);
+
     const chartOptions = {
         responsive: true,
         plugins: {
@@ -68,8 +69,7 @@ const SalesChart = () => {
             tooltip: {
                 callbacks: {
                     label: function (tooltipItem: any) {
-                        // להוסיף סימן $ לפני המחיר
-                        return `${tooltipItem.dataset.label}: $${tooltipItem.formattedValue}`;
+                        return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}`;
                     }
                 }
             }
@@ -85,17 +85,10 @@ const SalesChart = () => {
                 title: {
                     display: true,
                     text: 'Amount'
-                },
-                ticks: {
-                    callback: function (value: number) {
-                        // להוסיף סימן $ לפני המחיר גם בגרף
-                        return `$${value}`;
-                    }
                 }
             }
         }
     };
-    
 
     return (
         <div className="sales-chart-container">

@@ -79,20 +79,25 @@ export type IOrderProduct = {
     size: string;
     title: string;
     price: number;
-    
 };
 
-// טיפוס עבור הזמנה
 export type IOrder = {
     _id: string;
+    orderId: string;
     userId: string;
     products: IOrderProduct[];
     totalAmount: number;
     status: string;
-    createdAt: Date;
+    createdAt: string; // Assuming it's a string, convert it if necessary
     orderNumber: string;
-    image: IImage;
+    
 };
+
+export type OrderResponse = {
+    count: number;
+    orders: IOrder[];
+};
+
 
 // טיפוס עבור שאילתה של מכירות לפי תאריך
 export interface SalesByDateQuery {
