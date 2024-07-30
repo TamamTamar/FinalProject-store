@@ -9,11 +9,12 @@ import Product from "./Product";
 import Products from "./Products";
 import Profile from "./Profile";
 import Register from "./register/Register";
-import UpdateProduct from "./updateProduct";
 import UpdateUser from "./UpdateUser";
 import Users from "./Users";
 import Cart from "./Cart";
 import OrderConfirmation from "./OrderConfirmation";
+import EditProduct from "./updateProduct";
+import UserOrders from "./UserOrders";
 
 
 
@@ -43,13 +44,13 @@ export const router = createBrowserRouter([
                 },
                 {path:"/admin/Products", element: <AdminProducts />},
                 {path: "/users/:id", element: <UpdateUser />},
-                {path:"/admin/products/:id", element: <UpdateProduct />},
+                {path:"/admin/products/:id", element: <EditProduct />},
                 {path: "/cart", element: <Cart />},
                 {
                     path: "/order-confirmation/:orderId", element: < OrderConfirmation />
                 },
                 {
-                    path: "/orders", element: <OrderConfirmation />
+                    path: "/orders", element: <UserOrders/>
                 },
             
 
