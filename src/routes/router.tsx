@@ -13,11 +13,13 @@ import UpdateUser from "./UpdateUser";
 import Users from "./Users";
 import Cart from "./Cart";
 import OrderConfirmation from "./OrderConfirmation";
-
 import UserOrders from "./UserOrders";
 import SalesPage from "./SalesByDate";
 import EditProduct from "./EditProduct";
 import AdminOrders from "./AdminOrders";
+import Contact from "./Contact";
+import AdminMessages from "./AdminMessage";
+
 
 
 
@@ -59,6 +61,8 @@ export const router = createBrowserRouter([
                     path: "/admin/analytics", element: < SalesPage />
                 },
                 {path:"/admin/orders", element: <AdminOrders />},
+                {path:"/contact", element: <Contact />},
+                {path:"/admin/messages", element: <AdminMessages/>},
     
             
 

@@ -90,7 +90,7 @@ export type IOrder = {
     status: string;
     createdAt: string; // Assuming it's a string, convert it if necessary
     orderNumber: string;
-    
+
 };
 
 export type OrderResponse = {
@@ -224,3 +224,11 @@ export interface DateRangePickerProps {
     onStartDateChange: (date: Date | null) => void;
     onEndDateChange: (date: Date | null) => void;
 }
+export type IMessage ={
+    _id?: string;
+    fullName: string;
+    email: string;
+    message: string;
+    createdAt?: Date;
+  }
+  
