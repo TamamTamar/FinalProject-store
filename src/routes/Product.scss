@@ -5,7 +5,6 @@
     width: 80%;
     margin: 0 auto;
     margin-top: 30px;
-    font-family: Arial, sans-serif;
     color: #1b1b1b;
     flex-direction: column;
 }
@@ -15,10 +14,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f3f4f6;
+    background-color: #eff1f5;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    
 }
 
 .product-image {
@@ -78,6 +77,7 @@
     align-items: baseline;
     gap: 10px;
     margin-bottom: 10px;
+    margin-top: 200px;
 }
 
 .price-label {
@@ -90,11 +90,13 @@
     font-size: 1rem;
     color: #999;
     text-decoration: line-through;
+    margin-top: 20px;
 }
 
 .discounted-price {
     font-size: 1rem;
     color: #5a0310;
+    margin-top: 20px;
 }
 
 .buttons-container {
@@ -119,13 +121,13 @@
 }
 
 .consult-expert-button {
-    background-color: #1d4ed8;
+    background-color: #0a0b0d;
     color: white;
-    margin-top: 125px;
+    margin-top: 168px;
 }
 
 .consult-expert-button:hover {
-    background-color: #2563eb;
+    background-color: #0b0c0d;
 }
 
 .add-to-cart-button {
@@ -196,6 +198,10 @@
 
 .dark body {
     background-color: #1f2937;
+    color: #f6f7f8;
+}
+
+.dark .add-to-cart-container p {
     color: #f9fafb;
 }
 
@@ -216,7 +222,7 @@
 }
 
 .dark .product-description {
-    color: #d1d5db;
+    color: #ffffff;
 }
 
 .dark .original-price {
@@ -232,7 +238,7 @@
 }
 
 .dark .consult-expert-button {
-    background-color: #2563eb;
+    background-color: #09286c;
     color: white;
 }
 

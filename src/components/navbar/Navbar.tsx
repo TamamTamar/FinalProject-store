@@ -18,7 +18,7 @@ const Nav = () => {
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="#">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tsofiya Osadchi</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
             </Navbar.Brand>
 
             <div className="flex md:order-2 items-center">

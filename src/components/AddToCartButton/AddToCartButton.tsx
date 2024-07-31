@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import './AddToCartButton.scss';
+import dialogs from '../../ui/dialogs';
 import { AddToCartButtonProps, IVariant } from '../../@Types/productType';
 import useCart from '../../hooks/useCart';
-import dialogs from '../../ui/dialogs';
 
 const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image }) => {
     const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(variants[0] || null);
@@ -31,12 +31,16 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
         }
     };
 
+    const isOutOfStock = selectedVariant ? selectedVariant.quantity <= 0 : true;
+
     return (
         <div className="add-to-cart-container">
-            <p> {selectedVariant.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
+            <p className={isOutOfStock ? 'text-red-500' : 'text-green-500'}>
+                {isOutOfStock ? 'Out of Stock' : 'In Stock'}
+            </p>
             <div className="price-container" style={{ marginBottom: '20px', marginTop: '15px' }}>
                 <span className="original-price" style={{ marginRight: '10px' }}>
-                    ${(selectedVariant?.price * 1.2).toFixed(2)}
+                    ${(selectedVariant?.price ? selectedVariant.price * 1.2 : 0).toFixed(2)}
                 </span>
                 <span className="discounted-price">
                     ${selectedVariant?.price.toFixed(2)}
@@ -53,7 +57,11 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
                     </button>
                 ))}
             </div>
-            <button className="add-to-cart-button" onClick={handleAddToCart} disabled={!selectedVariant}>
+            <button
+                className="add-to-cart-button"
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+            >
                 <FiShoppingCart />
                 Add to Cart
             </button>

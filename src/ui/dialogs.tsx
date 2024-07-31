@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
 import "./dialogs.scss";
 
-export const showSuccessDialog = (title: string, text: string) => {
+export const showSuccessDialog = (title: string, html:string ) => {
     return Swal.fire({
         title,
-        text,
+        html,
         icon: "success",
         position: "center",
         showConfirmButton: false,
