@@ -47,7 +47,7 @@ const AdminProducts = () => {
 
     return (
         <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className='text-4xl text-gray-800 mb-0 text-center mt-0'>Products</h2>
+            <h2 className='text-4xl text-gray-800 mb-2 text-center mt-0'>Products</h2>
             <div className="flex justify-end mb-4">
                 <Tooltip content="Add Product" placement="top" className="text-sm bg-gray-800 text-white rounded px-2 py-1">
                     <Link to="/admin/create-product" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-3 text-center inline-flex items-center me-8 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -58,15 +58,18 @@ const AdminProducts = () => {
             </div>
             {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
             <Table hoverable>
-                <Table.Head>
+                <Table.Head className="w-full text-center">
                     <Table.HeadCell>Image</Table.HeadCell>
-                    <Table.HeadCell className="w-1/6">Title</Table.HeadCell>
-                    <Table.HeadCell className="w-1/6">Subtitle</Table.HeadCell>
-                    <Table.HeadCell className="w-1/6">Description</Table.HeadCell>
-                    <Table.HeadCell className="w-1/3">Variants</Table.HeadCell>
-                    <Table.HeadCell className="w-1/10">Total Quantity</Table.HeadCell>
+                    <Table.HeadCell>Title</Table.HeadCell>
+                    <Table.HeadCell>Subtitle</Table.HeadCell>
+                    <Table.HeadCell>Description</Table.HeadCell>
+                    <Table.HeadCell>Variants</Table.HeadCell>
+                    <Table.HeadCell>Total Quantity</Table.HeadCell>
                     <Table.HeadCell>
-                        <span className="sr-only w-1/8">Edit</span>
+                        <span className="sr-only">Edit</span>
+                    </Table.HeadCell>
+                    <Table.HeadCell>
+                        <span className="sr-only">Delete</span>
                     </Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">

@@ -1,14 +1,14 @@
 import { Table } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import dialogs from '../ui/dialogs';
 import { useSearch } from '../hooks/useSearch';
 import Search from '../components/Search/Search';
 import { IOrder } from '../@Types/productType';
 import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
-
+import { FiTrash2 } from 'react-icons/fi';
 
 const statusOptions = [
-    "pending", "approved", "processing", "shipped", "delivered", "cancelled", "returned", "completed"
+    "pending", "approved", "processing", "shipped", "delivered", "returned", "completed", "cancelled"
 ];
 
 const AdminOrders = () => {
@@ -50,14 +50,27 @@ const AdminOrders = () => {
             .catch(err => setError(err));
     };
 
+    const handleCancelOrder = async (event: MouseEvent<HTMLButtonElement>, orderId: string) => {
+        event.preventDefault();
+        const result = await dialogs.confirm("Cancel Order", "Are you sure you want to cancel the order?");
+        if (result.isConfirmed) {
+            try {
+                await updateOrderStatus(orderId, "cancelled");
+                setOrders(orders.map(order =>
+                    order.orderId === orderId ? { ...order, status: "cancelled" } : order
+                ));
+                dialogs.success("Order Cancelled", "Your order has been cancelled successfully.");
+            } catch (error) {
+                console.error('Error cancelling order:', error);
+                dialogs.error("Error", "Failed to cancel the order.");
+            }
+        }
+    };
+
     return (
         <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className='text-4xl text-gray-800 mb-1 text-center mt-2'>Orders</h2>
-            <div className="flex flex-col mb-4">
-                <Search />
-            </div>
-            {error && <div className="text-red-500 text-center mb-4">{error.message}
-            </div>}
+            <h2 className='text-4xl text-gray-800 mb-8 text-center mt-2'>Orders</h2>
+            {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
 
             <Table hoverable className='"overflow-x-auto'>
                 <Table.Head>
@@ -67,6 +80,7 @@ const AdminOrders = () => {
                     <Table.HeadCell>Status</Table.HeadCell>
                     <Table.HeadCell>Created At</Table.HeadCell>
                     <Table.HeadCell>Products</Table.HeadCell>
+                    <Table.HeadCell>Action</Table.HeadCell> {/* הוספתי את עמודת הפעולה */}
                 </Table.Head>
                 <Table.Body className="divide-y">
                     {filteredOrders.map((order) => (
@@ -79,6 +93,7 @@ const AdminOrders = () => {
                                     value={order.status}
                                     onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
                                     className="border rounded px-2 py-1"
+                                    disabled={order.status === "cancelled"} // הפיכת השדה ללא זמין אם הסטטוס מבוטל
                                 >
                                     {statusOptions.map(status => (
                                         <option key={status} value={status}>{status.charAt(0).toUpperCase() + status.slice(1)}</option>
@@ -88,15 +103,28 @@ const AdminOrders = () => {
                             <Table.Cell>{new Date(order.createdAt).toLocaleDateString()}</Table.Cell>
                             <Table.Cell className="whitespace-nowrap w-1/3"> {/* הוספתי מחלקת w-1/3 להרחבת העמודה */}
                                 <div className="flex flex-wrap space-x-2">
-                                {order.products.map((product, index) => (
-                                    <div key={index} className="bg-gray-100 dark:bg-gray-700 p-2 rounded mb-2">
-                                        <p className="text-sm">Title: {product.title}</p>
-                                        <p className="text-sm">Size: {product.size}</p>
-                                        <p className="text-sm">Quantity: {product.quantity}</p>
-                                        <p className="text-sm">Price: ${product.price}</p>
-                                    </div>
-                                ))}
+                                    {order.products.map((product, index) => (
+                                        <div key={index} className="bg-gray-100 dark:bg-gray-700 p-2 rounded mb-2">
+                                            <p className="text-sm">Title: {product.title}</p>
+                                            <p className="text-sm">Size: {product.size}</p>
+                                            <p className="text-sm">Quantity: {product.quantity}</p>
+                                            <p className="text-sm">Price: ${product.price}</p>
+                                        </div>
+                                    ))}
                                 </div>
+                            </Table.Cell>
+                            <Table.Cell>
+                                {order.status === "cancelled" ? (
+                                    <span className="text-gray-500">Cancelled</span>
+                                ) : (
+                                    <button
+                                        onClick={(event) => handleCancelOrder(event, order.orderId)}
+                                        className="text-red-600 hover:text-red-800"
+                                        title="Cancel Order"
+                                    >
+                                        <FiTrash2 size={20} />
+                                    </button>
+                                )}
                             </Table.Cell>
                         </Table.Row>
                     ))}

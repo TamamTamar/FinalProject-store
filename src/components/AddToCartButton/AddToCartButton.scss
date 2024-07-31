@@ -1,47 +1,25 @@
-
-.add-to-cart-button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.size-buttons-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-
-    .size-button {
-        padding: 5px 10px;
-        margin: 0 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        cursor: pointer;
-
-        &.selected {
-            background-color: #007bff;
-            color: #fff;
-            border-color: #007bff;
-        }
-
-        &:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
-    }
-}
-
-
 .add-to-cart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* מרכז את התוכן */
+    width: 100%;
+    /* הכפתור יתפוס את כל הרוחב */
+    border: 2px solid #1b1b1b;
+    background-color: transparent;
+    color: #1b1b1b;
     padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 20px;
 
     &:hover {
-        background-color: #218838;
+        background-color: #1b1b1b;
+        color: white;
+    }
+
+    svg {
+        margin-right: 8px;
     }
 }

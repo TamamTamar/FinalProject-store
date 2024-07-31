@@ -20,6 +20,8 @@ import AdminOrders from "./AdminOrders";
 import Contact from "./Contact";
 import AdminMessages from "./AdminMessage";
 import AdminDashboard from "./AdminDashboard";
+import { Carousel } from "flowbite-react";
+import { CarouselComponent } from "../components/Carousel";
 
 
 
@@ -33,7 +35,7 @@ export const router = createBrowserRouter([
         element: <Root />,
             errorElement: <Error />, 
         children: [
-            { index: true, element: <Products /> },
+            { index: true, element:<Products /> },
             { path: "/register", element: <Register /> },
             { path: "/login", element: <Login /> },
             { path: "/profile", element: <Profile /> },
@@ -67,6 +69,7 @@ export const router = createBrowserRouter([
                 {
                     path: "/admin/dashboard", element: <AdminDashboard />
                 },
+
     
     
             

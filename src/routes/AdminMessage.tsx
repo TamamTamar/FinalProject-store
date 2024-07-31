@@ -1,8 +1,6 @@
 import { Table } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-
 import { useSearch } from '../hooks/useSearch';
-import dialogs from '../ui/dialogs';
 import { getAllMessages } from '../services/message-service';
 import { IMessage } from '../@Types/productType';
 
@@ -30,7 +28,7 @@ const AdminMessages = () => {
             })
             .finally(() => setLoading(false));
     }, []);
-    
+
 
     useEffect(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
@@ -45,12 +43,13 @@ const AdminMessages = () => {
 
     return (
         <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800">
-            <h2 className='text-5xl font-extralight text-center mb-6'>Messages</h2>
+        
+            <h2 className='text-4xl text-gray-800 mb-7 text-center mt-7'>Messages</h2>
 
             {loading && <div className="text-center">Loading...</div>}
             {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
             {!loading && filteredMessages.length === 0 && <div className="text-center">No messages found.</div>}
-            
+
             {!loading && filteredMessages.length > 0 && (
                 <Table hoverable>
                     <Table.Head>

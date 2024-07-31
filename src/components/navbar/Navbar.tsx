@@ -1,11 +1,12 @@
 import { Avatar, DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiBox, FiUsers, FiTrendingUp, FiUser, FiShoppingCart } from "react-icons/fi";
+import { FiBox, FiUsers, FiTrendingUp, FiUser, FiShoppingCart, FiClipboard, FiSettings } from "react-icons/fi";
 import './Navbar.scss';
 import { useAuth } from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 import Search from "../Search/Search";
 import UserAvatar from "../UserAvatar";
+
 
 
 const Nav = () => {
@@ -17,11 +18,11 @@ const Nav = () => {
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="#">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tsofiya Osadchi</span>
             </Navbar.Brand>
 
             <div className="flex md:order-2 items-center">
-                <div className="mr-8">
+                <div className="mr-5">
                     <Search />
                 </div>
 
@@ -29,10 +30,10 @@ const Nav = () => {
                     <Tooltip
                         content="View Cart"
                         placement="top"
-                        className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                        className="text-sm bg-gray-700 text-white rounded px-2 py-1"
                     >
                         <div className="relative">
-                            <FiShoppingCart size={24} className={cart && cart.totalQuantity > 0 ? "text-red-500" : "text-gray-300"} />
+                            <FiShoppingCart size={20} className={cart && cart.totalQuantity > 0 ? "text-red-500" : "text-gray-300"} />
                             {cart && cart.totalQuantity > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">
                                     {cart.totalQuantity}
@@ -44,33 +45,42 @@ const Nav = () => {
                 
                 {isLoggedIn && user?.isAdmin && (
                     <>
-                        <Link to="/admin/products" className="mr-4 hidden md:block">
+                        <Link to="/admin/dashboard" className="mr-5 hidden md:block">
                             <Tooltip
-                                content="Manage Products"
+                                content="Manage Shop"
                                 placement="top"
-                                className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
                             > 
-                                <FiBox size={24} className="text-gray hover:text-gray-300" />
+                                <FiSettings size={20} className="text-gray hover:text-gray-300" />
                             </Tooltip>
                         </Link>
-                        <Link to="/admin/users" className="mr-4 hidden md:block">
+                        {/* <Link to="/admin/users" className="mr-5 hidden md:block">
                             <Tooltip
                                 content="Manage Users"
                                 placement="top"
-                                className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
                             >
-                                <FiUsers size={24} className="text-gray hover:text-gray-300" />
+                                <FiUsers size={20} className="text-gray hover:text-gray-300" />
+                            </Tooltip>
+                        </Link>
+                        <Link to="/admin/orders" className="mr-5 hidden md:block">
+                            <Tooltip
+                                content="Manage Orders"
+                                placement="top"
+                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
+                            >
+                                <FiClipboard size={20} className="text-gray hover:text-gray-300" />
                             </Tooltip>
                         </Link>
                         <Link to="/admin/analytics" className="mr-8 hidden md:block">
                             <Tooltip
                                 content="Analytics"
                                 placement="top"
-                                className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
                             >
-                                <FiTrendingUp size={24} className="text-gray hover:text-gray-300" />
+                                <FiTrendingUp size={20} className="text-gray hover:text-gray-300" />
                             </Tooltip>
-                        </Link>
+                        </Link> */}
                     </>
                 )}
 
@@ -79,7 +89,7 @@ const Nav = () => {
                         arrowIcon={false}
                         inline
                         label={
-                           <UserAvatar firstName={user.name.first} lastName={user.name.last} />
+                            <UserAvatar firstName={user.name.first} lastName={user.name.last} />
                         }
                     >
                         <Dropdown.Header>
@@ -90,7 +100,7 @@ const Nav = () => {
                         <Dropdown.Item onClick={() => navigate("/orders")}>My Orders</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick={() => { logout(); navigate("/"); }}> Sign out </Dropdown.Item>
-                        {user.isAdmin && (
+                       {/*  {user.isAdmin && (
                             <>
                                 <Dropdown.Divider className="block md:hidden" />
                                 <Dropdown.Item onClick={() => navigate("/admin/products")} className="block md:hidden">
@@ -103,14 +113,14 @@ const Nav = () => {
                                     <FiTrendingUp size={20} className="mr-2" /> Analytics
                                 </Dropdown.Item>
                             </>
-                        )}
+                        )} */}
                     </Dropdown>
                 )}
 
                 {!isLoggedIn && (
-                    <Tooltip content="Login" placement="bottom" className="text-xs bg-gray-800 text-white rounded px-1 py-1">
+                    <Tooltip content="Login" placement="bottom" className="text-xs bg-gray-700 text-white rounded px-1 py-1">
                         <Link to="/login" className="mr-4 flex items-center">
-                            <FiUser size={24} className="text-gray hover:text-gray-300" />
+                            <FiUser size={20} className="text-gray hover:text-gray-300" />
                         </Link>
                     </Tooltip>
                 )}
