@@ -123,7 +123,7 @@ const Nav = () => {
                     Home
                 </Navbar.Link>
                 <Navbar.Link href="#">About</Navbar.Link>
-                <Navbar.Link href="#">Contact</Navbar.Link>
+                <Navbar.Link href="/contact">Contact</Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     );

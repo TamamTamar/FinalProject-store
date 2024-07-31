@@ -1,15 +1,18 @@
 import { Table } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { IOrder } from '../@Types/productType';
-import { useSearch } from '../hooks/useSearch';
-import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
 import dialogs from '../ui/dialogs';
+import { useSearch } from '../hooks/useSearch';
+import Search from '../components/Search/Search';
+import { IOrder } from '../@Types/productType';
+import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
+
+
 const statusOptions = [
     "pending", "approved", "processing", "shipped", "delivered", "cancelled", "returned", "completed"
 ];
 
 const AdminOrders = () => {
-    const { searchTerm } = useSearch();
+    const { searchTerm, setSearchTerm } = useSearch();
     const [orders, setOrders] = useState<IOrder[]>([]);
     const [filteredOrders, setFilteredOrders] = useState<IOrder[]>([]);
     const [error, setError] = useState<Error | null>(null);
@@ -48,13 +51,15 @@ const AdminOrders = () => {
     };
 
     return (
-        <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800">
-            <h2 className='text-5xl font-extralight text-center mb-6'>Orders</h2>
+        <div className="overflow-x-auto bg-white dark:border-gray-700 dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h2 className='text-4xl text-gray-800 mb-1 text-center mt-2'>Orders</h2>
             <div className="flex flex-col mb-4">
-            
-             </div>
-            {error && <div className="text-red-500 text-center mb-4">{error.message}</div>}
-            <Table hoverable>
+                <Search />
+            </div>
+            {error && <div className="text-red-500 text-center mb-4">{error.message}
+            </div>}
+
+            <Table hoverable className='"overflow-x-auto'>
                 <Table.Head>
                     <Table.HeadCell>Order Number</Table.HeadCell>
                     <Table.HeadCell>User ID</Table.HeadCell>
@@ -62,12 +67,6 @@ const AdminOrders = () => {
                     <Table.HeadCell>Status</Table.HeadCell>
                     <Table.HeadCell>Created At</Table.HeadCell>
                     <Table.HeadCell>Products</Table.HeadCell>
-                    <Table.HeadCell>
-                        <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        <span className="sr-only">Delete</span>
-                    </Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
                     {filteredOrders.map((order) => (
@@ -87,16 +86,17 @@ const AdminOrders = () => {
                                 </select>
                             </Table.Cell>
                             <Table.Cell>{new Date(order.createdAt).toLocaleDateString()}</Table.Cell>
-                            <Table.Cell>
+                            <Table.Cell className="whitespace-nowrap w-1/3"> {/* הוספתי מחלקת w-1/3 להרחבת העמודה */}
+                                <div className="flex flex-wrap space-x-2">
                                 {order.products.map((product, index) => (
-                                    <div key={index}>
-                                        <p>Title: {product.title}</p>
-                                        <p>Size: {product.size}</p>
-                                        <p>Quantity: {product.quantity}</p>
-                                        <p>Price: ${product.price}</p>
-                                        {index < order.products.length - 1 && <hr className="my-2" />}
+                                    <div key={index} className="bg-gray-100 dark:bg-gray-700 p-2 rounded mb-2">
+                                        <p className="text-sm">Title: {product.title}</p>
+                                        <p className="text-sm">Size: {product.size}</p>
+                                        <p className="text-sm">Quantity: {product.quantity}</p>
+                                        <p className="text-sm">Price: ${product.price}</p>
                                     </div>
                                 ))}
+                                </div>
                             </Table.Cell>
                         </Table.Row>
                     ))}
