@@ -19,6 +19,7 @@ import EditProduct from "./EditProduct";
 import AdminOrders from "./AdminOrders";
 import Contact from "./Contact";
 import AdminMessages from "./AdminMessage";
+import AdminDashboard from "./AdminDashboard";
 
 
 
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
                 {path:"/admin/orders", element: <AdminOrders />},
                 {path:"/contact", element: <Contact />},
                 {path:"/admin/messages", element: <AdminMessages/>},
+                {
+                    path: "/admin/dashboard", element: <AdminDashboard />
+                },
+    
     
             
 
