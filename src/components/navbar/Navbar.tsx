@@ -1,20 +1,22 @@
-import { Avatar, DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
-import { FiBox, FiUsers, FiTrendingUp, FiUser, FiShoppingCart, FiClipboard, FiSettings } from "react-icons/fi";
-import './Navbar.scss';
+import { DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FiBox, FiUser, FiShoppingCart, FiSettings, FiUsers, FiTrendingUp } from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 import Search from "../Search/Search";
 import UserAvatar from "../UserAvatar";
 
-const Nav =  () => {
+const Nav = () => {
     const { isLoggedIn, user, logout } = useAuth();
     const navigate = useNavigate();
     const { cart } = useCart();
+    const location = useLocation();
+
+    const isActive = (path: string) => location.pathname === path;
 
     return (
         <Navbar fluid rounded>
-            <Navbar.Brand href="#">
+            <Navbar.Brand href="/">
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
             </Navbar.Brand>
 
@@ -51,7 +53,6 @@ const Nav =  () => {
                                 <FiSettings size={20} className="text-gray hover:text-gray-300" />
                             </Tooltip>
                         </Link>
-                        {/* Add other admin links if needed */}
                     </>
                 )}
 
@@ -73,18 +74,18 @@ const Nav =  () => {
                         <Dropdown.Item onClick={() => { logout(); navigate("/"); }}>Sign out</Dropdown.Item>
                         {user.isAdmin && (
                             <>
-                                <Dropdown.Divider className="block md:hidden" />
-                                <Dropdown.Item onClick={() => navigate("/admin/products")} className="block md:hidden text-xs">
-                                    <FiBox size={20} className="mr-2" /> Manage Products
+                                <Dropdown.Item onClick={() => navigate("/admin/dashboard")}>
+                                    Manage Shop
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md:hidden text-xs">
-                                    <FiUsers size={20} className="mr-2" /> Manage Users
-                                </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md:hidden text-xs">
-                                    <FiTrendingUp size={20} className="mr-2" /> Analytics
-                                </Dropdown.Item>
+                                <Dropdown.Divider />
                             </>
                         )}
+                        <Dropdown.Item>
+                            <div className="flex items-center">
+                                <DarkThemeToggle  />
+                                <span className="ml-2">Mode</span>
+                            </div>
+                        </Dropdown.Item>
                     </Dropdown>
                 )}
 
@@ -97,16 +98,16 @@ const Nav =  () => {
                 )}
 
                 <Navbar.Toggle />
-                <DarkThemeToggle className="ml-2" />
+            
             </div>
             <Navbar.Collapse>
-                <Navbar.Link href="/" active className="text-xs">
+                <Navbar.Link href="/" className={`text-xs ${isActive("/") ? "font-bold" : ""}`}>
                     Home
                 </Navbar.Link>
-                <Navbar.Link href="#" className="text-xs">
+                <Navbar.Link href="/about" className={`text-xs ${isActive("/about") ? "font-bold" : ""}`}>
                     About
                 </Navbar.Link>
-                <Navbar.Link href="/contact" className="text-xs">
+                <Navbar.Link href="/contact" className={`text-xs ${isActive("/contact") ? "font-bold" : ""}`}>
                     Contact
                 </Navbar.Link>
             </Navbar.Collapse>
