@@ -2,10 +2,10 @@ import { FC, useEffect, useState } from 'react';
 import { Card } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { IProduct } from '../@Types/productType';
-import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 import { useSearch } from '../hooks/useSearch';
-import { getAllProducts } from '../services/product-service';
 import './Products.scss';
+import { getAllProducts } from '../services/product-service';
+import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -18,6 +18,7 @@ const Products: FC = () => {
         const fetchProducts = async () => {
             try {
                 const response = await getAllProducts();
+                console.log(response);
                 setProducts(response.data);
                 const initialSizes = response.data.reduce((acc: { [key: string]: string }, product: IProduct) => {
                     acc[product._id] = product.variants[0].size;
@@ -39,8 +40,6 @@ const Products: FC = () => {
             field.toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
-  
-
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
@@ -60,7 +59,7 @@ const Products: FC = () => {
                                 <p>{product.description}</p>
                             </div>
                         </Link>
-                    
+
                         <AddToCartButton
                             productId={product._id}
                             variants={product.variants}

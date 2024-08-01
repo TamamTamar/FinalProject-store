@@ -22,6 +22,7 @@ import AdminMessages from "./AdminMessage";
 import AdminDashboard from "./AdminDashboard";
 import { Carousel } from "flowbite-react";
 import { CarouselComponent } from "../components/Carousel";
+import { Component } from "../components/com";
 
 
 
@@ -69,6 +70,7 @@ export const router = createBrowserRouter([
                 {
                     path: "/admin/dashboard", element: <AdminDashboard />
                 },
+
 
     
     

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { getUserById, updateUser } from '../services/auth-service';
 import { useParams } from 'react-router-dom';
 import { updateUserType } from '../@Types/types';
 import './CreateProduct.scss'
@@ -8,6 +7,7 @@ import dialogs from "../ui/dialogs";
 import { useNavigate } from "react-router-dom";
 import patterns from "../validations/patterns";
 import { useAuth } from '../hooks/useAuth';
+import { getUserById, updateUser } from '../services/auth-service';
 
 const UpdateUser = () => {
     const { id } = useParams<{ id: string }>();
@@ -30,8 +30,8 @@ const UpdateUser = () => {
                     setValue('address.houseNumber', user.address.houseNumber);
                     setValue('address.country', user.address.country);
                     setValue('address.zip', user.address.zip);
-                    //setValue('image.url', user.image?.url || '');
-                    //setValue('alt', user.alt || '');
+                  /*   setValue('image.url', user.image?.url || '');
+                    setValue('alt', user.image?.alt || ''); */
                     setValue('address.state', user.address.state || '');
                     setLoading(false);
                 })
@@ -62,7 +62,7 @@ const UpdateUser = () => {
     }
 
     return (
-        <div className="register-container">
+        <div className="create-product-container">
             <h2>Update User</h2>
             <form noValidate onSubmit={handleSubmit(onSubmit)}>
                 {/* firstName */}
@@ -210,8 +210,39 @@ const UpdateUser = () => {
                     )}
                 </section>
 
+               
+              {/*   <section>
+                    <input
+                        placeholder="Image URL"
+                        type="url"
+                        {...register("image.url", {
+                            pattern: {
+                                value: patterns.url,
+                                message: "Invalid image URL",
+                            },
+                        })}
+                    />
+                    {errors.image?.url && (
+                        <p className="text-red-500">{errors.image?.url?.message}</p>
+                    )}
+                </section>
 
-                {/* address.state */}
+               
+                <section>
+                    <input
+                        placeholder="Image Description"
+                        type="text"
+                        {...register("alt", {
+                            minLength: { value: 2, message: "Too short" },
+                            maxLength: { value: 255, message: "Too long" },
+                        })}
+                    />
+                    {errors.alt && (
+                        <p className="text-red-500">{errors.alt?.message}</p>
+                    )}
+                </section> */}
+
+              
                 <section>
                     <input
                         placeholder="State"
@@ -233,4 +264,3 @@ const UpdateUser = () => {
 };
 
 export default UpdateUser;
-

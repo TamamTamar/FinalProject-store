@@ -7,14 +7,11 @@ import useCart from "../../hooks/useCart";
 import Search from "../Search/Search";
 import UserAvatar from "../UserAvatar";
 
-
-
-const Nav = () => {
+const Nav =  () => {
     const { isLoggedIn, user, logout } = useAuth();
     const navigate = useNavigate();
     const { cart } = useCart();
 
-   
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="#">
@@ -30,57 +27,31 @@ const Nav = () => {
                     <Tooltip
                         content="View Cart"
                         placement="top"
-                        className="text-sm bg-gray-700 text-white rounded px-2 py-1"
+                        className="text-xs bg-gray-700 text-white rounded px-2 py-1"
                     >
                         <div className="relative">
                             <FiShoppingCart size={20} className={cart && cart.totalQuantity > 0 ? "text-red-500" : "text-gray-300"} />
                             {cart && cart.totalQuantity > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">
+                                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1 text-xs">
                                     {cart.totalQuantity}
                                 </span>
                             )}
                         </div>
                     </Tooltip>
                 </Link>
-                
+
                 {isLoggedIn && user?.isAdmin && (
                     <>
                         <Link to="/admin/dashboard" className="mr-5 hidden md:block">
                             <Tooltip
                                 content="Manage Shop"
                                 placement="top"
-                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
-                            > 
+                                className="text-xs bg-gray-700 text-white rounded px-2 py-1"
+                            >
                                 <FiSettings size={20} className="text-gray hover:text-gray-300" />
                             </Tooltip>
                         </Link>
-                        {/* <Link to="/admin/users" className="mr-5 hidden md:block">
-                            <Tooltip
-                                content="Manage Users"
-                                placement="top"
-                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
-                            >
-                                <FiUsers size={20} className="text-gray hover:text-gray-300" />
-                            </Tooltip>
-                        </Link>
-                        <Link to="/admin/orders" className="mr-5 hidden md:block">
-                            <Tooltip
-                                content="Manage Orders"
-                                placement="top"
-                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
-                            >
-                                <FiClipboard size={20} className="text-gray hover:text-gray-300" />
-                            </Tooltip>
-                        </Link>
-                        <Link to="/admin/analytics" className="mr-8 hidden md:block">
-                            <Tooltip
-                                content="Analytics"
-                                placement="top"
-                                className="text-sm bg-gray-700 text-white rounded px-2 py-1"
-                            >
-                                <FiTrendingUp size={20} className="text-gray hover:text-gray-300" />
-                            </Tooltip>
-                        </Link> */}
+                        {/* Add other admin links if needed */}
                     </>
                 )}
 
@@ -93,27 +64,27 @@ const Nav = () => {
                         }
                     >
                         <Dropdown.Header>
-                            <span className="block text-sm">{user.name.first} {user.name.last}</span>
-                            <span className="block truncate text-sm font-medium">{user.email}</span>
+                            <span className="block text-xs">{user.name.first} {user.name.last}</span>
+                            <span className="block truncate text-xs font-medium">{user.email}</span>
                         </Dropdown.Header>
                         <Dropdown.Item onClick={() => navigate(`/users/${user._id}`)}>Edit Profile</Dropdown.Item>
                         <Dropdown.Item onClick={() => navigate("/orders")}>My Orders</Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item onClick={() => { logout(); navigate("/"); }}> Sign out </Dropdown.Item>
-                       {/*  {user.isAdmin && (
+                        <Dropdown.Item onClick={() => { logout(); navigate("/"); }}>Sign out</Dropdown.Item>
+                        {user.isAdmin && (
                             <>
                                 <Dropdown.Divider className="block md:hidden" />
-                                <Dropdown.Item onClick={() => navigate("/admin/products")} className="block md:hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/products")} className="block md:hidden text-xs">
                                     <FiBox size={20} className="mr-2" /> Manage Products
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md:hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/users")} className="block md:hidden text-xs">
                                     <FiUsers size={20} className="mr-2" /> Manage Users
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md:hidden">
+                                <Dropdown.Item onClick={() => navigate("/admin/analytics")} className="block md:hidden text-xs">
                                     <FiTrendingUp size={20} className="mr-2" /> Analytics
                                 </Dropdown.Item>
                             </>
-                        )} */}
+                        )}
                     </Dropdown>
                 )}
 
@@ -129,14 +100,18 @@ const Nav = () => {
                 <DarkThemeToggle className="ml-2" />
             </div>
             <Navbar.Collapse>
-                <Navbar.Link href="/" active>
+                <Navbar.Link href="/" active className="text-xs">
                     Home
                 </Navbar.Link>
-                <Navbar.Link href="#">About</Navbar.Link>
-                <Navbar.Link href="/contact">Contact</Navbar.Link>
+                <Navbar.Link href="#" className="text-xs">
+                    About
+                </Navbar.Link>
+                <Navbar.Link href="/contact" className="text-xs">
+                    Contact
+                </Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     );
-};
+}
 
 export default Nav;
