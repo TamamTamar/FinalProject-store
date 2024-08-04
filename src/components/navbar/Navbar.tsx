@@ -1,23 +1,26 @@
 import { DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiBox, FiUser, FiShoppingCart, FiSettings, FiUsers, FiTrendingUp } from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 import Search from "../Search/Search";
 import UserAvatar from "../UserAvatar";
+import './Navbar.scss';
+
+
+
 
 const Nav = () => {
     const { isLoggedIn, user, logout } = useAuth();
     const navigate = useNavigate();
     const { cart } = useCart();
     const location = useLocation();
-
     const isActive = (path: string) => location.pathname === path;
 
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="/">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
+                <span className="self-center whitespace-nowrap text-xl text-[#59372b] font-semibold dark:text-white">Tamar Tamam</span>
             </Navbar.Brand>
 
             <div className="flex md:order-2 items-center">
@@ -53,6 +56,7 @@ const Nav = () => {
                                 <FiSettings size={20} className="text-gray hover:text-gray-300" />
                             </Tooltip>
                         </Link>
+                        {/* Add other admin links if needed */}
                     </>
                 )}
 
@@ -71,7 +75,6 @@ const Nav = () => {
                         <Dropdown.Item onClick={() => navigate(`/users/${user._id}`)}>Edit Profile</Dropdown.Item>
                         <Dropdown.Item onClick={() => navigate("/orders")}>My Orders</Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item onClick={() => { logout(); navigate("/"); }}>Sign out</Dropdown.Item>
                         {user.isAdmin && (
                             <>
                                 <Dropdown.Item onClick={() => navigate("/admin/dashboard")}>
@@ -80,12 +83,14 @@ const Nav = () => {
                                 <Dropdown.Divider />
                             </>
                         )}
-                        <Dropdown.Item>
-                            <div className="flex items-center">
-                                <DarkThemeToggle  />
+                      {/*   <Dropdown.Item as="button">
+                            <div className="flex items-center" onClick={() => document.documentElement.classList.toggle('dark')}>
+                                <DarkThemeToggle />
                                 <span className="ml-2">Mode</span>
                             </div>
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
+                        <Dropdown.Divider />
+                        <Dropdown.Item onClick={() => { logout(); navigate("/"); }}>Sign out</Dropdown.Item>
                     </Dropdown>
                 )}
 
@@ -98,16 +103,17 @@ const Nav = () => {
                 )}
 
                 <Navbar.Toggle />
+                <DarkThemeToggle />
             
             </div>
             <Navbar.Collapse>
-                <Navbar.Link href="/" className={`text-xs ${isActive("/") ? "font-bold" : ""}`}>
+                <Navbar.Link href="/"  className={`text-xs custom-navbar-link ${isActive("/") ? "font-bold " : ""}` }>
                     Home
                 </Navbar.Link>
-                <Navbar.Link href="/about" className={`text-xs ${isActive("/about") ? "font-bold" : ""}`}>
+                <Navbar.Link href="/about" className={`text-xs custom-navbar-link ${isActive("/about") ? "font-bold" : ""}`}>
                     About
                 </Navbar.Link>
-                <Navbar.Link href="/contact" className={`text-xs ${isActive("/contact") ? "font-bold" : ""}`}>
+                <Navbar.Link href="/contact" className={`text-xs custom-navbar-link ${isActive("/contact") ? "font-bold" : ""}`}>
                     Contact
                 </Navbar.Link>
             </Navbar.Collapse>

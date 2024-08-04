@@ -47,9 +47,8 @@ const Product = () => {
     };
 
     const getEstimatedArrivalDate = (): string => {
-        const orderDate = new Date();
-        const deliveryDate = new Date(orderDate);
-        deliveryDate.setDate(orderDate.getDate() + 7); // להוסיף 7 ימים
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + 7); // להוסיף 7 ימים
         return format(deliveryDate, 'PPP'); // פורמט התאריך
     };
 

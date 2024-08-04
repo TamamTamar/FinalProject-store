@@ -64,7 +64,7 @@ const EditProduct = () => {
 
                 await updateProduct(id, formData);
                 dialogs.success("Success", "Product updated successfully").then(() => {
-                    navigate("/admin/products");
+                    navigate("/admin/dashboard");
                 });
             }
         } catch (error: any) {
@@ -76,7 +76,7 @@ const EditProduct = () => {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
+        <div className="create-card-container bg-[#ebd6c8] text-white dark:bg-slate-600">
             <h2>Edit Product</h2>
             <form noValidate onSubmit={handleSubmit(onSubmit)}>
                 <section>

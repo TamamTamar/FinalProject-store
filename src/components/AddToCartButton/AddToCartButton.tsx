@@ -35,7 +35,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
 
     return (
         <div className="add-to-cart-container">
-            <p className={isOutOfStock ? 'text-red-500' : 'text-green-500'}>
+            <p className={isOutOfStock ? 'text-red-500' : 'text-black'}>
                 {isOutOfStock ? 'Out of Stock' : 'In Stock'}
             </p>
             <div className="price-container" style={{ marginBottom: '20px', marginTop: '15px' }}>

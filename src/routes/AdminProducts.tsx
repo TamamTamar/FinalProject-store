@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Tooltip } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import dialogs from '../ui/dialogs';
-import { FiPlus, FiTrash2 } from 'react-icons/fi';
+import { FiEdit, FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useSearch } from '../hooks/useSearch';
 import { deleteProductById, getAllProducts } from '../services/product-service';
 import { IProduct } from '../@Types/productType';
@@ -50,7 +50,7 @@ const AdminProducts = () => {
             <h2 className='text-4xl text-gray-800 mb-2 text-center mt-0'>Products</h2>
             <div className="flex justify-end mb-4">
                 <Tooltip content="Add Product" placement="top" className="text-sm bg-gray-800 text-white rounded px-2 py-1">
-                    <Link to="/admin/create-product" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-3 text-center inline-flex items-center me-8 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <Link to="/admin/create-product" className="text-white bg-[#59372b] hover:bg-[#a36650] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-3 text-center inline-flex items-center me-8 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <FiPlus size={20} />
                         <span className="sr-only">Add Product</span>
                     </Link>
@@ -97,7 +97,7 @@ const AdminProducts = () => {
                             </Table.Cell>
                             <Table.Cell>
                                 <Link to={`/admin/products/${product._id}`} className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                                    Edit
+                                    <FiEdit2 size={20} />
                                 </Link>
                             </Table.Cell>
                             <Table.Cell>

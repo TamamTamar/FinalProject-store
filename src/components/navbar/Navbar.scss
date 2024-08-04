@@ -1,44 +1,10 @@
-@media (max-width: 768px) {
-  .navbar-collapse {
-      max-height: 40vh;
-      overflow-y: auto;
-      font-size: .5rem !important;
-  }
 
-  .navbar{
-      font-size: .5rem !important;
-      width: 60% !important;
-  }
 
-  .navbar {
-      .navbar-brand {
-          font-size: .3rem;
-          width: 50%;
-      }
+.custom-navbar-link {
+    @apply block py-2 pl-3 pr-4 md:p-0 border-b border-gray-100  text-[#59372b] dark:border-gray-700 dark:text-gray-400 md:border-0 md:hover:bg-transparent text-xs;
+}
 
-      .navbar-collapse {
-          font-size: 0.5rem;
-      }
-
-      .navbar-dropdown {
-          font-size: 0.5rem;
-      }
-
-      .navbar-search {
-          width: 80%;
-          margin: 0 auto;
-      }
-
-      .navbar-link {
-          padding: 0.75rem 1rem;
-      }
-
-      .navbar-toggle {
-          margin-right: 0.5rem;
-      }
-
-      .navbar-dark-toggle {
-          margin-right: 0.5rem;
-      }
-  }
+.custom-navbar-link:hover {
+    @apply text-[#7a4d3d];
+    /* שינוי הצבע לצהוב בזמן hover */
 }
