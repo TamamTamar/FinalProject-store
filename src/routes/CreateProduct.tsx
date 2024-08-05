@@ -62,7 +62,7 @@ const CreateProduct = () => {
     };
 
     return (
-        <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
+        <div className="create-card-container bg-[#3c2a1d] text-white dark:bg-slate-600">
             <h2>Create New Product</h2>
             <form noValidate onSubmit={handleSubmit(onSubmit)}>
                 <section>

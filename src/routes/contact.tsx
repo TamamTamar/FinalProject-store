@@ -34,7 +34,7 @@ const Contact = () => {
 
 
   return (
-    <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
+    <div className="create-card-container bg-[#3c2a1d] text-white dark:bg-slate-600">
       <form noValidate onSubmit={handleSubmit(onSend)}>
         {/* Full Name */}
         <section>

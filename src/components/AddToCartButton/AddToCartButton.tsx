@@ -1,12 +1,14 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import './AddToCartButton.scss';
 import dialogs from '../../ui/dialogs';
-import { AddToCartButtonProps, IVariant } from '../../@Types/productType';
+import { AddToCartButtonProps } from '../../@Types/productType';
 import useCart from '../../hooks/useCart';
+import { useVariant } from '../../hooks/useVariant';
+
 
 const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image }) => {
-    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(variants[0] || null);
+    const { selectedVariant, setSelectedVariant } = useVariant();
     const { addToCart } = useCart();
 
     const handleAddToCart = async () => {

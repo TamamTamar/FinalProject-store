@@ -31,7 +31,7 @@ const Login: FC = () => {
     } = useForm<ILogin>();
 
     return (
-        <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
+        <div className="create-card-container bg-[#3c2a1d] text-white dark:bg-slate-600">
             <form noValidate onSubmit={handleSubmit(onLogin)}>
                 {/* email */}
                 <section>
@@ -72,10 +72,14 @@ const Login: FC = () => {
                     <div className="text-stone-300 px-4 text-sm font-normal">OR</div>
                     <div className="border h-0 w-2/4 border-stone-300"></div>
                 </div>
-                <Link to="/register" type="submit"
-                    className="border border-indigo-900 rounded-lg text-center text-indigo-900 bg-white text-base font-semibold w-full py-3 mt-9">
+                <Link
+                    to="/register"
+                    type="submit"
+                    className="border border-[#3c2a1d] rounded-lg text-center text-[#3c2a1d] bg-white text-base font-semibold w-full py-3 mt-9 hover:bg-[#967d68] hover:text-white"
+                >
                     Signup now
                 </Link>
+
             </form>
         </div>
     );

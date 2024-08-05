@@ -231,4 +231,9 @@ export type IMessage ={
     message: string;
     createdAt?: Date;
   }
+  interface VariantContextProps {
+    selectedVariant: IVariant | null;
+    setSelectedVariant: (variant: IVariant | null) => void;
+}
+
   

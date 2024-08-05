@@ -6,25 +6,27 @@ import { useSearch } from '../hooks/useSearch';
 import './Products.scss';
 import { getAllProducts } from '../services/product-service';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
+import { useVariant } from '../hooks/useVariant';
+
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const { searchTerm } = useSearch();
-    const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>({});
+    const { setSelectedVariant } = useVariant();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await getAllProducts();
-                console.log(response);
+
                 setProducts(response.data);
                 const initialSizes = response.data.reduce((acc: { [key: string]: string }, product: IProduct) => {
                     acc[product._id] = product.variants[0].size;
                     return acc;
                 }, {});
-                setSelectedSizes(initialSizes);
+                setSelectedVariant(initialSizes);
             } catch (error) {
                 setError(error);
             } finally {
@@ -53,7 +55,7 @@ const Products: FC = () => {
                     <Card key={product._id} className="product-card">
                         <Link to={`/products/${product._id}`} className="product-link">
                             <img src={product.image.url} alt={product.alt} className="w-full h-50 object-cover rounded-t-lg mb-2" />
-                            <div className="product-info">
+                            <div className="product-info flex-1">
                                 <h5 className="text-xl font-bold">{product.title}</h5>
                                 <h6 className="text-md font-semibold">{product.subtitle}</h6>
                                 <p>{product.description}</p>

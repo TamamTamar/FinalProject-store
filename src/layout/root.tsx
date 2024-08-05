@@ -7,7 +7,7 @@ import FooterComponent from "../components/Footer/Footer";
 const Root = () => {
 
     return (
-        <div className="flex flex-col min-h-screen text-blue-500">
+        <div className="flex flex-col min-h-screen">
             <Header /> 
             <main className="flex-1">
                 <Outlet />

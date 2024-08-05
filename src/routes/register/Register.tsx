@@ -46,7 +46,7 @@ const Register = () => {
     }; */
 
   return (
-    <div className="create-card-container bg-blue-950 text-white dark:bg-slate-600">
+    <div className="create-card-container bg-[#3c2a1d] text-white dark:bg-slate-600">
       <form noValidate onSubmit={handleSubmit(onRegister)}>
         {/* firstName */}
         <section>
@@ -299,7 +299,7 @@ const Register = () => {
         <button disabled={!isValid} type="submit">Register</button>
         <div className="mt-4 text-center">
           <span className="text-sm text-gray-300">Already have an account? </span>
-          <Link className="text-sm font-medium text-blue-400 hover:underline" to="/login">Login</Link>
+          <Link className="text-sm font-medium text-orange-200 hover:underline" to="/login">Login</Link>
         </div>
       </form>
     </div>

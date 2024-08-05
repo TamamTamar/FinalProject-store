@@ -23,6 +23,7 @@ const Cart = () => {
         if (token) {
             fetchCart(); // Fetch cart items when token changes (e.g., on login)
         }
+        
     }, [token]);
 
     const handleRemoveItem = async (variantId: string) => {
@@ -124,7 +125,7 @@ const Cart = () => {
                             <div className="flex items-center mb-4">
                                 <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
                                 <div>
-                                    <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-blue-500 hover:underline">{item.title}</Link>
+                                    <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-[#333] hover:underline">{item.title}</Link>
                                 </div>
                             </div>
                             <div className="variant flex justify-between items-center mb-4">

@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IProduct, IVariant } from '../@Types/productType';
+import { IProduct } from '../@Types/productType';
 import './Product.scss';
 import { Accordion } from 'flowbite-react';
 import { getProductById } from '../services/product-service';
 import cartService from '../services/cart-service';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
 import { format } from 'date-fns';
+import dialogs from '../ui/dialogs';
+import { useVariant } from '../hooks/useVariant';
+
 
 const Product = () => {
     const { id } = useParams();
     const [product, setProduct] = useState<IProduct | null>(null);
-    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
+    const { selectedVariant, setSelectedVariant } = useVariant();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,6 +35,9 @@ const Product = () => {
             return;
         }
 
+        console.log('Adding product to cart:', selectedVariant);
+        
+
         try {
             await cartService.addProductToCart(
                 product._id,
@@ -39,6 +45,16 @@ const Product = () => {
                 1,
                 selectedVariant.size,
                 selectedVariant.price
+            );
+
+            dialogs.success(
+                'Product Added',
+                `<div style="display: flex; align-items: center;">
+                    <img src="${product.image.url}" alt="${product.title}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;" />
+                    <div>
+                        <p>${product.title} has been added to your cart.</p>
+                    </div>
+                </div>`
             );
             navigate('/cart');
         } catch (error) {

@@ -33,6 +33,8 @@ export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
         fetchCart();
     }, [token]);
 
+    
+
     return (
         <CartContext.Provider value={{ cart, setCart, fetchCart, addToCart }}>
             {children}
