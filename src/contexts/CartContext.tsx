@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, FC } from 'react';
-import { CartContextProps, ICartWithTotals, IVariant } from '../@Types/productType';
+import { CartContextProps, ICartWithTotals } from '../@Types/productType';
 import { ContextProviderProps } from '../@Types/types';
 import cartService from '../services/cart-service';
 import { useAuth } from '../hooks/useAuth';
@@ -23,7 +23,7 @@ export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
     const addToCart = async (productId: string, variantId: string, quantity: number, size: string, price: number) => {
         try {
             await cartService.addProductToCart(productId, variantId, quantity, size, price);
-            fetchCart(); // עדכן את מצב העגלה לאחר הוספה
+            fetchCart();
         } catch (error) {
             console.error('Error adding to cart', error);
         }
@@ -32,8 +32,6 @@ export const CartProvider: FC<ContextProviderProps> = ({ children }) => {
     useEffect(() => {
         fetchCart();
     }, [token]);
-
-    
 
     return (
         <CartContext.Provider value={{ cart, setCart, fetchCart, addToCart }}>

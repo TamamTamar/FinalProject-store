@@ -107,6 +107,7 @@ export interface SalesByDateQuery {
 
 // טיפוס עבור רכיב כפתור "הוסף לעגלה"
 export interface AddToCartButtonProps {
+
     productId: string;
     variants: IVariant[];
     title: string;
@@ -234,6 +235,7 @@ export type IMessage ={
   interface VariantContextProps {
     selectedVariant: IVariant | null;
     setSelectedVariant: (variant: IVariant | null) => void;
+    fetchVariant: (variant: IVariant | null) => void;
 }
 
   

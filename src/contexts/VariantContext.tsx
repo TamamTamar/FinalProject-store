@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, ReactNode, FC } from 'react';
+/* import { createContext, FC, useContext, useState } from 'react';
 import { IVariant, VariantContextProps } from '../@Types/productType';
+import { ContextProviderProps } from '../@Types/types';
 
 
-export const VariantContext = createContext<VariantContextProps | undefined>(undefined);
+const VariantContext = createContext<VariantContextProps | undefined>(undefined);
 
-export const VariantProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const VariantProvider: FC<ContextProviderProps> = ({ children }) => {
     const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
 
     return (
@@ -15,3 +16,4 @@ export const VariantProvider: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 
+ */

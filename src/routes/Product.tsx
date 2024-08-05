@@ -1,20 +1,17 @@
+import { format } from 'date-fns';
+import { Accordion } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IProduct } from '../@Types/productType';
-import './Product.scss';
-import { Accordion } from 'flowbite-react';
-import { getProductById } from '../services/product-service';
-import cartService from '../services/cart-service';
+import { IProduct, IVariant } from '../@Types/productType';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
-import { format } from 'date-fns';
-import dialogs from '../ui/dialogs';
-import { useVariant } from '../hooks/useVariant';
+import { getProductById } from '../services/product-service';
+import './Product.scss';
 
 
 const Product = () => {
     const { id } = useParams();
     const [product, setProduct] = useState<IProduct | null>(null);
-    const { selectedVariant, setSelectedVariant } = useVariant();
+    const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,28 +20,25 @@ const Product = () => {
                 .then(res => {
                     const productData = res.data;
                     setProduct(productData);
-                    setSelectedVariant(productData.variants[0] || null);
                 })
                 .catch(err => console.log('Failed to fetch product:', err));
         }
     }, [id]);
 
-    const handleAddToCartAndRedirect = async () => {
-        if (!product || !selectedVariant) {
+/*     const handleAddToCartAndRedirect = async () => {
+        if (!product) {
             console.error('No variant selected or product is not loaded');
             return;
         }
 
-        console.log('Adding product to cart:', selectedVariant);
-        
-
+        console.log('Adding product to cart:', product.variants[0]);
         try {
             await cartService.addProductToCart(
                 product._id,
-                selectedVariant._id || '',
+                product.variants[0]._id || '',
                 1,
-                selectedVariant.size,
-                selectedVariant.price
+                product.variants[0].size,
+                product.variants[0].price
             );
 
             dialogs.success(
@@ -60,12 +54,12 @@ const Product = () => {
         } catch (error) {
             console.error('Failed to add product to cart.', error);
         }
-    };
+    }; */
 
     const getEstimatedArrivalDate = (): string => {
         const deliveryDate = new Date();
-        deliveryDate.setDate(deliveryDate.getDate() + 7); // להוסיף 7 ימים
-        return format(deliveryDate, 'PPP'); // פורמט התאריך
+        deliveryDate.setDate(deliveryDate.getDate() + 7);
+        return format(deliveryDate, 'PPP');
     };
 
     if (!product) {
@@ -88,13 +82,15 @@ const Product = () => {
                 <h3 className="product-description">{product.description}</h3>
 
                 <div className="buttons-container">
-                    <AddToCartButton
-                        productId={product._id}
-                        variants={product.variants}
-                        title={product.title}
-                        image={product.image}
-                    />
-                    <button className="consult-expert-button" onClick={handleAddToCartAndRedirect}>Buy Now</button>
+
+                        <AddToCartButton
+                            productId={product._id}
+                            variants={product.variants}
+                            title={product.title}
+                            image={product.image}
+                        />
+  
+                 
                 </div>
                 <Accordion>
                     <Accordion.Panel>

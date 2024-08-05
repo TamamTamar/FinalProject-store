@@ -1,41 +1,47 @@
 import { FC, useEffect, useState } from 'react';
 import { Card } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import { IProduct } from '../@Types/productType';
+import { IProduct, IVariant } from '../@Types/productType';
 import { useSearch } from '../hooks/useSearch';
 import './Products.scss';
 import { getAllProducts } from '../services/product-service';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
-import { useVariant } from '../hooks/useVariant';
-
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const { searchTerm } = useSearch();
-    const { setSelectedVariant } = useVariant();
+    const [selectedVariant, setSelectedVariant] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await getAllProducts();
-
                 setProducts(response.data);
+                
                 const initialSizes = response.data.reduce((acc: { [key: string]: string }, product: IProduct) => {
-                    acc[product._id] = product.variants[0].size;
+                    if (product.variants.length > 0) {
+                        acc[product._id] = product.variants[0].size;
+                    }
                     return acc;
                 }, {});
+                
                 setSelectedVariant(initialSizes);
             } catch (error) {
-                setError(error);
+                if (error instanceof Error) {
+                    setError(error);
+                } else {
+                    setError(new Error('שגיאה לא ידועה התרחשה'));
+                }
             } finally {
                 setLoading(false);
             }
         };
-
+    
         fetchProducts();
     }, []);
+    
 
     const filteredProducts = products.filter(product =>
         [product.title, product.subtitle, product.description].some(field =>

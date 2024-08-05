@@ -1,7 +1,7 @@
 .create-product-container {
     background-color: #1c3a5a;
     /* צבע רקע */
-    color: rgb(0, 0, 0);
+    color: #000000;
     /* צבע טקסט */
     padding: 20px;
     border-radius: 10px;
@@ -35,7 +35,7 @@
 
                 &:focus {
                     outline: none;
-                    border-color: #007bff;
+                    border-color: #7d7f81;
                 }
             }
 
@@ -49,7 +49,7 @@
 
         button {
             padding: 10px;
-            background-color: #007bff;
+            background-color: #797b7c;
             color: white;
             border: none;
             border-radius: 5px;
@@ -57,12 +57,12 @@
             cursor: pointer;
 
             &:hover {
-                background-color: #0056b3;
+                background-color: #94979b;
             }
         }
 
         .custom-file-upload::file-selector-button {
-            background-color: darkblue;
+            background-color: rgb(66, 66, 66);
             /* התאימי את הרקע לפי הצורך */
             color: white;
             /* הצבע של הטקסט בכפתור */
@@ -72,7 +72,7 @@
         }
 
         .custom-file-upload::file-selector-button:hover {
-            background-color: navy;
+            background-color: #323232;
             /* צבע הכפתור בעת ריחוף */
         }
     }

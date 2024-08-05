@@ -10,20 +10,20 @@ export const FooterComponent = () => {
                     2024 - Tamar Tamam ©
                 </span>
                 <div className="flex-1 flex justify-center">
-                    <ul className="flex items-center text-sm font-medium text-[#5d6370] dark:text-gray-400 mt-0 p-0 list-none">
+                    <ul className="flex items-center text-sm font-medium text-[#5d6370] dark:text-gray-400 mt-0 p-0 gap-6 list-none">
                         <li className="mx-2">
                             <Tooltip content="Home" placement="top" className="text-xs bg-gray-700 text-white rounded px-2 py-1">
-                                <a href="/" className="hover:underline"><FiHome /></a>
+                                <a href="/" className="hover:underline"><FiHome size={24} /></a>
                             </Tooltip>
                         </li>
                         <li className="mx-2">
                             <Tooltip content="About" placement="top" className="text-xs bg-gray-700 text-white rounded px-2 py-1">
-                                <a href="/about" className="hover:underline"><FiInfo /></a>
+                                <a href="/about" className="hover:underline"><FiInfo size={24} /></a>
                             </Tooltip>
                         </li>
                         <li className="mx-2">
                             <Tooltip content="Contact" placement="top" className="text-xs bg-gray-700 text-white rounded px-2 py-1">
-                                <a href="/contact" className="hover:underline"><FiMail /></a>
+                                <a href="/contact" className="hover:underline"><FiMail size={24} /></a>
                             </Tooltip>
                         </li>
                     </ul>
