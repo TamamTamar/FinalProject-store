@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "https://finalproject-store.onrender.com///api/v1";
+const baseUrl = "https://finalproject-store.onrender.com/api/v1";
 const cartUrl = `${baseUrl}/cart`;
 
 // Get cart items
