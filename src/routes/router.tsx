@@ -22,6 +22,7 @@ import AdminDashboard from "./AdminDashboard";
 import { CarouselComponent } from "../components/Carousel";
 import About from "./About";
 import Message from "./Message";
+import FFF from "./FFFF";
 
 export const router = createBrowserRouter([
     {
@@ -65,7 +66,8 @@ export const router = createBrowserRouter([
             {
                 path: "/admin/dashboard", element: <AdminDashboard />
             },
-            { path: "/about", element: <About /> },
+         /*    { path: "/about", element: <About /> }, */
+            {path: "/about", element: <FFF />},
         ],
     },
 ]);
