@@ -8,7 +8,6 @@ import { IUser } from "../../@Types/types";
 
 import dialogs from "../../ui/dialogs";
 import patterns from "../../validations/patterns";
-import { registerMock } from "../../mocks/register";
 import { useAuth } from "../../hooks/useAuth";
 import { auth } from "../../services/auth-service";
 
@@ -19,10 +18,7 @@ const Register = () => {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<IUser>({
-    defaultValues: registerMock,
-    mode: "onChange",
-  });
+  } = useForm<IUser>();
 
   const { register: registerUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
