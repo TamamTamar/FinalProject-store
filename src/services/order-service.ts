@@ -1,7 +1,7 @@
 import axios from "axios";
 import { IOrderProduct } from "../@Types/productType";
 
-export const orderUrl = "https://finalproject-store.onrender.com/api/v1/orders";
+export const orderUrl = "https://projectnode-vvte.onrender.com/api/v1/orders";
 
 // Create an order
 export const createOrder = (products: IOrderProduct[]) => {
