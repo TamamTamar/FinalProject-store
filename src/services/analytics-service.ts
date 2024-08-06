@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const analyticsUrl = 'http://68.183.45.191/api/v1/analytics';
+const analyticsUrl = 'https://finalproject-store.onrender.com///api/v1/analytics';
 
 const getSalesByDate = (startDate: string, endDate: string) => {
     const url = `${analyticsUrl}/sales-by-date`;
