@@ -21,7 +21,8 @@ import AdminMessages from "./AdminMessage";
 import AdminDashboard from "./AdminDashboard";
 import { CarouselComponent } from "../components/Carousel";
 import About from "./About";
-import Contact from "./Contact";
+import Message from "./Message";
+
 
 
 
@@ -66,7 +67,7 @@ export const router = createBrowserRouter([
                     path: "/admin/analytics", element: < SalesPage />
                 },
                 {path:"/admin/orders", element: <AdminOrders />},
-                {path:"/contact", element: <Contact />},
+                {path:"/contact", element: <Message />},
                 {path:"/admin/messages", element: <AdminMessages/>},
                 {
                     path: "/admin/dashboard", element: <AdminDashboard />

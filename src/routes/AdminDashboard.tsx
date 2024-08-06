@@ -1,5 +1,5 @@
 import { Tabs } from "flowbite-react";
-import { FiBox, FiUsers, FiClipboard, FiTrendingUp } from "react-icons/fi";
+import { FiBox, FiUsers, FiClipboard, FiTrendingUp, FiMessageCircle } from "react-icons/fi";
 import AdminProducts from "./AdminProducts";
 import Users from "./Users";
 import AdminOrders from "./AdminOrders";
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
             <Tabs.Item title="Analytics" icon={FiTrendingUp} className="tabs-item">
                 <SalesChart />
             </Tabs.Item>
-            <Tabs.Item title="Leads" icon={FiTrendingUp} className="tabs-item">
+            <Tabs.Item title="Leads" icon={FiMessageCircle} className="tabs-item">
                 <AdminMessages />
             </Tabs.Item>
         </Tabs>
