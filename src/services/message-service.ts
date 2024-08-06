@@ -2,7 +2,7 @@ import axios from "axios";
 import { IMessage } from "../@Types/productType";
 
 
-const messageUrl = "http://localhost:8080/api/v1/messages";
+const messageUrl = "http://68.183.45.191/api/v1/messages";
 
 export const sendMessage = (data: IMessage) => {
     const url = `${messageUrl}/send-message`

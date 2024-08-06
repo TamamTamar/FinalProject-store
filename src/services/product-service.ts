@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export const baseUrl = "http://localhost:8080/api/v1/products";
+export const baseUrl = "http://68.183.45.191/api/v1/products";
 
 // get all products
 export const getAllProducts = () => axios.get(baseUrl);
@@ -10,7 +10,7 @@ export const getAllProducts = () => axios.get(baseUrl);
 export const getProductById = (id: string) => axios.get(`${baseUrl}/${id}`);
 
 //create product
-export const createNewProduct = (data:FormData) => {
+export const createNewProduct = (data: FormData) => {
     const url = `${baseUrl}/`;
     return axios.post(url, data, {
         headers: {
@@ -41,7 +41,7 @@ export const updateProduct = (id: string, product: FormData) => {
 
 export const productService = {
     getAllProducts,
-    getProductById, 
+    getProductById,
     createNewProduct,
 };
 

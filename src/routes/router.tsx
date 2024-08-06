@@ -17,12 +17,11 @@ import UserOrders from "./UserOrders";
 import SalesPage from "./SalesByDate";
 import EditProduct from "./EditProduct";
 import AdminOrders from "./AdminOrders";
-import Contact from "./Contact";
 import AdminMessages from "./AdminMessage";
 import AdminDashboard from "./AdminDashboard";
-import { Carousel } from "flowbite-react";
 import { CarouselComponent } from "../components/Carousel";
 import About from "./About";
+import Contact from "./Contact";
 
 
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const analyticsUrl = 'http://localhost:8080/api/v1/analytics';
+const analyticsUrl = 'http://68.183.45.191/api/v1/analytics';
 
 const getSalesByDate = (startDate: string, endDate: string) => {
     const url = `${analyticsUrl}/sales-by-date`;
@@ -30,6 +30,6 @@ export const updateOrderStatus = (orderId: string, status: string) => {
     });
 }
 
-const analyticsService = { getSalesByDate , getAllOrders, updateOrderStatus };
+const analyticsService = { getSalesByDate, getAllOrders, updateOrderStatus };
 
 export default analyticsService;

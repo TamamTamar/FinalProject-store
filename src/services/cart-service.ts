@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "http://localhost:8080/api/v1";
+const baseUrl = "http://68.183.45.191/api/v1";
 const cartUrl = `${baseUrl}/cart`;
 
 // Get cart items
@@ -13,7 +13,7 @@ export const getCart = () => {
 };
 
 // Add product to cart
-export const addProductToCart = ( productId: string, variantId: string, quantity: number, size: string, price: number) => {
+export const addProductToCart = (productId: string, variantId: string, quantity: number, size: string, price: number) => {
     return axios.post(`${cartUrl}/add`, {
         productId,
         variantId,
