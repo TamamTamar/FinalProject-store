@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
                 path: "/admin/dashboard", element: <AdminDashboard />
             },
          /*    { path: "/about", element: <About /> }, */
-            {path: "/about", element: <FFF />},
+            {path: "/fff", element: <FFF />},
         ],
     },
 ]);
