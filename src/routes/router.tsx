@@ -23,20 +23,11 @@ import { CarouselComponent } from "../components/Carousel";
 import About from "./About";
 import Message from "./Message";
 
-
-
-
-
-
-
-
-
-
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Root />,
-            errorElement: <Error />, 
+        errorElement: <Error />,
         children: [
             { index: true, element: <><CarouselComponent /><Products /></> },
             { path: "/register", element: <Register /> },
@@ -44,41 +35,37 @@ export const router = createBrowserRouter([
             { path: "/profile", element: <Profile /> },
             { path: "/products/:id", element: <Product /> },
 
-            {path:"/admin/create-product", element:
-                <ProtectedRouteAdmin>
-                 <CreateProduct />
-                </ProtectedRouteAdmin>
-                },
-            {path: "/products", element: <Products />},
-            {path:"/admin/users", element:  <Users />
-               
-                },
-                {path:"/admin/Products", element: <AdminProducts />},
-                {path: "/users/:id", element: <UpdateUser />},
-                {path:"/admin/products/:id", element: <EditProduct />},
-                {path: "/cart", element: <Cart />},
-                {
-                    path: "/order-confirmation/:orderId", element: < OrderConfirmation />
-                },
-                {
-                    path: "/orders", element: <UserOrders/>
-                },
-                {
-                    path: "/admin/analytics", element: < SalesPage />
-                },
-                {path:"/admin/orders", element: <AdminOrders />},
-                {path:"/contact", element: <Message />},
-                {path:"/admin/messages", element: <AdminMessages/>},
-                {
-                    path: "/admin/dashboard", element: <AdminDashboard />
-                },
-                {path: "/about", element: <About/>},
+            {
+                path: "/admin/create-product", element:
+                    <ProtectedRouteAdmin>
+                        <CreateProduct />
+                    </ProtectedRouteAdmin>
+            },
+            { path: "/products", element: <Products /> },
+            {
+                path: "/admin/users", element: <Users />
 
-
-    
-    
-            
-
+            },
+            { path: "/admin/Products", element: <AdminProducts /> },
+            { path: "/users/:id", element: <UpdateUser /> },
+            { path: "/admin/products/:id", element: <EditProduct /> },
+            { path: "/cart", element: <Cart /> },
+            {
+                path: "/order-confirmation/:orderId", element: < OrderConfirmation />
+            },
+            {
+                path: "/orders", element: <UserOrders />
+            },
+            {
+                path: "/admin/analytics", element: < SalesPage />
+            },
+            { path: "/admin/orders", element: <AdminOrders /> },
+            { path: "/contact", element: <Message /> },
+            { path: "/admin/messages", element: <AdminMessages /> },
+            {
+                path: "/admin/dashboard", element: <AdminDashboard />
+            },
+            { path: "/about", element: <About /> },
         ],
     },
 ]);
