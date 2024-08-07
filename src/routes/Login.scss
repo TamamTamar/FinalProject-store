@@ -66,6 +66,12 @@
 .create-card-container button[type="submit"]:focus {
     background-color: #967d68;
 }
+.dark .create-card-container button[type="submit"]:hover,
+.create-card-container button[type="submit"]:focus {
+    background-color: #c7c7c7;
+    color: #333;
+}
+
 
 /* Styling for password visibility toggle button */
 .create-card-container .password-container {

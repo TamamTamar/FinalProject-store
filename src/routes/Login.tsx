@@ -75,7 +75,7 @@ const Login: FC = () => {
                 <Link
                     to="/register"
                     type="submit"
-                    className="border border-[#3c2a1d] rounded-lg text-center text-[#3c2a1d] bg-white text-base font-semibold w-full py-3 mt-9 hover:bg-[#967d68] hover:text-white"
+                    className="border border-[#3c2a1d] rounded-lg text-center text-[#3c2a1d] bg-white text-base font-semibold w-full py-3 mt-9 dark:hover:bg-slate-200 hover:bg-[#967d68] hover:text-white"
                 >
                     Signup now
                 </Link>
