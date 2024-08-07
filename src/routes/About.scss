@@ -1,9 +1,15 @@
+/* Dark Mode Styles */
+body {
+    background-color: #121212; /* Dark background for the whole page */
+    color: #e0e0e0; /* Light text color for readability */
+}
+
 .about-container {
     padding: 2rem 4rem;
-    /* הגדל את הרווחים בצדדים */
     max-width: 1200px;
     margin: 0 auto;
-    /* מרכז את הקונטיינר */
+    background-color: #1e1e1e; /* Slightly lighter background for the container */
+    border-radius: 8px; /* Optional: Adds rounded corners */
 }
 
 .section {
@@ -12,13 +18,13 @@
 
 .section-title {
     font-size: 2rem;
-    color: #333;
+    color: #ffab00; /* Bright color for titles to stand out */
     margin-bottom: 1rem;
 }
 
 .section-description {
     font-size: 1rem;
-    color: #555;
+    color: #e0e0e0; /* Light text color for descriptions */
     line-height: 1.6;
 }
 
@@ -30,9 +36,9 @@
 .dashboard-tabs li {
     margin-bottom: 1rem;
     font-size: 1rem;
-    color: #666;
+    color: #b0b0b0; /* Slightly darker text for list items */
 }
 
 .dashboard-tabs li strong {
-    color: #333;
+    color: #ffab00; /* Bright color for strong text to stand out */
 }
