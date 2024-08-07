@@ -7,7 +7,7 @@ import dialogs from "../ui/dialogs";
 import { useNavigate } from "react-router-dom";
 import patterns from "../validations/patterns";
 import { useAuth } from '../hooks/useAuth';
-import { getUserById, updateUser } from '../services/auth-service';
+import { deleteUserById, getUserById, updateUser } from '../services/auth-service';
 
 const UpdateUser = () => {
     const { id } = useParams<{ id: string }>();
@@ -30,8 +30,8 @@ const UpdateUser = () => {
                     setValue('address.houseNumber', user.address.houseNumber);
                     setValue('address.country', user.address.country);
                     setValue('address.zip', user.address.zip);
-                  /*   setValue('image.url', user.image?.url || '');
-                    setValue('alt', user.image?.alt || ''); */
+                    /*   setValue('image.url', user.image?.url || '');
+                      setValue('alt', user.image?.alt || ''); */
                     setValue('address.state', user.address.state || '');
                     setLoading(false);
                 })
@@ -39,6 +39,19 @@ const UpdateUser = () => {
             setLoading(false);
         }
     }, [id, setValue]);
+
+    const handleDelete = (id: string) => {
+        dialogs.confirm("Are you sure?", "you want to delete this user?")
+            .then((result) => {
+                if (result.isConfirmed) {
+                    deleteUserById(id)
+                        .then(() => {
+                            dialogs.success("Success", "User deleted successfully");
+                        })
+                        .catch(err => dialogs.error("Error", "Failed to delete user"));
+                }
+            });
+    };
 
     const onSubmit = async (data: updateUserType) => {
         try {
@@ -210,39 +223,6 @@ const UpdateUser = () => {
                     )}
                 </section>
 
-               
-              {/*   <section>
-                    <input
-                        placeholder="Image URL"
-                        type="url"
-                        {...register("image.url", {
-                            pattern: {
-                                value: patterns.url,
-                                message: "Invalid image URL",
-                            },
-                        })}
-                    />
-                    {errors.image?.url && (
-                        <p className="text-red-500">{errors.image?.url?.message}</p>
-                    )}
-                </section>
-
-               
-                <section>
-                    <input
-                        placeholder="Image Description"
-                        type="text"
-                        {...register("alt", {
-                            minLength: { value: 2, message: "Too short" },
-                            maxLength: { value: 255, message: "Too long" },
-                        })}
-                    />
-                    {errors.alt && (
-                        <p className="text-red-500">{errors.alt?.message}</p>
-                    )}
-                </section> */}
-
-              
                 <section>
                     <input
                         placeholder="State"
@@ -258,6 +238,7 @@ const UpdateUser = () => {
                 </section>
 
                 <button type="submit">Update User</button>
+                <button onClick={() => handleDelete}>delete my account</button>
             </form>
         </div>
     );
