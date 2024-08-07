@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export const baseUrl = "https://projectnode-nzy2.onrender.com/api/v1/products";
+export const baseUrl = "https://projectnodeshop.onrender.com/api/v1/products";
 
 // get all products
 export const getAllProducts = () => axios.get(baseUrl);

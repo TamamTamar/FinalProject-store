@@ -2,7 +2,7 @@ import axios from "axios";
 import { IMessage } from "../@Types/productType";
 
 
-const messageUrl = "https://projectnode-nzy2.onrender.com/api/v1/messages";
+const messageUrl = "https://projectnodeshop.onrender.com/api/v1/messages";
 
 export const sendMessage = (data: IMessage) => {
     const url = `${messageUrl}/send-message`

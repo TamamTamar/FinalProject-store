@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "https://projectnode-nzy2.onrender.com/api/v1";
+const baseUrl = "https://projectnodeshop.onrender.com/api/v1";
 const cartUrl = `${baseUrl}/cart`;
 
 // Get cart items
