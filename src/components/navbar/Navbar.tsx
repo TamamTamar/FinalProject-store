@@ -1,13 +1,11 @@
-import { DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
+import { Avatar, DarkThemeToggle, Dropdown, Navbar, Tooltip } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiBox, FiUser, FiShoppingCart, FiSettings, FiUsers, FiTrendingUp } from "react-icons/fi";
+import { FiUser, FiShoppingCart, FiSettings } from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
-import useCart from "../../hooks/useCart";
 import Search from "../Search/Search";
+import "./Navbar.scss";
+import useCart from "../../hooks/useCart";
 import UserAvatar from "../UserAvatar";
-import './Navbar.scss';
-
-
 
 
 const Nav = () => {
@@ -15,20 +13,21 @@ const Nav = () => {
     const navigate = useNavigate();
     const { cart } = useCart();
     const location = useLocation();
+
     const isActive = (path: string) => location.pathname === path;
 
     return (
         <Navbar fluid rounded>
             <Navbar.Brand href="/">
-                <span className="self-center whitespace-nowrap text-xl text-[#59372b] font-semibold dark:text-white">Tamar Tamam</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Tamar Tamam</span>
             </Navbar.Brand>
 
             <div className="flex md:order-2 items-center">
-                <div className="mr-5">
+                <div className="">
                     <Search />
                 </div>
 
-                <Link to="/cart" className="mr-4">
+                <Link to="/cart" className="ml-2">
                     <Tooltip
                         content="View Cart"
                         placement="top"
@@ -45,20 +44,21 @@ const Nav = () => {
                     </Tooltip>
                 </Link>
 
+
                 {isLoggedIn && user?.isAdmin && (
                     <>
-                        <Link to="/admin/dashboard" className="mr-5 hidden md:block">
+                        <Link to="/admin/dashboard" className="hidden md:block ml-2">
                             <Tooltip
                                 content="Manage Shop"
                                 placement="top"
                                 className="text-xs bg-gray-700 text-white rounded px-2 py-1"
                             >
-                                <FiSettings size={20} className="text-gray hover:text-gray-300" />
+                                <FiSettings size={20} className="text-gray ml-2 hover:text-gray-300" />
                             </Tooltip>
                         </Link>
-                        {/* Add other admin links if needed */}
                     </>
                 )}
+
 
                 {isLoggedIn && (
                     <Dropdown
@@ -69,10 +69,10 @@ const Nav = () => {
                         }
                     >
                         <Dropdown.Header>
-                            <span className="block text-xs">{user.name.first} {user.name.last}</span>
-                            <span className="block truncate text-xs font-medium">{user.email}</span>
+                            <span className="block text-sm">{user.name.first} {user.name.last}</span>
+                            <span className="block truncate text-sm font-medium">{user.email}</span>
                         </Dropdown.Header>
-                        <Dropdown.Item onClick={() => navigate(`/users/${user._id}`)}>Edit Profile</Dropdown.Item>
+                        <Dropdown.Item onClick={() => navigate(`/users/${user._id}`)}>Update Profile</Dropdown.Item>
                         <Dropdown.Item onClick={() => navigate("/orders")}>My Orders</Dropdown.Item>
                         <Dropdown.Divider />
                         {user.isAdmin && (
@@ -83,42 +83,37 @@ const Nav = () => {
                                 <Dropdown.Divider />
                             </>
                         )}
-                      {/*   <Dropdown.Item as="button">
-                            <div className="flex items-center" onClick={() => document.documentElement.classList.toggle('dark')}>
-                                <DarkThemeToggle />
-                                <span className="ml-2">Mode</span>
-                            </div>
-                        </Dropdown.Item> */}
                         <Dropdown.Divider />
-                        <Dropdown.Item onClick={() => { logout(); navigate("/"); }}>Sign out</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { logout(); navigate("/"); }}> Sign out </Dropdown.Item>
                     </Dropdown>
                 )}
 
+
                 {!isLoggedIn && (
                     <Tooltip content="Login" placement="bottom" className="text-xs bg-gray-700 text-white rounded px-1 py-1">
-                        <Link to="/login" className="mr-4 flex items-center">
+                        <Link to="/login" className="ml-3 mr-1 flex items-center">
                             <FiUser size={20} className="text-gray hover:text-gray-300" />
                         </Link>
                     </Tooltip>
                 )}
 
+
                 <Navbar.Toggle />
-                <DarkThemeToggle />
-            
+                <DarkThemeToggle/>
             </div>
             <Navbar.Collapse>
-                <Navbar.Link href="/"  className={`text-xs custom-navbar-link ${isActive("/") ? "font-bold " : ""}` }>
+                <Navbar.Link href="/" className={`text-xs custom-navbar-link ${isActive("/") ? "font-bold text-green-600" : ""}`}>
                     Home
                 </Navbar.Link>
-                <Navbar.Link href="/about" className={`text-xs custom-navbar-link ${isActive("/about") ? "font-bold" : ""}`}>
+                <Navbar.Link href="/about" className={`text-xs custom-navbar-link ${isActive("/about") ? "font-bold text-green-600" : ""}`}>
                     About
                 </Navbar.Link>
-                <Navbar.Link href="/contact" className={`text-xs custom-navbar-link ${isActive("/contact") ? "font-bold" : ""}`}>
+                <Navbar.Link href="/contact" className={`text-xs custom-navbar-link ${isActive("/contact") ? "font-bold text-green-600" : ""}`}>
                     Contact
                 </Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     );
-}
+};
 
 export default Nav;
