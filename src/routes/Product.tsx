@@ -25,37 +25,6 @@ const Product = () => {
         }
     }, [id]);
 
-/*     const handleAddToCartAndRedirect = async () => {
-        if (!product) {
-            console.error('No variant selected or product is not loaded');
-            return;
-        }
-
-        console.log('Adding product to cart:', product.variants[0]);
-        try {
-            await cartService.addProductToCart(
-                product._id,
-                product.variants[0]._id || '',
-                1,
-                product.variants[0].size,
-                product.variants[0].price
-            );
-
-            dialogs.success(
-                'Product Added',
-                `<div style="display: flex; align-items: center;">
-                    <img src="${product.image.url}" alt="${product.title}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;" />
-                    <div>
-                        <p>${product.title} has been added to your cart.</p>
-                    </div>
-                </div>`
-            );
-            navigate('/cart');
-        } catch (error) {
-            console.error('Failed to add product to cart.', error);
-        }
-    }; */
-
     const getEstimatedArrivalDate = (): string => {
         const deliveryDate = new Date();
         deliveryDate.setDate(deliveryDate.getDate() + 7);
