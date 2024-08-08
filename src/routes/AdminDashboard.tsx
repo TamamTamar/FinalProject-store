@@ -6,12 +6,10 @@ import AdminOrders from "./AdminOrders";
 import SalesChart from "./SalesByDate";
 import './AdminDashboard.scss';
 import AdminMessages from "./AdminMessage";
-import { useEffect } from "react";
+
 
 const AdminDashboard = () => {
-    useEffect(() => {
-        document.title = 'Admin Dashboard'
-    }, [])
+
     return (
         <Tabs aria-label="Tabs with icons" className="tabs">
             <Tabs.Item active title="Manage Products" icon={FiBox} className="tabs-item">

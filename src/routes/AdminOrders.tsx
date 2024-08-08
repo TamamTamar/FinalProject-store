@@ -75,7 +75,7 @@ const AdminOrders = () => {
             <Table hoverable className='"overflow-x-auto'>
                 <Table.Head>
                     <Table.HeadCell>Order Number</Table.HeadCell>
-                    <Table.HeadCell>User ID</Table.HeadCell>
+                    <Table.HeadCell>User Name</Table.HeadCell> {/* עדכון לעמודת שם המשתמש */}
                     <Table.HeadCell>Total Amount</Table.HeadCell>
                     <Table.HeadCell>Status</Table.HeadCell>
                     <Table.HeadCell>Created At</Table.HeadCell>
@@ -86,7 +86,7 @@ const AdminOrders = () => {
                     {filteredOrders.map((order) => (
                         <Table.Row key={order.orderId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                             <Table.Cell>{order.orderNumber}</Table.Cell>
-                            <Table.Cell>{order.userId}</Table.Cell>
+                            <Table.Cell>{order.userName}</Table.Cell> {/* עדכון לשם המשתמש */}
                             <Table.Cell>${order.totalAmount.toFixed(2)}</Table.Cell>
                             <Table.Cell>
                                 <select

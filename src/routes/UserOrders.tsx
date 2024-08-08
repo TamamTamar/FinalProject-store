@@ -36,6 +36,7 @@ const UserOrders = () => {
                 console.log('Order cancelled:', response);
                 dialogs.success("Order Cancelled", "Your order has been cancelled successfully.");
 
+                // Reload the page after cancelling the order
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
@@ -73,7 +74,6 @@ const UserOrders = () => {
                                 <span className="item-size">Size: {product.size}</span>
                                 <span className="item-price">Price: ${(product.price * product.quantity).toFixed(2)}</span>
                                 <span className="item-quantity">Quantity: {product.quantity}</span>
-                              
                             </div>
                         ))}
                         <div className="summary-total">

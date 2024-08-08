@@ -61,6 +61,7 @@ export const clearCart = () => {
     });
 };
 
+
 export const cartService = {
     getCart,
     addProductToCart,

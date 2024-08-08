@@ -69,7 +69,6 @@ const OrderConfirmation = () => {
                             <span className="item-size">Size: {product.size}</span>
                             <span className="item-price">Price: ${(product.price * product.quantity).toFixed(2)}</span>
                             <span className="item-quantity">Quantity: {product.quantity}</span>
-                      
                         </div>
                     ))}
                     <div className="summary-total">

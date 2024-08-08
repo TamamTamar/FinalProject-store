@@ -1,7 +1,7 @@
-import { ICartItem } from '../@Types/productType';
+import { ICartItem } from '../@Types/productType'; // עדכון לפי הטיפוסים המוגדרים
 import './Cart.scss';
 import { useCart } from '../hooks/useCart';
-import { FiArrowLeft, FiTrash } from 'react-icons/fi';
+import { FiArrowLeft, FiTrash } from 'react-icons/fi'; // Importing FiArrowLeft from react-icons/fi
 import dialogs from '../ui/dialogs';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useSearch } from '../hooks/useSearch';
 import cartService from '../services/cart-service';
 import { createOrder } from '../services/order-service';
+
 
 const Cart = () => {
     const { cart, fetchCart } = useCart();
@@ -20,14 +21,15 @@ const Cart = () => {
 
     useEffect(() => {
         if (token) {
-            fetchCart();
+            fetchCart(); // Fetch cart items when token changes (e.g., on login)
         }
+
     }, [token]);
 
     const handleRemoveItem = async (variantId: string) => {
         try {
             await cartService.removeProductFromCart(variantId);
-            fetchCart();
+            fetchCart(); // Refresh cart after removal
         } catch (error) {
             console.error('Failed to remove product from cart.', error);
         }
@@ -38,7 +40,7 @@ const Cart = () => {
         if (result.isConfirmed) {
             try {
                 await cartService.clearCart();
-                fetchCart();
+                fetchCart(); // Refresh cart after clearing
                 dialogs.success("Cart Cleared", "Your cart has been cleared successfully.");
             } catch (error) {
                 console.error('Failed to clear cart.', error);
@@ -48,17 +50,19 @@ const Cart = () => {
     };
 
     const handleQuantityChange = async (variantId: string, newQuantity: number) => {
+        console.log('מעודכן כמות עבור variantId:', variantId, 'ל:', newQuantity); // בדוק מה מודפס כאן
         if (!variantId) {
             console.error('variantId is undefined');
             return;
         }
         try {
             await cartService.updateProductQuantity(variantId, newQuantity);
-            fetchCart();
+            fetchCart(); // עדכן את הסל כדי לשקף את השינויים
         } catch (error) {
-            console.error('Failed to update product quantity:', error.response?.data || error.message);
+            console.error('שגיאה בעדכון כמות המוצר:', error.response?.data || error.message);
         }
     };
+
 
     const handleCheckout = async () => {
         try {
@@ -80,7 +84,7 @@ const Cart = () => {
             const orderId = response.data._id;
             dialogs.success("Order Successful", "Your order has been placed successfully.").then(async () => {
                 await cartService.clearCart();
-                fetchCart();
+                fetchCart(); // Refresh cart after order placement
                 navigate(`/order-confirmation/${orderId}`);
             });
         } catch (error) {
@@ -91,10 +95,10 @@ const Cart = () => {
 
     if (!cart || !cart.items || cart.items.length === 0) {
         return (
-            <div className="mt-8 empty-cart flex flex-col items-center justify-center dark:text-white">
+            <div className="empty-cart flex flex-col items-center justify-center">
                 <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
                 <p className="text-lg mb-4">Should we start shopping?</p>
-                <Link to="/" className="back-to-shopping text-blue-800 hover:underline flex items-center dark:text-blue-400">
+                <Link to="/" className="back-to-shopping text-blue-800 hover:underline flex items-center">
                     <FiArrowLeft className="mr-2" />
                     Back to Shopping
                 </Link>
@@ -103,65 +107,65 @@ const Cart = () => {
     }
 
     return (
-        <div className="cart-page flex flex-col md:flex-row dark:text-white">
+        <div className="cart-page flex flex-col md:flex-row">
             <div className="cart-items-container w-full md:w-3/4 p-4">
-                <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center dark:text-blue-400">
+                <Link to="/" className="back-to-shopping text-blue-800 hover:underline mb-4 flex items-center">
                     <FiArrowLeft className="mr-2" />
                     Back to Shopping
                 </Link>
-                <div className="flex justify-between items-center mb-4 border-b pb-4 dark:border-gray-700">
+                <div className="flex justify-between items-center mb-4 border-b pb-4">
                     <h1 className="cart-title text-2xl font-semibold">Your Shopping Cart</h1>
-                    <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline dark:text-red-400">Clear Cart</Link>
+                    <Link to="#" onClick={handleClearCart} className="clear-cart-link text-red-500 hover:underline">Clear Cart</Link>
                 </div>
                 <div className="cart-items space-y-4">
                     {cart.items
-                        .filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()))
+                        .filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase())) // Filter items based on search term
                         .map((item: ICartItem) => (
-                        <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800" key={item.productId + item.variantId}>
-                            <div className="flex items-center mb-4">
-                                <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
-                                <div>
-                                    <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-[#333] hover:underline dark:text-white">{item.title}</Link>
+                            <div className="cart-item flex flex-col p-4 border rounded-lg shadow-sm" key={item.productId + item.variantId}>
+                                <div className="flex items-center mb-4">
+                                    <img src={item.image.url} className="w-20 h-20 object-cover rounded-lg mr-4" />
+                                    <div>
+                                        <Link to={`/products/${item.productId}`} className="item-title text-lg font-medium text-[#333] hover:underline">{item.title}</Link>
+                                    </div>
+                                </div>
+                                <div className="variant flex justify-between items-center mb-4">
+                                    <div>
+                                        <p className="item-size text-sm text-gray-500">Size: {item.size}</p>
+                                        <p className="item-price text-sm text-gray-500">Price: ${item.price.toFixed(2)}</p>
+                                    </div>
+                                    <div className="flex items-center select-quantity">
+                                        <label htmlFor={`quantity-${item.variantId}`} className="item-quantity text-sm text-gray-500 mr-2">Quantity:</label>
+                                        <select
+                                            id={`quantity-${item.variantId}`}
+                                            value={quantities[item.variantId] || item.quantity}
+                                            onChange={(e) => handleQuantityChange(item.variantId, parseInt(e.target.value))}
+                                            className="ml-2 border border-gray-300 rounded-md p-1 selector"
+                                        >
+                                            {[...Array(10).keys()].map((n) => (
+                                                <option key={n + 1} value={n + 1}>
+                                                    {n + 1}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <button
+                                        onClick={() => handleRemoveItem(item.variantId)}
+                                        className="remove-button"
+                                    >
+                                        <Tooltip
+                                            content="Remove product"
+                                            placement="top"
+                                            className="text-sm bg-gray-800 text-white rounded px-2 py-1"
+                                        >
+                                            <FiTrash />
+                                        </Tooltip>
+                                    </button>
                                 </div>
                             </div>
-                            <div className="variant flex justify-between items-center mb-4">
-                                <div>
-                                    <p className="item-size text-sm text-gray-500 dark:text-gray-400">Size: {item.size}</p>
-                                    <p className="item-price text-sm text-gray-500 dark:text-gray-400">Price: ${item.price.toFixed(2)}</p>
-                                </div>
-                                <div className="flex items-center select-quantity">
-                                    <label htmlFor={`quantity-${item.variantId}`} className="item-quantity text-sm text-gray-500 mr-2 dark:text-gray-400">Quantity:</label>
-                                    <select
-                                        id={`quantity-${item.variantId}`}
-                                        value={quantities[item.variantId] || item.quantity}
-                                        onChange={(e) => handleQuantityChange(item.variantId, parseInt(e.target.value))}
-                                        className="ml-2 border border-gray-300 rounded-md p-1 selector dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                                    >
-                                        {[...Array(10).keys()].map((n) => (
-                                            <option key={n + 1} value={n + 1}>
-                                                {n + 1}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <button
-                                    onClick={() => handleRemoveItem(item.variantId)}
-                                    className="remove-button"
-                                >
-                                    <Tooltip
-                                        content="Remove product"
-                                        placement="top"
-                                        className="text-sm bg-gray-800 text-white rounded px-2 py-1"
-                                    >
-                                        <FiTrash />
-                                    </Tooltip>
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
-            <div className="cart-summary w-full md:w-1/4 p-4 rounded-lg shadow-lg dark:bg-gray-800 dark:text-white">
+            <div className="cart-summary w-full md:w-1/4 p-4 rounded-lg shadow-lg">
                 <h2 className="text-xl font-semibold mb-4">Summary</h2>
                 <div className="space-y-2 flex flex-col">
                     <div className='flex justify-between'>

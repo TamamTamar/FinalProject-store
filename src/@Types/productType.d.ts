@@ -84,7 +84,7 @@ export type IOrderProduct = {
 export type IOrder = {
     _id: string;
     orderId: string;
-    userId: string;
+    userName: string;
     products: IOrderProduct[];
     totalAmount: number;
     status: string;
