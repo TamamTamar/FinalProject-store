@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IOrder } from '../@Types/productType';
 
 const analyticsUrl = 'https://projectnodeshop.onrender.com/api/v1/analytics';
 
@@ -22,8 +21,8 @@ export const getAllOrders = () => {
     });
 };
 
-export const updateOrderStatus = (order: IOrder, status: string) => {
-    const url = `${analyticsUrl}/status/${order.orderId}`;
+export const updateOrderStatus = (orderId: string, status: string) => {
+    const url = `${analyticsUrl}/status/${orderId}`;
     return axios.patch(url, { status }, {
         headers: {
             "x-auth-token": localStorage.getItem("token"),
