@@ -1,14 +1,12 @@
 import { useForm } from "react-hook-form";
-
 import { BsEye, BsEyeSlashFill } from "react-icons/bs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import './Login.scss';  
 import { IUser } from "../../@Types/types";
 import { useAuth } from "../../hooks/useAuth";
 import dialogs from "../../ui/dialogs";
 import patterns from "../../validations/patterns";
+import '../CreateProduct.scss';
 
 const Register = () => {
     const navigate = useNavigate();
