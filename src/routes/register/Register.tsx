@@ -291,7 +291,7 @@ const Register = () => {
           />
         </section> */}
 
-        <button disabled={!isValid} type="submit">Register</button>
+        <button className="mt-4" type="submit">Register</button>
         <div className="mt-4 text-center">
           <span className="text-sm text-gray-300">Already have an account? </span>
           <Link className="text-sm font-medium text-orange-200 hover:underline" to="/login">Login</Link>
