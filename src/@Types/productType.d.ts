@@ -112,6 +112,7 @@ export interface AddToCartButtonProps {
     variants: IVariant[];
     title: string;
     image: IImage;
+    onNotLoggedIn: () => void;
 }
 
 // טיפוס עבור שם
@@ -237,5 +238,7 @@ export type IMessage ={
     setSelectedVariant: (variant: IVariant | null) => void;
     fetchVariant: (variant: IVariant | null) => void;
 }
-
+export interface AddressFormProps {
+    onSubmit: (address: IAddress) => void; // Replace 'any' with your address type
+}
   

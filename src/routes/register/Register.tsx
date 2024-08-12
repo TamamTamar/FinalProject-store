@@ -15,6 +15,7 @@ const Register = () => {
   const navigate = useNavigate();
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IUser>();
@@ -24,7 +25,7 @@ const Register = () => {
 
   const onRegister = (data: IUser) => {
     console.log('Register data:', data);
-    registerUser(data)
+    auth.register(data)
       .then((res) => {
         dialogs.success("Success", "Register").then(() => {
           navigate("/login");
@@ -274,7 +275,7 @@ const Register = () => {
             {...register("address.zip", {
               required: "This field is mandatory",
               min: { value: 1, message: "Too small" },
-              max: { value: 9999999, message: "Too big" },
+              max: { value: 99999, message: "Too big" },
             })}
           />
           {errors.address?.zip && (
@@ -291,7 +292,7 @@ const Register = () => {
           />
         </section> */}
 
-        <button className="mt-4" type="submit">Register</button>
+        <button  type="submit">Register</button>
         <div className="mt-4 text-center">
           <span className="text-sm text-gray-300">Already have an account? </span>
           <Link className="text-sm font-medium text-orange-200 hover:underline" to="/login">Login</Link>

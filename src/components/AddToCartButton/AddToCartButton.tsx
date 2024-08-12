@@ -4,12 +4,27 @@ import './AddToCartButton.scss';
 import { AddToCartButtonProps, IVariant } from '../../@Types/productType';
 import useCart from '../../hooks/useCart';
 import dialogs from '../../ui/dialogs';
+import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image }) => {
+const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title, image, onNotLoggedIn }) => {
     const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(variants[0] || null);
     const { addToCart } = useCart();
+    const { token } = useAuth(); // Assuming useAuth provides the user's authentication token
+    const navigate = useNavigate();
 
     const handleAddToCart = async () => {
+        if (!token) {
+            if (onNotLoggedIn) {
+                onNotLoggedIn(); // Call the callback to handle the not-logged-in state
+            } else {
+                dialogs.error("Login Required", "You need to be logged in to add items to the cart. Please log in first.").then(() => {
+                    navigate('/login');
+                });
+            }
+            return;
+        }
+
         if (selectedVariant) {
             console.log("Adding product to cart:", selectedVariant);
             try {
@@ -33,7 +48,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ productId, variants, title,
 
     return (
         <div className="add-to-cart-container">
-            <p> {selectedVariant.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
+            <p>{selectedVariant && selectedVariant.quantity > 0 ? 'In Stock' : 'Out of Stock'}</p>
             <div className="price-container" style={{ marginBottom: '20px', marginTop: '15px' }}>
                 <span className="original-price" style={{ marginRight: '10px' }}>
                     ${(selectedVariant?.price * 1.2).toFixed(2)}

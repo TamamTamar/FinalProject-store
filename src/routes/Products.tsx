@@ -1,17 +1,19 @@
 import { FC, useEffect, useState } from 'react';
 import { Card } from 'flowbite-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IProduct, IVariant } from '../@Types/productType';
 import { useSearch } from '../hooks/useSearch';
 import './Products.scss';
 import { getAllProducts } from '../services/product-service';
 import AddToCartButton from '../components/AddToCartButton/AddToCartButton';
+import dialogs from '../ui/dialogs';
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const { searchTerm } = useSearch();
+    const navigate = useNavigate();
     const [selectedVariant, setSelectedVariant] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
@@ -73,6 +75,7 @@ const Products: FC = () => {
                             variants={product.variants}
                             title={product.title}
                             image={product.image}
+                            onNotLoggedIn={()=> navigate('/login')}
                         />
                     </Card>
                 ))
