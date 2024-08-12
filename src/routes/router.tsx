@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRouteAdmin from "../components/ProtectedRouteAdmin";
+import ProtectedRouteUser from "../components/ProtectedRouteUser";
 import Root from "../layout/root";
 import AdminProducts from "./AdminProducts";
 import CreateProduct from "./CreateProduct";
@@ -22,7 +23,6 @@ import AdminDashboard from "./AdminDashboard";
 import { CarouselComponent } from "../components/Carousel";
 import About from "./About";
 import Message from "./Message";
-import FFF from "./FFFF";
 
 export const router = createBrowserRouter([
     {
@@ -37,37 +37,97 @@ export const router = createBrowserRouter([
             { path: "/products/:id", element: <Product /> },
 
             {
-                path: "/admin/create-product", element:
+                path: "/admin/create-product",
+                element: (
                     <ProtectedRouteAdmin>
                         <CreateProduct />
                     </ProtectedRouteAdmin>
+                ),
             },
             { path: "/products", element: <Products /> },
             {
-                path: "/admin/users", element: <Users />
-
+                path: "/admin/users",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <Users />
+                    </ProtectedRouteAdmin>
+                ),
             },
-            { path: "/admin/Products", element: <AdminProducts /> },
+            {
+                path: "/admin/products",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <AdminProducts />
+                    </ProtectedRouteAdmin>
+                ),
+            },
             { path: "/users/:id", element: <UpdateUser /> },
-            { path: "/admin/products/:id", element: <EditProduct /> },
-            { path: "/cart", element: <Cart /> },
             {
-                path: "/order-confirmation/:orderId", element: < OrderConfirmation />
+                path: "/admin/products/:id",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <EditProduct />
+                    </ProtectedRouteAdmin>
+                ),
             },
             {
-                path: "/orders", element: <UserOrders />
+                path: "/cart",
+                element: (
+                    <ProtectedRouteUser>
+                        <Cart />
+                    </ProtectedRouteUser>
+                ),
             },
             {
-                path: "/admin/analytics", element: < SalesPage />
+                path: "/order-confirmation/:orderId",
+                element: (
+                    <ProtectedRouteUser>
+                        <OrderConfirmation />
+                    </ProtectedRouteUser>
+                ),
             },
-            { path: "/admin/orders", element: <AdminOrders /> },
+            {
+                path: "/orders",
+                element: (
+                    <ProtectedRouteUser>
+                        <UserOrders />
+                    </ProtectedRouteUser>
+                ),
+            },
+            {
+                path: "/admin/analytics",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <SalesPage />
+                    </ProtectedRouteAdmin>
+                ),
+            },
+            {
+                path: "/admin/orders",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <AdminOrders />
+                    </ProtectedRouteAdmin>
+                ),
+            },
             { path: "/contact", element: <Message /> },
-            { path: "/admin/messages", element: <AdminMessages /> },
             {
-                path: "/admin/dashboard", element: <AdminDashboard />
+                path: "/admin/messages",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <AdminMessages />
+                    </ProtectedRouteAdmin>
+                ),
             },
-           { path: "/about", element: <About /> }, 
-      
+            {
+                path: "/admin/dashboard",
+                element: (
+                    <ProtectedRouteAdmin>
+                        <AdminDashboard />
+                    </ProtectedRouteAdmin>
+                ),
+            },
+            { path: "/about", element: <About /> },
         ],
     },
 ]);
