@@ -274,7 +274,7 @@ const Register = () => {
             {...register("address.zip", {
               required: "This field is mandatory",
               min: { value: 1, message: "Too small" },
-              max: { value: 99999, message: "Too big" },
+              max: { value: 9999999, message: "Too big" },
             })}
           />
           {errors.address?.zip && (
