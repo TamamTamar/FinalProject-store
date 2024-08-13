@@ -57,6 +57,7 @@ const Product = () => {
                             variants={product.variants}
                             title={product.title}
                             image={product.image}
+                            onNotLoggedIn={() => navigate('/login')}
                         />
   
                  
