@@ -31,7 +31,7 @@ const CreateProduct = () => {
             return;
         }
 
-        if (data.variants.length === 0) {
+        if (!data.variants.length) {
             dialogs.error("Error", "Please add at least one variant.");
             return;
         }
