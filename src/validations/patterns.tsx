@@ -4,7 +4,7 @@ export const urlPattern =
 export const emailPattern = /\S+@gmail\.\S+/;
 
 export const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*-]).{9,20}/;
-const phonePattern = /^((\+972|0)([23489]|5[02468]|77)-?[1-9]\d{6})$/;
+const phonePattern = /^0[0-9]{9}$/;
 
 
 const patterns = {
