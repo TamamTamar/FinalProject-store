@@ -12,10 +12,9 @@ const Message = () => {
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<IMessage>({
-        defaultValues: { fullName: "", email: "", message: "" },
+        defaultValues: { fullName: "", email: "", phone: "", message: "" },
         mode: "onChange",
     });
-
 
     const onSend = (data: IMessage) => {
         console.log("Send data:", data);
@@ -27,9 +26,7 @@ const Message = () => {
             .catch((error) => {
                 dialogs.error("Message Error", error.response.data);
             });
-    }
-
-
+    };
 
     return (
         <div className="create-card-container bg-[#3c2a1d] text-white dark:bg-slate-600">
@@ -47,6 +44,24 @@ const Message = () => {
                     />
                     {errors.fullName && (
                         <p className="text-red-500">{errors.fullName?.message}</p>
+                    )}
+                </section>
+
+                {/* Phone */}
+                <section>
+                    <input
+                        placeholder="Phone"
+                        type="tel"
+                        {...register("phone", {
+                            required: "This field is mandatory",
+                            pattern: {
+                                value: patterns.phone,
+                                message: "Invalid phone number",
+                            },
+                        })}
+                    />
+                    {errors.phone && (
+                        <p className="text-red-500">{errors.phone?.message}</p>
                     )}
                 </section>
 
@@ -84,11 +99,9 @@ const Message = () => {
                 </section>
 
                 <button disabled={!isValid} type="submit">Send</button>
-
             </form>
         </div>
-    )
+    );
+};
 
-}
-
-export default Message
+export default Message;

@@ -5,10 +5,13 @@ export const emailPattern = /\S+@gmail\.\S+/;
 
 export const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*-]).{9,20}/;
 
+export const phonePattern = /^\+?[1-9]\d{1,14}$/;
+
 const patterns = {
     url: urlPattern,
     email: emailPattern,
     password: passwordPattern,
+    phone: phonePattern
 }
 
 export default patterns;

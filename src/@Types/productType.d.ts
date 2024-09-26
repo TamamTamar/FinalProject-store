@@ -229,6 +229,7 @@ export interface DateRangePickerProps {
 export type IMessage ={
     _id?: string;
     fullName: string;
+    phone: string;
     email: string;
     message: string;
     createdAt?: Date;

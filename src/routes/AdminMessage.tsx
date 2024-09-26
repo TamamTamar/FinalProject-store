@@ -13,8 +13,8 @@ const AdminMessages = () => {
 
     useEffect(() => {
         getAllMessages()
-            .then(data => {
-                console.log('Messages fetched:', data); // הדפס את התגובה כאן
+            .then((data: IMessage[]) => {
+                console.log('Messages fetched:', data);
                 if (Array.isArray(data)) {
                     setMessages(data);
                     setFilteredMessages(data);
@@ -29,14 +29,14 @@ const AdminMessages = () => {
             .finally(() => setLoading(false));
     }, []);
 
-
     useEffect(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
         setFilteredMessages(
             messages.filter(message =>
                 message.message.toLowerCase().includes(lowercasedSearchTerm) ||
                 message.fullName.toLowerCase().includes(lowercasedSearchTerm) ||
-                message.email.toLowerCase().includes(lowercasedSearchTerm)
+                message.email.toLowerCase().includes(lowercasedSearchTerm) ||
+                message.phone.toLowerCase().includes(lowercasedSearchTerm) // Search by phone
             )
         );
     }, [searchTerm, messages]);
@@ -55,6 +55,7 @@ const AdminMessages = () => {
                     <Table.Head>
                         <Table.HeadCell>Full Name</Table.HeadCell>
                         <Table.HeadCell>Email</Table.HeadCell>
+                        <Table.HeadCell>Phone</Table.HeadCell> {/* Added Phone Header */}
                         <Table.HeadCell>Message</Table.HeadCell>
                         <Table.HeadCell>Created At</Table.HeadCell>
                     </Table.Head>
@@ -63,8 +64,9 @@ const AdminMessages = () => {
                             <Table.Row key={message._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <Table.Cell>{message.fullName}</Table.Cell>
                                 <Table.Cell>{message.email}</Table.Cell>
+                                <Table.Cell>{message.phone}</Table.Cell> {/* Display Phone */}
                                 <Table.Cell>{message.message}</Table.Cell>
-                                <Table.Cell>{new Date(message.createdAt).toLocaleDateString()}</Table.Cell>
+                                <Table.Cell>{message.createdAt ? new Date(message.createdAt).toLocaleDateString() : 'N/A'}</Table.Cell> {/* Handle undefined createdAt */}
                             </Table.Row>
                         ))}
                     </Table.Body>
