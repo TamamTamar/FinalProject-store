@@ -54,8 +54,9 @@ export interface ICartItem {
 
 // טיפוס עבור עגלת קניות
 export interface ICart {
-    userId: string;
+    userId?: string; // הפיכת userId לאופציונלי כדי לתמוך במשתמשי אורח
     items: ICartItem[];
+    isGuest?: boolean; // הוספת שדה חדש לזיהוי האם מדובר במשתמש אורח
 }
 
 // טיפוס עבור עגלת קניות עם סיכומים
@@ -64,13 +65,6 @@ export interface ICartWithTotals extends ICart {
     totalPrice: number;
 }
 
-// טיפוס עבור הקונטקסט של עגלת הקניות
-export interface CartContextProps {
-    cart: ICartWithTotals | null;
-    setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
-    fetchCart: () => void;
-    addToCart: (productId: string, variantId: string, quantity: number, size: string, price: number) => Promise<void>;
-}
 
 // טיפוס עבור פרטי מוצר בהזמנה
 export type IOrderProduct = {
@@ -107,7 +101,6 @@ export interface SalesByDateQuery {
 
 // טיפוס עבור רכיב כפתור "הוסף לעגלה"
 export interface AddToCartButtonProps {
-
     productId: string;
     variants: IVariant[];
     title: string;
@@ -218,7 +211,8 @@ export interface CartContextProps {
     cart: ICartWithTotals | null;
     setCart: Dispatch<SetStateAction<ICartWithTotals | null>>;
     fetchCart: () => void;
-    addToCart: (productId: string, variant: IVariant) => void; // Removed price
+    addToCart: (productId: string, variantId: string, quantity: number, size: string, price: number, isGuest?: boolean) => Promise<void>;
+    mergeGuestCartToUserCart: () => void; // הוספת פונקציה למיזוג עגלת אורח
 }
 export interface DateRangePickerProps {
     startDate: Date | null;
