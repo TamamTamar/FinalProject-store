@@ -65,7 +65,7 @@ const Cart = () => {
 
 
     const handleCheckout = async () => {
-        
+
         try {
             if (!token) {
                 dialogs.error("Error", "You must be logged in to checkout.");
