@@ -172,7 +172,7 @@ const LandingPage = () => {
                 <div className="banner">
                     <RuningCode />
                     <div className="top-left-text">
-                        <h3>ORIME</h3>
+                        <h3>ORIM</h3>
                     </div>
                     <div className="center-text">
                         <h1>Design - Develop - Deliver</h1>
