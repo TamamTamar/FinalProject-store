@@ -1,11 +1,10 @@
 import { Table } from 'flowbite-react';
-import { useEffect, useState, MouseEvent } from 'react';
-import dialogs from '../ui/dialogs';
-import { useSearch } from '../hooks/useSearch';
-import Search from '../components/Search/Search';
-import { IOrder } from '../@Types/productType';
-import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
+import { MouseEvent, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
+import { IOrder } from '../@Types/productType';
+import { useSearch } from '../hooks/useSearch';
+import { getAllOrders, updateOrderStatus } from '../services/analytics-service';
+import dialogs from '../ui/dialogs';
 
 const statusOptions = [
     "pending", "approved", "processing", "shipped", "delivered", "returned", "completed", "cancelled"

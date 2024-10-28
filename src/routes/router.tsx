@@ -23,8 +23,14 @@ import AdminDashboard from "./AdminDashboard";
 import { CarouselComponent } from "../components/Carousel";
 import About from "./About";
 import Message from "./Message";
+import LandingPage from "./LandingPage/LandingPage";
 
 export const router = createBrowserRouter([
+    {
+        path: "/studio",
+        element: <LandingPage/>,
+        errorElement: <Error />,
+    },
     {
         path: "/",
         element: <Root />,
